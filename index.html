@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>我的个人专属发布页 · 终身入口官网</title>
+    <title>一束阳光 · 终身入口官网</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -17,8 +17,8 @@
             animation: floatOrb 25s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
         }
         body.dark .bg-orb { opacity: 0.45; filter: blur(100px); }
-        .orb-1 { width: 50vw; height: 50vw; background: #dcd0ff; top: -10%; left: -10%; animation-duration: 22s; }
-        .orb-2 { width: 60vw; height: 60vw; background: #b4d8ff; bottom: -20%; right: -10%; animation-duration: 28s; }
+        .orb-1 { width: 50vw; height: 50vw; background: #ffe699; top: -10%; left: -10%; animation-duration: 22s; }
+        .orb-2 { width: 60vw; height: 60vw; background: #ffd166; bottom: -20%; right: -10%; animation-duration: 28s; }
         @keyframes floatOrb {
             0% { transform: translate(0, 0) scale(1) rotate(0deg); }
             50% { transform: translate(5vw, 8vh) scale(1.1) rotate(10deg); }
@@ -41,10 +41,19 @@
         .header-area { margin-bottom: 24px; text-align: center; }
         h1 { font-size: 27px; font-weight: 700; margin-bottom: 18px; color: #1d1d1f; }
         body.dark h1 { color: #f5f5f7; }
+        
+        /* 发光太阳动图样式 */
         .avatar-img {
-            width: 94px; height: 94px; object-fit: cover; border-radius: 24px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); border: 0.5px solid rgba(0,0,0,0.05); margin-bottom: 16px;
+            width: 94px; height: 94px; object-fit: cover; border-radius: 28px;
+            box-shadow: 0 0 25px rgba(255, 165, 0, 0.5), 0 15px 35px rgba(0, 0, 0, 0.1); 
+            border: 1px solid rgba(255, 255, 255, 0.8); margin-bottom: 16px;
+            animation: sunGlow 3s infinite alternate ease-in-out;
         }
+        @keyframes sunGlow {
+            0% { box-shadow: 0 0 15px rgba(255, 190, 0, 0.4), 0 15px 35px rgba(0,0,0,0.1); }
+            100% { box-shadow: 0 0 35px rgba(255, 140, 0, 0.8), 0 15px 35px rgba(0,0,0,0.1); }
+        }
+
         .subtitle { font-size: 14.5px; color: rgba(29, 29, 31, 0.7); margin-bottom: 18px; font-weight: 500; }
         body.dark .subtitle { color: rgba(245, 245, 247, 0.6); }
         .social-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 8px; }
@@ -86,9 +95,10 @@
     
     <div class="container">
         <div class="header-area">
-            <h1>我的个人主页</h1>
-            <img class="avatar-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200" alt="头像">
-            <p class="subtitle">请收藏本页域名，永不迷路</p>
+            <h1>一束阳光</h1>
+            <!-- 发光的太阳动图链接 -->
+            <img class="avatar-img" src="https://img.tukuppt.com/animated_graphic/00/03/12/57_560.gif" alt="发光太阳">
+            <p class="subtitle">注意事项：请在浏览器中打开本网站。</p>
             <div class="social-grid">
                 <a href="https://t.me/" target="_blank" class="social-btn"><i class="fab fa-telegram" style="color:#0088cc; margin-right:6px;"></i> TG频道</a>
                 <a href="https://github.com/" target="_blank" class="social-btn"><i class="fab fa-github" style="margin-right:6px;"></i> Github</a>
@@ -99,19 +109,21 @@
             <div class="bookmark-wrapper">
                 <div class="bookmark">
                     <div class="bookmark-header" onclick="toggleBookmark(this)">
-                        <div class="bookmark-title">常用工具导航-[网站]</div>
+                        <div class="bookmark-title">导航按钮</div>
                         <i class="fas fa-chevron-down chevron"></i>
                     </div>
                     <div class="bookmark-links">
-                        <div class="link-item"><a href="https://google.com" target="_blank">谷歌搜索</a></div>
-                        <div class="link-item"><a href="https://github.com" target="_blank">GitHub 官网</a></div>
+                        <div class="link-item"><a href="https://google.com" target="_blank">菜单一：谷歌搜索</a></div>
+                        <div class="link-item"><a href="https://github.com" target="_blank">菜单二：GitHub 官网</a></div>
+                        <div class="link-item"><a href="#" target="_blank">菜单三：自定义按钮</a></div>
+                        <div class="link-item"><a href="#" target="_blank">菜单四：自定义按钮</a></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     
-    <p class="footer-text">© 2026 My Website. All Rights Reserved.</p>
+    <p class="footer-text">© 2026 一束阳光. All Rights Reserved.</p>
 
     <script>
         const toggle = document.getElementById('themeToggle');
