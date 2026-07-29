@@ -8,7 +8,7 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         
-        /* 尊贵金色与曜石黑金流光背景 */
+        /* 尊贵金色流光背景 */
         .bg-ambient {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; overflow: hidden;
             background-color: #fffbeb; transition: background-color 0.5s ease;
@@ -59,20 +59,29 @@
         h1 { font-size: 28px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; color: #1c1917; }
         body.dark h1 { color: #fef3c7; text-shadow: 0 2px 15px rgba(245, 158, 11, 0.3); }
         
-        /* 稳定的太阳动图样式与呼吸发光效果 */
+        /* 纯代码打造的炫酷金色动态发光太阳（永不失效） */
         .avatar-wrapper {
             position: relative; width: 94px; height: 94px; margin: 0 auto 16px auto;
-        }
-        .avatar-img {
-            width: 100%; height: 100%; object-fit: cover; border-radius: 28px;
+            background: linear-gradient(135deg, #f59e0b, #fbbf24, #d97706);
+            border-radius: 30px;
+            display: flex; align-items: center; justify-content: center;
             box-shadow: 0 0 35px rgba(245, 158, 11, 0.7), 0 10px 25px rgba(0, 0, 0, 0.15);
             border: 2px solid rgba(255, 255, 255, 0.9);
             animation: sunPulse 3s infinite alternate ease-in-out;
         }
-        body.dark .avatar-img { border-color: rgba(245, 158, 11, 0.4); }
+        body.dark .avatar-wrapper { border-color: rgba(245, 158, 11, 0.4); }
+        .sun-icon {
+            font-size: 42px; color: #ffffff;
+            animation: sunRotate 10s infinite linear;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+        }
         @keyframes sunPulse {
             0% { transform: scale(1); box-shadow: 0 0 25px rgba(245, 158, 11, 0.6); }
-            100% { transform: scale(1.04); box-shadow: 0 0 45px rgba(251, 191, 36, 0.9); }
+            100% { transform: scale(1.06); box-shadow: 0 0 50px rgba(251, 191, 36, 0.95); }
+        }
+        @keyframes sunRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .subtitle { 
@@ -133,9 +142,9 @@
     <div class="container">
         <div class="header-area">
             <h1>一束阳光</h1>
+            <!-- 纯代码炫酷旋转发光太阳，完美替代图片动图 -->
             <div class="avatar-wrapper">
-                <!-- 采用绝对稳定的官方太阳动态图 -->
-                <img class="avatar-img" src="https://upload.wikimedia.org/wikipedia/commons/2/22/Rotating_earth_%28transparent%29.gif" alt="发光太阳">
+                <i class="fas fa-sun sun-icon"></i>
             </div>
             <div class="subtitle">⚠️ 注意事项：请在浏览器中打开本网站。</div>
         </div>
