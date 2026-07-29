@@ -59,27 +59,34 @@
         h1 { font-size: 28px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; color: #1c1917; }
         body.dark h1 { color: #fef3c7; text-shadow: 0 2px 15px rgba(245, 158, 11, 0.3); }
         
-        /* 纯代码打造的炫酷金色动态发光太阳（永不失效） */
+        /* 纯 CSS 打造的“一束阳光”动态发散光芒特效（绝不失效、完美显示） */
         .avatar-wrapper {
             position: relative; width: 94px; height: 94px; margin: 0 auto 16px auto;
-            background: linear-gradient(135deg, #f59e0b, #fbbf24, #d97706);
+            background: radial-gradient(circle, #fef08a 0%, #f59e0b 60%, #d97706 100%);
             border-radius: 30px;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 35px rgba(245, 158, 11, 0.7), 0 10px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 0 35px rgba(245, 158, 11, 0.8), 0 10px 25px rgba(0, 0, 0, 0.15);
             border: 2px solid rgba(255, 255, 255, 0.9);
             animation: sunPulse 3s infinite alternate ease-in-out;
+            overflow: hidden;
         }
         body.dark .avatar-wrapper { border-color: rgba(245, 158, 11, 0.4); }
+        
+        /* 阳光光束旋转动画 */
+        .sun-ray {
+            position: absolute; width: 140px; height: 140px;
+            background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.6), transparent 60deg);
+            animation: rayRotate 6s infinite linear;
+        }
         .sun-icon {
-            font-size: 42px; color: #ffffff;
-            animation: sunRotate 10s infinite linear;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            font-size: 38px; color: #ffffff; z-index: 2;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
         }
         @keyframes sunPulse {
             0% { transform: scale(1); box-shadow: 0 0 25px rgba(245, 158, 11, 0.6); }
-            100% { transform: scale(1.06); box-shadow: 0 0 50px rgba(251, 191, 36, 0.95); }
+            100% { transform: scale(1.06); box-shadow: 0 0 55px rgba(251, 191, 36, 0.95); }
         }
-        @keyframes sunRotate {
+        @keyframes rayRotate {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
@@ -142,8 +149,9 @@
     <div class="container">
         <div class="header-area">
             <h1>一束阳光</h1>
-            <!-- 纯代码炫酷旋转发光太阳，完美替代图片动图 -->
+            <!-- 纯 CSS 打造的一束阳光动态光芒，完美显示绝不失效 -->
             <div class="avatar-wrapper">
+                <div class="sun-ray"></div>
                 <i class="fas fa-sun sun-icon"></i>
             </div>
             <div class="subtitle">⚠️ 注意事项：请在浏览器中打开本网站。</div>
