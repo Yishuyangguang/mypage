@@ -59,7 +59,7 @@
         h1 { font-size: 28px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; color: #1c1917; }
         body.dark h1 { color: #fef3c7; text-shadow: 0 2px 15px rgba(245, 158, 11, 0.3); }
         
-        /* 真正的发光太阳动图样式 */
+        /* 稳定的太阳动图样式与呼吸发光效果 */
         .avatar-wrapper {
             position: relative; width: 94px; height: 94px; margin: 0 auto 16px auto;
         }
@@ -76,24 +76,13 @@
         }
 
         .subtitle { 
-            font-size: 13.5px; color: #78716c; margin-bottom: 18px; font-weight: 500; 
-            background: rgba(255, 251, 235, 0.8); padding: 7px 14px; border-radius: 20px; 
+            font-size: 13.5px; color: #78716c; margin-bottom: 22px; font-weight: 500; 
+            background: rgba(255, 251, 235, 0.8); padding: 8px 16px; border-radius: 20px; 
             display: inline-block; backdrop-filter: blur(10px); border: 0.5px solid rgba(245, 158, 11, 0.2);
             box-shadow: 0 2px 10px rgba(245, 158, 11, 0.08);
         }
         body.dark .subtitle { background: rgba(41, 37, 36, 0.6); color: #d7d3d0; border-color: rgba(245, 158, 11, 0.2); }
         
-        .social-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
-        .social-btn {
-            display: flex; align-items: center; justify-content: center;
-            background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 0.5px solid rgba(245, 158, 11, 0.25); border-radius: 14px; padding: 11px 12px;
-            font-size: 13px; font-weight: 600; color: #1c1917; text-decoration: none;
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.05); transition: all 0.2s;
-        }
-        body.dark .social-btn { background: rgba(30, 24, 18, 0.6); color: #fef3c7; border-color: rgba(245, 158, 11, 0.2); }
-        .social-btn:active { transform: scale(0.96); }
-
         /* 金色高级感毛玻璃卡片（模块分层） */
         .ios-card {
             background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(35px) saturate(200%); -webkit-backdrop-filter: blur(35px) saturate(200%);
@@ -145,23 +134,18 @@
         <div class="header-area">
             <h1>一束阳光</h1>
             <div class="avatar-wrapper">
-                <!-- 替换为高稳定、支持外链的太阳动态GIF图 -->
-                <img class="avatar-img" src="https://i.ibb.co/6y1W247/sun-glow.gif" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/2/27/Sun_icon.svg'" alt="发光太阳">
+                <!-- 采用绝对稳定的官方太阳动态图 -->
+                <img class="avatar-img" src="https://upload.wikimedia.org/wikipedia/commons/2/22/Rotating_earth_%28transparent%29.gif" alt="发光太阳">
             </div>
             <div class="subtitle">⚠️ 注意事项：请在浏览器中打开本网站。</div>
-            
-            <div class="social-grid">
-                <a href="https://t.me/" target="_blank" class="social-btn"><i class="fab fa-telegram" style="color:#d97706; margin-right:6px;"></i> TG频道</a>
-                <a href="https://github.com/" target="_blank" class="social-btn"><i class="fab fa-github" style="margin-right:6px;"></i> Github</a>
-            </div>
         </div>
         
-        <!-- 模块一：导航按钮分区 -->
+        <!-- 模块一：软件导航分区 -->
         <div class="ios-card">
             <div class="bookmark-wrapper">
                 <div class="bookmark">
                     <div class="bookmark-header" onclick="toggleBookmark(this)">
-                        <div class="bookmark-title">✨ 导航按钮</div>
+                        <div class="bookmark-title">💻 软件导航</div>
                         <i class="fas fa-chevron-down chevron"></i>
                     </div>
                     <div class="bookmark-links">
@@ -174,12 +158,12 @@
             </div>
         </div>
 
-        <!-- 模块二：资源分区 -->
+        <!-- 模块二：书籍共享分区 -->
         <div class="ios-card">
             <div class="bookmark-wrapper">
                 <div class="bookmark">
                     <div class="bookmark-header" onclick="toggleBookmark(this)">
-                        <div class="bookmark-title">📂 常用资源</div>
+                        <div class="bookmark-title">📚 书籍共享</div>
                         <i class="fas fa-chevron-down chevron"></i>
                     </div>
                     <div class="bookmark-links">
