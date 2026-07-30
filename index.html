@@ -30,7 +30,7 @@
         }
         body.dark { color: #f5f5f4; }
 
-        /* 顶部主题切换按钮（立体玻璃质感） */
+        /* 顶部主题切换按钮 */
         .theme-toggle-corner {
             position: fixed; top: 14px; right: 16px; z-index: 1000;
             background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -52,7 +52,7 @@
         h1 { font-size: 28px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px; color: #1c1917; text-shadow: 0 2px 10px rgba(245, 158, 11, 0.15); }
         body.dark h1 { color: #fef3c7; text-shadow: 0 2px 15px rgba(245, 158, 11, 0.3); }
         
-        /* 🌟 核心：一束阳光动态光芒图（纯 CSS 零延迟秒开，动态光束旋转特效） */
+        /* 动态一束阳光发光旋转图标 */
         .avatar-wrapper {
             position: relative; width: 90px; height: 90px; margin: 0 auto 14px auto;
             background: radial-gradient(circle, #fef08a 0%, #f59e0b 65%, #d97706 100%);
@@ -89,7 +89,7 @@
         }
         body.dark .subtitle { background: rgba(41, 37, 36, 0.8); color: #d7d3d0; }
         
-        /* 核心网格布局 */
+        /* 网格布局 */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -101,7 +101,7 @@
             .grid-container { grid-template-columns: 1fr; gap: 16px; }
         }
 
-        /* 🌟 整体大卡片立体玻璃效果（高级 3D 浮雕质感） */
+        /* 大卡片立体玻璃效果 */
         .ios-card {
             background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
             border-radius: 22px; overflow: hidden; width: 100%; position: relative;
@@ -116,7 +116,6 @@
         
         .bookmark-wrapper { padding: 18px; width: 100%; position: relative; }
         
-        /* 🌟 醒目且具有立体感的折叠标题栏 */
         .bookmark-header { 
             display: flex; align-items: center; justify-content: space-between; cursor: pointer; 
             padding: 8px 12px; user-select: none; background: rgba(245, 158, 11, 0.12); 
@@ -128,7 +127,6 @@
         .bookmark-title { color: #1c1917; font-size: 15px; font-weight: 700; }
         body.dark .bookmark-title { color: #fef3c7; }
         
-        /* 立体三角形收缩徽章 */
         .chevron-badge {
             width: 26px; height: 26px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border-radius: 50%;
             display: flex; align-items: center; justify-content: center; font-size: 11px;
@@ -142,7 +140,7 @@
         
         .bookmark-links-inner { display: flex; flex-direction: column; gap: 10px; width: 100%; padding-right: 48px; }
 
-        /* 🌟 各自子模块：立体玻璃质感卡片 */
+        /* 子模块卡片 */
         .software-card, .file-card, .link-item a { 
             background: rgba(255, 255, 255, 0.85); 
             backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
@@ -158,10 +156,6 @@
             font-weight: 600;
             font-size: 13.5px;
             box-shadow: 0 4px 12px rgba(245, 158, 11, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
-        }
-        .software-card:active, .file-card:active, .link-item a:active {
-            transform: scale(0.99);
         }
         body.dark .software-card, body.dark .file-card, body.dark .link-item a {
             background: rgba(41, 33, 24, 0.75);
@@ -171,16 +165,13 @@
         }
         
         .software-info, .file-info { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; }
-        
         .software-icon-box { 
             width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
             font-size: 13px; color: #fff; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.15);
         }
-
         .text-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
         .software-name, .file-name { font-weight: 700; font-size: 13.5px; color: #1c1917; line-height: 1.3; }
         body.dark .software-name, body.dark .file-name { color: #fef3c7; }
-
         .tag {
             font-size: 10.5px; background: rgba(245, 158, 11, 0.18);
             color: #d97706; padding: 1px 6px; border-radius: 8px; font-weight: 600;
@@ -188,39 +179,116 @@
         body.dark .tag { background: rgba(245, 158, 11, 0.28); color: #fcd34d; }
 
         .btn-group { display: flex; gap: 5px; flex-shrink: 0; }
-        
-        /* 🌟 按钮立体悬浮效果与点击凹陷反馈 */
         button, .btn-action { 
             padding: 6px 10px; border: none; border-radius: 9px; 
             background: linear-gradient(135deg, #f6ad55, #ed8936); color: #fff; cursor: pointer; 
             font-size: 11.5px; font-weight: 600; text-align: center; 
             white-space: nowrap; text-decoration: none; display: inline-block;
             box-shadow: 0 3px 8px rgba(245, 158, 11, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5);
-            transition: all 0.15s ease;
         }
-        button:active, .btn-action:active { 
-            transform: scale(0.94); 
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); 
-        }
+        button:active, .btn-action:active { transform: scale(0.94); }
         .btn-download { background: linear-gradient(135deg, #d69e2e, #b7791f) !important; }
-        .btn-success { background: linear-gradient(135deg, #38bdf8, #0284c7) !important; padding: 6px 10px !important; box-shadow: 0 3px 8px rgba(2, 132, 199, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5) !important; }
+        .btn-success { background: linear-gradient(135deg, #38bdf8, #0284c7) !important; padding: 6px 10px !important; }
 
         .link-item { width: 100%; }
 
-        /* A-Z 索引条立体质感优化 */
+        /* 实用工具按钮卡片 */
+        .tool-simple-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+        body.dark .tool-simple-card {
+            background: rgba(41, 33, 24, 0.75);
+            border-color: rgba(245, 158, 11, 0.25);
+        }
+        .tool-simple-title { font-weight: 700; font-size: 13.5px; color: #1c1917; display: flex; align-items: center; gap: 8px; }
+        body.dark .tool-simple-title { color: #fef3c7; }
+
+        /* 弹窗内部样式 */
+        #wechat-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            z-index: 2000; align-items: center; justify-content: center; padding: 16px;
+        }
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px);
+            border-radius: 20px; width: 100%; max-width: 520px; max-height: 85vh;
+            overflow-y: auto; padding: 22px; border: 1px solid rgba(245, 158, 11, 0.4);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25); position: relative;
+            display: flex; flex-direction: column; gap: 14px;
+        }
+        body.dark .modal-content { background: rgba(30, 24, 18, 0.95); border-color: rgba(245, 158, 11, 0.3); }
+        
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(245, 158, 11, 0.2); padding-bottom: 10px; }
+        .modal-title { font-size: 16px; font-weight: 700; color: #1c1917; }
+        body.dark .modal-title { color: #fef3c7; }
+        .modal-close { background: #ef4444; color: #fff; border: none; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-weight: bold; }
+
+        .terminal-tip-banner {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 12px;
+            color: #b45309;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            line-height: 1.4;
+        }
+        body.dark .terminal-tip-banner {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fcd34d;
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .tool-card {
+            background: rgba(245, 158, 11, 0.05); border-radius: 12px; padding: 12px;
+            display: flex; flex-direction: column; gap: 8px; border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+        body.dark .tool-card { background: rgba(41, 33, 24, 0.6); border-color: rgba(245, 158, 11, 0.2); }
+        .tool-title { font-weight: 700; font-size: 13px; color: #1c1917; }
+        body.dark .tool-title { color: #fef3c7; }
+        .tool-desc { font-size: 11.5px; color: #78716c; line-height: 1.4; }
+        body.dark .tool-desc { color: #a8a29e; }
+
+        .cmd-box {
+            display: flex; align-items: center; justify-content: space-between;
+            background: rgba(0, 0, 0, 0.05); border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 8px; padding: 6px 10px; gap: 8px;
+        }
+        body.dark .cmd-box { background: rgba(0, 0, 0, 0.3); }
+        .cmd-text {
+            font-family: "JetBrains Mono", Consolas, monospace; font-size: 11px;
+            color: #d97706; overflow-x: auto; white-space: nowrap; flex: 1;
+        }
+        body.dark .cmd-text { color: #fbbf24; }
+        .glass-copy-btn {
+            padding: 4px 10px; border-radius: 6px; background: rgba(245, 158, 11, 0.2);
+            border: 1px solid rgba(245, 158, 11, 0.4); color: #d97706; font-size: 11px;
+            font-weight: 600; cursor: pointer; white-space: nowrap;
+        }
+        body.dark .glass-copy-btn { color: #fcd34d; background: rgba(245, 158, 11, 0.3); }
+
+        /* A-Z 索引条 */
         .az-index-bar {
             position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
             display: flex; flex-direction: column; align-items: center; z-index: 20;
             background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
             padding: 6px 3px; border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.4);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.9);
-            user-select: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); user-select: none;
         }
-        body.dark .az-index-bar { background: rgba(30, 24, 18, 0.92); border-color: rgba(245, 158, 11, 0.4); box-shadow: 0 4px 15px rgba(0,0,0,0.4), inset 0 1px 0 rgba(245,158,11,0.2); }
-
+        body.dark .az-index-bar { background: rgba(30, 24, 18, 0.92); border-color: rgba(245, 158, 11, 0.4); }
         .az-item {
             font-size: 9.5px; font-weight: 700; color: #b45309; padding: 2px 4px; cursor: pointer;
-            transition: transform 0.15s ease, color 0.15s ease;
         }
         body.dark .az-item { color: #fcd34d; }
         .az-item.active { transform: scale(1.4); color: #ef4444; }
@@ -228,18 +296,17 @@
         .dev-tip-card {
             background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(6px); border-radius: 12px; padding: 16px;
             text-align: center; font-size: 13px; color: #78716c; border: 0.5px dashed rgba(245, 158, 11, 0.4);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);
         }
         body.dark .dev-tip-card { background: rgba(41, 33, 24, 0.5); color: #a8a29e; }
 
-        /* 二维码弹窗立体化 */
+        /* 二维码弹窗 */
         #qrcode-modal { 
             display: none; text-align: center; margin-top: 20px; padding: 20px 15px; 
             background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(20px); border-radius: 20px; 
             border: 1px solid rgba(245, 158, 11, 0.4); box-shadow: 0 15px 40px rgba(0,0,0,0.15); grid-column: 1 / -1;
         }
-        body.dark #qrcode-modal { background: rgba(30, 24, 18, 0.98); box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
-        #qrcode-container { display: inline-block; margin: 10px 0; background: #fff; padding: 10px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        body.dark #qrcode-modal { background: rgba(30, 24, 18, 0.98); }
+        #qrcode-container { display: inline-block; margin: 10px 0; background: #fff; padding: 10px; border-radius: 12px; }
         
         .footer-text { font-size: 11.5px; color: #78716c; text-align: center; padding: 30px 0 10px 0; font-weight: 500; grid-column: 1 / -1; }
         body.dark .footer-text { color: #a8a29e; }
@@ -256,7 +323,6 @@
     <div class="container">
         <div class="header-area">
             <h1>一束阳光</h1>
-            <!-- 🌟 动态一束阳光发光旋转图标 -->
             <div class="avatar-wrapper">
                 <div class="sun-ray"></div>
                 <div class="sun-icon">☀️</div>
@@ -425,8 +491,25 @@
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner" style="padding-right:0;">
-                                <div class="link-item"><a href="#" target="_blank">🔍 IP 优选测试工具</a></div>
-                                <div class="link-item"><a href="#" target="_blank">✉️ 临时邮箱服务</a></div>
+                                
+                                <!-- 菜单 1：下载书籍网址 -->
+                                <div class="tool-simple-card">
+                                    <div class="tool-simple-title">📚 下载书籍网址</div>
+                                    <a href="http://www.https.ng:1234/" target="_blank" class="btn-action">点击访问</a>
+                                </div>
+
+                                <!-- 菜单 2：代理配置与插件 -->
+                                <div class="tool-simple-card">
+                                    <div class="tool-simple-title">⚡ 代理配置与插件</div>
+                                    <a href="https://yfamilys.com/" target="_blank" class="btn-action">点击访问</a>
+                                </div>
+
+                                <!-- 菜单 3：Mac 微信多开脚本教程 -->
+                                <div class="tool-simple-card">
+                                    <div class="tool-simple-title">💻 Mac 微信多开脚本教程</div>
+                                    <button class="btn-action" onclick="openWechatModal()">点击查看</button>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -477,11 +560,94 @@
                 <div><button class="btn-action" onclick="closeQr()" style="background:#e53e3e; padding:4px 10px; font-size:11px;">关闭</button></div>
             </div>
 
+            <!-- Mac 微信多开详细教程弹窗 -->
+            <div id="wechat-modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title">💻 Mac 微信多开脚本教程</div>
+                        <button class="modal-close" onclick="closeWechatModal()">×</button>
+                    </div>
+
+                    <div class="terminal-tip-banner">
+                        <span>💡 提示：以下所有指令均需在 Mac 电脑的「终端 (Terminal)」应用中复制并运行。</span>
+                    </div>
+
+                    <!-- 步骤 1 -->
+                    <div class="tool-card">
+                        <div class="tool-title">📦 1. 下载脚本</div>
+                        <div class="cmd-box">
+                            <span class="cmd-text" id="c1">curl -fsSL https://raw.githubusercontent.com/nullbyte-lab/wechat-multi-open/main/wechat-multi-open.sh -o ~/wechat-multi.sh</span>
+                            <button class="glass-copy-btn" onclick="copyText('c1', this)">一键复制</button>
+                        </div>
+                    </div>
+
+                    <!-- 步骤 2 -->
+                    <div class="tool-card">
+                        <div class="tool-title">🔑 2. 添加执行权限</div>
+                        <div class="cmd-box">
+                            <span class="cmd-text" id="c2">chmod +x ~/wechat-multi.sh</span>
+                            <button class="glass-copy-btn" onclick="copyText('c2', this)">一键复制</button>
+                        </div>
+                        <div class="tool-desc">⚠️ 若终端提示输入 <code>password</code>，请填写本机登录密码（输入时通常不显示字符）。</div>
+                    </div>
+
+                    <!-- 步骤 3 -->
+                    <div class="tool-card">
+                        <div class="tool-title">🚀 3. 运行脚本</div>
+                        <div class="cmd-box">
+                            <span class="cmd-text" id="c3">~/wechat-multi.sh</span>
+                            <button class="glass-copy-btn" onclick="copyText('c3', this)">一键复制</button>
+                        </div>
+                    </div>
+
+                    <!-- 步骤 4 -->
+                    <div class="tool-card">
+                        <div class="tool-title">🔄 4. 版本更新与重复运行</div>
+                        <div class="tool-desc">需要先关闭所有微信副本，在终端重新运行：</div>
+                        <div class="cmd-box">
+                            <span class="cmd-text" id="c4">~/wechat-multi.sh</span>
+                            <button class="glass-copy-btn" onclick="copyText('c4', this)">一键复制</button>
+                        </div>
+                        <div class="tool-desc">删除已有副本后，再基于最新版本微信重新创建副本。</div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 4px;">
+                        <button class="btn-action" onclick="closeWechatModal()" style="padding: 8px 24px;">关闭窗口</button>
+                    </div>
+                </div>
+            </div>
+
             <p class="footer-text">© 2026 一束阳光. All Rights Reserved.</p>
         </div>
     </div>
 
     <script>
+        // 弹窗控制函数
+        function openWechatModal() {
+            document.getElementById('wechat-modal').style.display = 'flex';
+        }
+        function closeWechatModal() {
+            document.getElementById('wechat-modal').style.display = 'none';
+        }
+
+        // 一键复制指令函数
+        function copyText(elementId, btn) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = "已复制！";
+                btn.style.background = "#10b981";
+                btn.style.color = "#fff";
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.background = "";
+                    btn.style.color = "";
+                }, 1500);
+            }).catch(err => {
+                alert("复制失败，请手动长按复制");
+            });
+        }
+
         function scrollToLetter(targetId, el) {
             const targetEl = document.getElementById(targetId);
             const container = targetEl.closest('.bookmark-links-inner');
