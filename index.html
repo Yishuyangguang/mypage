@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>一束阳光</title>
     
-    <!-- 🌟 完美秒开的内联 Base64 金色太阳网页图标（Favicon），彻底替代黑色地球 -->
+    <!-- 完美秒开的内联 Base64 金色太阳网页图标（Favicon） -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='18' fill='%23f59e0b'/%3E%3Cpath d='M32 4v8m0 40v8M4 32h8m40 0h8m-38-18l6 6m20 20l6 6m-26 0l6-6m20-20l6-6' stroke='%23f59e0b' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
 
     <!-- 引入极速轻量的 QRCode 二维码库 -->
@@ -53,7 +53,7 @@
 
         .container { width: 100%; max-width: 1050px; }
         
-        .header-area { margin-bottom: 25px; text-align: center; }
+        .header-area { margin-bottom: 20px; text-align: center; }
         h1 { font-size: 28px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px; color: #1c1917; text-shadow: 0 2px 10px rgba(245, 158, 11, 0.15); }
         body.dark h1 { color: #fef3c7; text-shadow: 0 2px 15px rgba(245, 158, 11, 0.3); }
         
@@ -96,42 +96,100 @@
             box-shadow: 0 4px 15px rgba(245, 158, 11, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
         }
         body.dark .subtitle { background: rgba(30, 24, 18, 0.65); color: #d7d3d0; border-color: rgba(245, 158, 11, 0.3); }
+
+        /* 全局全面搜索引擎 */
+        .global-search-container {
+            width: 100%; max-width: 680px; margin: 0 auto 25px auto; position: relative; z-index: 100;
+        }
+        .global-search-box {
+            display: flex; align-items: center; background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-radius: 18px; padding: 6px 8px 6px 16px;
+            border: 1.5px solid rgba(245, 158, 11, 0.45);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.15), inset 0 1px 0 rgba(255, 255, 255, 1);
+            transition: all 0.25s ease;
+        }
+        body.dark .global-search-box {
+            background: rgba(30, 24, 18, 0.75); border-color: rgba(245, 158, 11, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(245, 158, 11, 0.2);
+        }
+        .global-search-box:focus-within {
+            border-color: #f59e0b; box-shadow: 0 12px 35px rgba(245, 158, 11, 0.3); transform: translateY(-1px);
+        }
+        .global-search-input {
+            flex: 1; border: none; background: transparent; outline: none;
+            font-size: 14.5px; font-weight: 600; color: #1c1917; padding: 6px 0;
+        }
+        body.dark .global-search-input { color: #fef3c7; }
+        .global-search-input::placeholder { color: #a8a29e; font-weight: 500; }
         
+        .search-clear-btn {
+            background: rgba(245, 158, 11, 0.2); border: none; color: #d97706; width: 24px; height: 24px;
+            border-radius: 50%; display: none; align-items: center; justify-content: center;
+            font-size: 12px; cursor: pointer; margin-right: 8px; font-weight: bold;
+        }
+        
+        /* 搜索下拉展示面板 */
+        .search-results-dropdown {
+            position: absolute; top: calc(100% + 8px); left: 0; width: 100%;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border-radius: 18px; border: 1px solid rgba(245, 158, 11, 0.4);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2); overflow: hidden;
+            display: none; flex-direction: column; max-height: 380px; overflow-y: auto;
+            animation: fadeIn 0.2s ease;
+        }
+        body.dark .search-results-dropdown {
+            background: rgba(30, 24, 18, 0.95); border-color: rgba(245, 158, 11, 0.35); box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+        }
+        .search-result-item {
+            padding: 12px 16px; border-bottom: 0.5px solid rgba(245, 158, 11, 0.15);
+            display: flex; align-items: center; justify-content: space-between;
+            cursor: pointer; transition: background 0.15s ease;
+        }
+        .search-result-item:last-child { border-bottom: none; }
+        .search-result-item:hover { background: rgba(245, 158, 11, 0.12); }
+        
+        .result-info { display: flex; flex-direction: column; gap: 2px; text-align: left; }
+        .result-title { font-size: 13.5px; font-weight: 700; color: #1c1917; }
+        body.dark .result-title { color: #fef3c7; }
+        .result-category { font-size: 11px; color: #b45309; font-weight: 600; opacity: 0.8; }
+        body.dark .result-category { color: #fcd34d; }
+        .result-tag { font-size: 11px; background: rgba(245, 158, 11, 0.2); color: #d97706; padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* 目标定位高亮脉冲动画 */
+        .target-highlight-pulse { animation: targetPulse 2.2s ease-in-out; }
+        @keyframes targetPulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 rgba(245, 158, 11, 0); }
+            30% { transform: scale(1.02); box-shadow: 0 0 35px rgba(245, 158, 11, 0.9), 0 0 0 3px #f59e0b; border-color: #f59e0b; }
+            60% { transform: scale(1); box-shadow: 0 0 20px rgba(245, 158, 11, 0.6); }
+            80% { transform: scale(1.01); box-shadow: 0 0 30px rgba(245, 158, 11, 0.8); }
+            100% { transform: scale(1); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.08); }
+        }
+
         /* 网格布局 */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 22px;
-            width: 100%;
-        }
+        .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; width: 100%; }
+        @media (max-width: 768px) { .grid-container { grid-template-columns: 1fr; gap: 16px; } }
 
-        @media (max-width: 768px) {
-            .grid-container { grid-template-columns: 1fr; gap: 16px; }
-        }
-
-        /* 显著增强的玻璃质感大卡片 */
+        /* 玻璃质感大卡片 */
         .ios-card {
             background: rgba(255, 255, 255, 0.55); 
-            backdrop-filter: blur(24px) saturate(180%); 
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
             border-radius: 24px; overflow: hidden; width: 100%; position: relative;
             box-shadow: 0 16px 40px rgba(245, 158, 11, 0.15), inset 0 1.5px 0 rgba(255, 255, 255, 1);
             border: 1px solid rgba(245, 158, 11, 0.45);
-            transform: translateZ(0);
-            will-change: transform;
+            transform: translateZ(0); will-change: transform; transition: all 0.3s ease;
         }
         body.dark .ios-card { 
-            background: rgba(26, 21, 16, 0.55); 
-            border-color: rgba(245, 158, 11, 0.35); 
+            background: rgba(26, 21, 16, 0.55); border-color: rgba(245, 158, 11, 0.35); 
             box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), inset 0 1.5px 0 rgba(245, 158, 11, 0.25);
         }
         
         .bookmark-wrapper { padding: 18px; width: 100%; position: relative; }
-        
         .bookmark-header { 
             display: flex; align-items: center; justify-content: space-between; cursor: pointer; 
-            padding: 9px 14px; user-select: none; 
-            background: rgba(255, 255, 255, 0.6); 
+            padding: 9px 14px; user-select: none; background: rgba(255, 255, 255, 0.6); 
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             border-radius: 14px; border: 1px solid rgba(245, 158, 11, 0.35);
             box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
@@ -139,7 +197,6 @@
         }
         .bookmark-header:hover { background: rgba(255, 255, 255, 0.8); }
         body.dark .bookmark-header { background: rgba(41, 33, 24, 0.6); border-color: rgba(245, 158, 11, 0.3); }
-        body.dark .bookmark-header:hover { background: rgba(41, 33, 24, 0.8); }
 
         .bookmark-title { color: #1c1917; font-size: 15px; font-weight: 700; }
         body.dark .bookmark-title { color: #fef3c7; }
@@ -154,67 +211,39 @@
         
         .bookmark-links { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.3s ease, opacity 0.3s ease; overflow: hidden; margin-top: 14px; width: 100%; position: relative; }
         .bookmark-links.collapsed { grid-template-rows: 0fr; opacity: 0; margin-top: 0; pointer-events: none; }
-        
         .bookmark-links-inner { display: flex; flex-direction: column; gap: 10px; width: 100%; padding-right: 48px; }
 
         /* 子模块卡片 */
         .software-card, .file-card, .link-item a, .tool-simple-card { 
-            background: rgba(255, 255, 255, 0.65); 
-            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-            border-radius: 14px; 
-            padding: 12px 14px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            gap: 10px;
-            border: 1px solid rgba(245, 158, 11, 0.4);
-            text-decoration: none;
-            color: #1c1917;
-            font-weight: 600;
-            font-size: 13.5px;
+            background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px;
+            border: 1px solid rgba(245, 158, 11, 0.4); text-decoration: none; color: #1c1917; font-weight: 600; font-size: 13.5px;
             box-shadow: 0 6px 20px rgba(245, 158, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1);
             transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
         .software-card:active, .file-card:active { transform: scale(0.99); }
         body.dark .software-card, body.dark .file-card, body.dark .link-item a, body.dark .tool-simple-card {
-            background: rgba(41, 33, 24, 0.6);
-            border-color: rgba(245, 158, 11, 0.35);
-            color: #fef3c7;
+            background: rgba(41, 33, 24, 0.6); border-color: rgba(245, 158, 11, 0.35); color: #fef3c7;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(245, 158, 11, 0.25);
         }
         
         .software-info, .file-info { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; }
-        .software-icon-box { 
-            width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
-            font-size: 13px; color: #fff; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-        }
+        .software-icon-box { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #fff; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
         .text-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
         .software-name, .file-name { font-weight: 700; font-size: 13.5px; color: #1c1917; line-height: 1.3; }
         body.dark .software-name, body.dark .file-name { color: #fef3c7; }
-        .tag {
-            font-size: 10.5px; background: rgba(245, 158, 11, 0.18);
-            color: #d97706; padding: 1px 6px; border-radius: 8px; font-weight: 600;
-        }
+        .tag { font-size: 10.5px; background: rgba(245, 158, 11, 0.18); color: #d97706; padding: 1px 6px; border-radius: 8px; font-weight: 600; }
         body.dark .tag { background: rgba(245, 158, 11, 0.28); color: #fcd34d; }
 
         .btn-group { display: flex; gap: 6px; flex-shrink: 0; }
-        
-        /* 玻璃按钮 */
         button, .btn-action { 
             padding: 6px 12px; border: none; border-radius: 10px; 
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.95), rgba(217, 119, 6, 0.95)); 
-            color: #fff; cursor: pointer; 
-            font-size: 12px; font-weight: 600; text-align: center; 
-            white-space: nowrap; text-decoration: none; display: inline-block;
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4), inset 0 1px 1.5px rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(6px);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.95), rgba(217, 119, 6, 0.95)); color: #fff; cursor: pointer; 
+            font-size: 12px; font-weight: 600; text-align: center; white-space: nowrap; text-decoration: none; display: inline-block;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4), inset 0 1px 1.5px rgba(255, 255, 255, 0.7); backdrop-filter: blur(6px); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
         button:hover, .btn-action:hover { filter: brightness(1.05); transform: translateY(-1px); }
-        button:active, .btn-action:active { 
-            transform: scale(0.94); 
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25); 
-        }
+        button:active, .btn-action:active { transform: scale(0.94); box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25); }
         .btn-download { background: linear-gradient(135deg, rgba(214, 158, 46, 0.95), rgba(183, 121, 31, 0.95)) !important; }
         .btn-success { background: linear-gradient(135deg, rgba(14, 165, 233, 0.95), rgba(2, 132, 199, 0.95)) !important; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4), inset 0 1px 1.5px rgba(255, 255, 255, 0.7) !important; }
 
@@ -224,116 +253,81 @@
 
         /* A-Z 索引条 */
         .az-index-bar {
-            position: absolute; right: -2px; top: 50%; transform: translateY(-50%);
-            display: flex; flex-direction: column; align-items: center; z-index: 20;
+            position: absolute; right: -2px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; z-index: 20;
             background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            padding: 6px 3px; border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.45);
-            box-shadow: 0 6px 18px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.95);
-            user-select: none;
+            padding: 6px 3px; border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.45); box-shadow: 0 6px 18px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.95); user-select: none;
         }
-        body.dark .az-index-bar { background: rgba(30, 24, 18, 0.85); border-color: rgba(245, 158, 11, 0.4); box-shadow: 0 6px 18px rgba(0,0,0,0.45), inset 0 1px 0 rgba(245,158,11,0.25); }
+        body.dark .az-index-bar { background: rgba(30, 24, 18, 0.85); border-color: rgba(245, 158, 11, 0.4); }
 
-        .az-item {
-            font-size: 10px; font-weight: 700; color: #b45309; padding: 2px 5px; cursor: pointer;
-            transition: transform 0.15s ease, color 0.15s ease;
-        }
+        .az-item { font-size: 10px; font-weight: 700; color: #b45309; padding: 2px 5px; cursor: pointer; transition: transform 0.15s ease; }
         body.dark .az-item { color: #fcd34d; }
         .az-item.active { transform: scale(1.4); color: #ef4444; }
 
-        .dev-tip-card {
-            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(8px); border-radius: 12px; padding: 16px;
-            text-align: center; font-size: 13px; color: #78716c; border: 0.5px dashed rgba(245, 158, 11, 0.4);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
-        }
+        .dev-tip-card { background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(8px); border-radius: 12px; padding: 16px; text-align: center; font-size: 13px; color: #78716c; border: 0.5px dashed rgba(245, 158, 11, 0.4); }
         body.dark .dev-tip-card { background: rgba(41, 33, 24, 0.5); color: #a8a29e; }
 
-        /* 全局悬浮居中遮罩弹窗 */
+        /* 隐藏未开放区域与折叠子分类 CSS */
+        .secret-lock-box {
+            display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px; text-align: center; background: rgba(255, 255, 255, 0.4); border-radius: 16px; border: 1px dashed rgba(245, 158, 11, 0.4);
+        }
+        body.dark .secret-lock-box { background: rgba(41, 33, 24, 0.4); }
+
+        .search-input-box { width: 100%; margin-bottom: 12px; display: flex; gap: 8px; }
+        .search-input-box input {
+            flex: 1; padding: 8px 14px; border-radius: 10px; border: 1px solid rgba(245, 158, 11, 0.4);
+            background: rgba(255, 255, 255, 0.8); font-size: 13px; outline: none; color: #1c1917;
+        }
+        body.dark .search-input-box input { background: rgba(30, 24, 18, 0.8); color: #fef3c7; }
+
+        /* 🌟 未开放区域丝滑折叠子菜单样式 */
+        .secret-category-group { display: flex; flex-direction: column; width: 100%; gap: 6px; }
+        .secret-cat-header {
+            font-size: 13.5px; font-weight: 700; color: #d97706; padding: 8px 12px; border-radius: 10px;
+            background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.25);
+            display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; transition: background 0.2s;
+        }
+        body.dark .secret-cat-header { color: #fcd34d; background: rgba(245, 158, 11, 0.2); }
+        .secret-cat-header:hover { background: rgba(245, 158, 11, 0.22); }
+        .secret-cat-content { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.3s ease, opacity 0.3s ease; overflow: hidden; }
+        .secret-cat-content.collapsed { grid-template-rows: 0fr; opacity: 0; pointer-events: none; }
+        .secret-cat-inner { display: flex; flex-direction: column; gap: 8px; padding-top: 6px; }
+
+        /* 全局悬浮遮罩弹窗 */
         .global-modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-            z-index: 2000; align-items: center; justify-content: center; padding: 16px;
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); z-index: 2000; align-items: center; justify-content: center; padding: 16px;
         }
         .modal-content {
-            background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(30px);
-            border-radius: 22px; width: 100%; max-width: 460px; max-height: 85vh;
-            overflow-y: auto; padding: 24px; border: 1px solid rgba(245, 158, 11, 0.45);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255, 255, 255, 1); position: relative;
-            display: flex; flex-direction: column; gap: 16px; text-align: center;
+            background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(30px); border-radius: 22px; width: 100%; max-width: 460px; max-height: 85vh; overflow-y: auto; padding: 24px; border: 1px solid rgba(245, 158, 11, 0.45); box-shadow: 0 25px 60px rgba(0,0,0,0.35); position: relative; display: flex; flex-direction: column; gap: 16px; text-align: center;
         }
-        body.dark .modal-content { background: rgba(30, 24, 18, 0.94); border-color: rgba(245, 158, 11, 0.35); box-shadow: 0 25px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(245, 158, 11, 0.25); }
+        body.dark .modal-content { background: rgba(30, 24, 18, 0.94); border-color: rgba(245, 158, 11, 0.35); }
         
         .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(245, 158, 11, 0.2); padding-bottom: 12px; }
         .modal-title { font-size: 18px; font-weight: 700; color: #1c1917; }
         body.dark .modal-title { color: #fef3c7; }
-        
-        .modal-close { 
-            background: #ef4444; color: #fff; border: none; width: 34px; height: 34px; border-radius: 50%; 
-            cursor: pointer; font-weight: bold; font-size: 16px; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
-        }
-        .modal-close:active { transform: scale(0.9); }
+        .modal-close { background: #ef4444; color: #fff; border: none; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-weight: bold; font-size: 16px; }
 
-        #qrcode-container { 
-            display: inline-block; margin: 10px auto; background: #fff; padding: 14px; border-radius: 16px; 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12); border: 1px solid rgba(245, 158, 11, 0.2);
-        }
+        #qrcode-container { display: inline-block; margin: 10px auto; background: #fff; padding: 14px; border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
         #qrcode-container img { display: block; border-radius: 8px; width: 180px; height: 180px; }
 
-        .qr-tip-text {
-            font-size: 13px; font-weight: 600; color: #d97706; 
-            background: rgba(254, 243, 199, 0.7); padding: 10px 14px; border-radius: 12px; 
-            line-height: 1.5; border: 1px solid rgba(245, 158, 11, 0.25);
-        }
+        .qr-tip-text { font-size: 13px; font-weight: 600; color: #d97706; background: rgba(254, 243, 199, 0.7); padding: 10px 14px; border-radius: 12px; }
         body.dark .qr-tip-text { background: rgba(60, 45, 25, 0.6); color: #fcd34d; }
 
-        .terminal-tip-banner {
-            background: rgba(245, 158, 11, 0.15);
-            border: 1px solid rgba(245, 158, 11, 0.35);
-            border-radius: 10px;
-            padding: 10px 12px;
-            font-size: 12px;
-            color: #b45309;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            line-height: 1.4;
-            text-align: left;
-        }
-        body.dark .terminal-tip-banner {
-            background: rgba(245, 158, 11, 0.2);
-            color: #fcd34d;
-            border-color: rgba(245, 158, 11, 0.3);
-        }
+        .terminal-tip-banner { background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 10px; padding: 10px 12px; font-size: 12px; color: #b45309; font-weight: 600; text-align: left; }
+        body.dark .terminal-tip-banner { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
 
-        .tool-card {
-            background: rgba(255, 255, 255, 0.5); border-radius: 12px; padding: 12px;
-            display: flex; flex-direction: column; gap: 8px; border: 1px solid rgba(245, 158, 11, 0.25);
-            text-align: left;
-        }
-        body.dark .tool-card { background: rgba(41, 33, 24, 0.5); border-color: rgba(245, 158, 11, 0.2); }
+        .tool-card { background: rgba(255, 255, 255, 0.5); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px; border: 1px solid rgba(245, 158, 11, 0.25); text-align: left; }
+        body.dark .tool-card { background: rgba(41, 33, 24, 0.5); }
         .tool-title { font-weight: 700; font-size: 13px; color: #1c1917; }
         body.dark .tool-title { color: #fef3c7; }
-        .tool-desc { font-size: 11.5px; color: #78716c; line-height: 1.4; }
+        .tool-desc { font-size: 11.5px; color: #78716c; }
         body.dark .tool-desc { color: #a8a29e; }
 
-        .cmd-box {
-            display: flex; align-items: center; justify-content: space-between;
-            background: rgba(0, 0, 0, 0.04); border: 1px solid rgba(245, 158, 11, 0.2);
-            border-radius: 8px; padding: 6px 10px; gap: 8px;
-        }
+        .cmd-box { display: flex; align-items: center; justify-content: space-between; background: rgba(0, 0, 0, 0.04); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 8px; padding: 6px 10px; gap: 8px; }
         body.dark .cmd-box { background: rgba(0, 0, 0, 0.25); }
-        .cmd-text {
-            font-family: "JetBrains Mono", Consolas, monospace; font-size: 11px;
-            color: #d97706; overflow-x: auto; white-space: nowrap; flex: 1;
-        }
+        .cmd-text { font-family: "JetBrains Mono", Consolas, monospace; font-size: 11px; color: #d97706; overflow-x: auto; white-space: nowrap; flex: 1; }
         body.dark .cmd-text { color: #fbbf24; }
-        .glass-copy-btn {
-            padding: 4px 10px; border-radius: 6px; background: rgba(245, 158, 11, 0.2);
-            border: 1px solid rgba(245, 158, 11, 0.4); color: #d97706; font-size: 11px;
-            font-weight: 600; cursor: pointer; white-space: nowrap;
-        }
-        body.dark .glass-copy-btn { color: #fcd34d; background: rgba(245, 158, 11, 0.3); }
+        .glass-copy-btn { padding: 4px 10px; border-radius: 6px; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); color: #d97706; font-size: 11px; font-weight: 600; cursor: pointer; }
+        body.dark .glass-copy-btn { color: #fcd34d; }
         
         .footer-text { font-size: 11.5px; color: #78716c; text-align: center; padding: 30px 0 10px 0; font-weight: 500; grid-column: 1 / -1; }
         body.dark .footer-text { color: #a8a29e; }
@@ -356,35 +350,21 @@
             </div>
             <div class="subtitle">⚠️ 请在浏览器中打开，内部使用，请勿随意传播。</div>
         </div>
+
+        <!-- 全局全面搜索引擎 -->
+        <div class="global-search-container">
+            <div class="global-search-box">
+                <span style="margin-right: 10px; font-size: 15px;">🔍</span>
+                <input type="text" id="global-search-input" class="global-search-input" placeholder="全站极速搜索（输入名称/标签/关键字）..." oninput="handleGlobalSearch()">
+                <button id="search-clear-btn" class="search-clear-btn" onclick="clearGlobalSearch()">×</button>
+            </div>
+            <div id="search-results-dropdown" class="search-results-dropdown"></div>
+        </div>
         
-        <!-- 
-          ========================================================================
-          💡【全局排版说明】：
-          整个页面的菜单板块都是通过底下的 `.grid-container` 网格来管理的。
-          每个大卡片用 `<div class="ios-card">...</div>` 包裹。
-          ========================================================================
-        -->
         <div class="grid-container">
             
-            <!-- 
-              ====================================================================
-              【板块模板一：软件导航 / 外部链接类板块】
-              如果要在【软件导航】里面增加一个新的软件或链接，请直接在下方 
-              <div class="bookmark-links-inner"> 里面复制并粘贴一个相同的代码块：
-              --------------------------------------------------------------------
-              <div class="software-card" id="soft-你的首字母大写" style="border-left: 4px solid #颜色代码;">
-                  <div class="software-info">
-                      <div class="software-icon-box" style="background:#颜色代码;">图标表情</div>
-                      <div class="text-group"><span class="software-name">软件名字</span><span class="tag">标签分类</span></div>
-                  </div>
-                  <a href="你的跳转网址" target="_blank" class="btn-action">按钮文字</a>
-              </div>
-              --------------------------------------------------------------------
-              同时别忘了在底下的 `.az-index-bar` 里面加上对应的字母按钮：
-              <div class="az-item" onclick="scrollToLetter('soft-你的首字母大写', this)">首字母</div>
-              ====================================================================
-            -->
-            <div class="ios-card">
+            <!-- 模块一：软件导航 -->
+            <div class="ios-card" data-category="软件导航">
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
@@ -393,53 +373,49 @@
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner">
-                                
-                                <div class="software-card" id="soft-F" style="border-left: 4px solid #10b981;">
+                                <div class="software-card search-target-item" id="soft-F" style="border-left: 4px solid #10b981;" data-name="福音TV" data-tag="视频">
                                     <div class="software-info">
                                         <div class="software-icon-box" style="background:#10b981;">📺</div>
                                         <div class="text-group"><span class="software-name">福音TV</span><span class="tag">视频</span></div>
                                     </div>
                                     <a href="https://www.fuyin.tv/" target="_blank" class="btn-action btn-success">观看</a>
                                 </div>
-                                <div class="software-card" id="soft-J" style="border-left: 4px solid #2563eb;">
+                                <div class="software-card search-target-item" id="soft-J" style="border-left: 4px solid #2563eb;" data-name="精读圣经" data-tag="官方">
                                     <div class="software-info">
                                         <div class="software-icon-box" style="background:#2563eb;">📖</div>
                                         <div class="text-group"><span class="software-name">精读圣经</span><span class="tag">官方</span></div>
                                     </div>
                                     <a href="https://appsky.icu/#/bible" target="_blank" class="btn-action">下载</a>
                                 </div>
-                                <div class="software-card" id="soft-S" style="border-left: 4px solid #3b82f6;">
+                                <div class="software-card search-target-item" id="soft-S" style="border-left: 4px solid #3b82f6;" data-name="诗歌本" data-tag="官方">
                                     <div class="software-info">
                                         <div class="software-icon-box" style="background:#3b82f6;">🎵</div>
                                         <div class="text-group"><span class="software-name">诗歌本</span><span class="tag">官方</span></div>
                                     </div>
                                     <a href="https://appsky.icu/#/hymn" target="_blank" class="btn-action">下载</a>
                                 </div>
-                                <div class="software-card" id="soft-W" style="border-left: 4px solid #1d4ed8;">
+                                <div class="software-card search-target-item" id="soft-W" style="border-left: 4px solid #1d4ed8;" data-name="微读圣经" data-tag="官方">
                                     <div class="software-info">
                                         <div class="software-icon-box" style="background:#1d4ed8;">📖</div>
                                         <div class="text-group"><span class="software-name">微读圣经</span><span class="tag">官方</span></div>
                                     </div>
                                     <a href="https://wd.bible/app" target="_blank" class="btn-action">下载</a>
                                 </div>
-                                <div class="software-card" id="soft-X" style="border-left: 4px solid #6366f1;">
+                                <div class="software-card search-target-item" id="soft-X" style="border-left: 4px solid #6366f1;" data-name="小鸽子" data-tag="客户端">
                                     <div class="software-info">
                                         <div class="software-icon-box" style="background:#6366f1;">🕊️</div>
                                         <div class="text-group"><span class="software-name">小鸽子</span><span class="tag">客户端</span></div>
                                     </div>
                                     <a href="https://www.idigest.app/#/appDownload" target="_blank" class="btn-action">下载</a>
                                 </div>
-                                <div class="software-card" id="soft-Z" style="border-left: 4px solid #0ea5e9;">
+                                <div class="software-card search-target-item" id="soft-Z" style="border-left: 4px solid #0ea5e9;" data-name="Zoom 会议" data-tag="官方">
                                     <div class="software-info">
                                         <div class="software-icon-box" style="background:#0ea5e9;">👥</div>
                                         <div class="text-group"><span class="software-name">Zoom 会议</span><span class="tag">官方</span></div>
                                     </div>
                                     <a href="https://zoom.us/download" target="_blank" class="btn-action">下载</a>
                                 </div>
-
                             </div>
-                            
-                            <!-- 右侧 A-Z 索引条 -->
                             <div class="az-index-bar">
                                 <div class="az-item" onclick="scrollToLetter('soft-F', this)">F</div>
                                 <div class="az-item" onclick="scrollToLetter('soft-J', this)">J</div>
@@ -453,25 +429,8 @@
                 </div>
             </div>
 
-            <!-- 
-              ====================================================================
-              【板块模板二：书籍共享 / 带二维码弹窗类的板块】
-              如果要在【书籍共享】里面增加一本新书，请在下方的 
-              <div class="bookmark-links-inner"> 里面复制并粘贴以下结构：
-              --------------------------------------------------------------------
-              <div class="file-card" id="file-你的首字母" style="border-left: 4px solid #颜色代码;">
-                  <div class="file-info"><div class="file-name">📖 新书名字</div></div>
-                  <div class="btn-group">
-                      <button class="btn-download" onclick="window.open('你的下载直达链接', '_blank')">下载</button>
-                      <button class="btn-success" onclick="showQr('你的二维码跳转链接', '新书名字')">二维码</button>
-                  </div>
-              </div>
-              --------------------------------------------------------------------
-              同时别忘了在右侧 `.az-index-bar` 里面加上对应的字母按钮：
-              <div class="az-item" onclick="scrollToLetter('file-你的首字母', this)">首字母</div>
-              ====================================================================
-            -->
-            <div class="ios-card">
+            <!-- 模块二：书籍共享 -->
+            <div class="ios-card" data-category="书籍共享">
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
@@ -480,42 +439,42 @@
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner">
-                                <div class="file-card" id="file-C" style="border-left: 4px solid #805ad5;">
+                                <div class="file-card search-target-item" id="file-C" style="border-left: 4px solid #805ad5;" data-name="晨恩日新" data-tag="书籍">
                                     <div class="file-info"><div class="file-name">📖 晨恩日新</div></div>
                                     <div class="btn-group">
                                         <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=B5MTZ', '_blank')">下载</button>
                                         <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=B5MTZ', '晨恩日新')">二维码</button>
                                     </div>
                                 </div>
-                                <div class="file-card" id="file-F" style="border-left: 4px solid #2b6cb0;">
+                                <div class="file-card search-target-item" id="file-F" style="border-left: 4px solid #2b6cb0;" data-name="福音DNA" data-tag="书籍">
                                     <div class="file-info"><div class="file-name">📖 福音DNA</div></div>
                                     <div class="btn-group">
                                         <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=3OGI0', '_blank')">下载</button>
                                         <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=3OGI0', '福音DNA')">二维码</button>
                                     </div>
                                 </div>
-                                <div class="file-card" id="file-J" style="border-left: 4px solid #2f855a;">
+                                <div class="file-card search-target-item" id="file-J" style="border-left: 4px solid #2f855a;" data-name="J曲线" data-tag="书籍">
                                     <div class="file-info"><div class="file-name">📖 J曲线</div></div>
                                     <div class="btn-group">
                                         <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=GAY18', '_blank')">下载</button>
                                         <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=GAY18', 'J曲线')">二维码</button>
                                     </div>
                                 </div>
-                                <div class="file-card" id="file-R" style="border-left: 4px solid #3182ce;">
+                                <div class="file-card search-target-item" id="file-R" style="border-left: 4px solid #3182ce;" data-name="人如何改变" data-tag="书籍">
                                     <div class="file-info"><div class="file-name">📖 人如何改变</div></div>
                                     <div class="btn-group">
                                         <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=6T3QL', '_blank')">下载</button>
                                         <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=6T3QL', '人如何改变')">二维码</button>
                                     </div>
                                 </div>
-                                <div class="file-card" id="file-Y" style="border-left: 4px solid #d69e2e;">
+                                <div class="file-card search-target-item" id="file-Y" style="border-left: 4px solid #d69e2e;" data-name="雅各的尘俗灵程" data-tag="书籍">
                                     <div class="file-info"><div class="file-name">📖 雅各的尘俗灵程</div></div>
                                     <div class="btn-group">
                                         <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=3Q2XT', '_blank')">下载</button>
                                         <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=3Q2XT', '雅各的尘俗灵程')">二维码</button>
                                     </div>
                                 </div>
-                                <div class="file-card" id="file-Y2" style="border-left: 4px solid #dd6b20;">
+                                <div class="file-card search-target-item" id="file-Y2" style="border-left: 4px solid #dd6b20;" data-name="亚伯拉罕应许和现实的落差" data-tag="书籍">
                                     <div class="file-info"><div class="file-name">📖 亚伯拉罕应许和现实的落差</div></div>
                                     <div class="btn-group">
                                         <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=O3QSS', '_blank')">下载</button>
@@ -523,8 +482,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            <!-- 右侧 A-Z 索引条 -->
                             <div class="az-index-bar">
                                 <div class="az-item" onclick="scrollToLetter('file-C', this)">C</div>
                                 <div class="az-item" onclick="scrollToLetter('file-F', this)">F</div>
@@ -538,7 +495,7 @@
             </div>
 
             <!-- 模块三：加速区 -->
-            <div class="ios-card">
+            <div class="ios-card" data-category="加速区">
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
@@ -547,28 +504,20 @@
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner" style="padding-right:0;">
-                                <div class="link-item"><a href="https://gh-proxy.com/" target="_blank">🔗 GitHub 链接加速下载代理</a></div>
-                                <div class="link-item"><a href="https://sps.yy-gp.com/hk5dm/i.html" target="_blank">⚡ 电报代理与节点实时测速</a></div>
+                                <div class="link-item search-target-item" id="acc-1" data-name="GitHub 链接加速下载代理" data-tag="代理">
+                                    <a href="https://gh-proxy.com/" target="_blank">🔗 GitHub 链接加速下载代理</a>
+                                </div>
+                                <div class="link-item search-target-item" id="acc-2" data-name="电报代理与节点实时测速" data-tag="测速">
+                                    <a href="https://sps.yy-gp.com/hk5dm/i.html" target="_blank">⚡ 电报代理与节点实时测速</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 
-              ====================================================================
-              【板块模板三：实用工具 / 独立网页跳转或弹窗类板块】
-              如果要在【实用工具】里面增加一个新链接，请直接复制并粘贴以下结构：
-              --------------------------------------------------------------------
-              <div class="tool-simple-card">
-                  <div class="tool-simple-title">📚 菜单名称</div>
-                  <a href="跳转网址" target="_blank" class="btn-action">点击访问</a>
-              </div>
-              --------------------------------------------------------------------
-              如果是要像微信多开那样点击弹窗显示的，可以复制带有 `onclick="openWechatModal()"` 的按钮。
-              ====================================================================
-            -->
-            <div class="ios-card">
+            <!-- 模块四：实用工具 -->
+            <div class="ios-card" data-category="实用工具">
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
@@ -577,22 +526,18 @@
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner" style="padding-right:0;">
-                                
-                                <div class="tool-simple-card">
+                                <div class="tool-simple-card search-target-item" id="tool-1" data-name="下载书籍网址" data-tag="工具">
                                     <div class="tool-simple-title">📚 下载书籍网址</div>
                                     <a href="http://www.https.ng:1234/" target="_blank" class="btn-action">点击访问</a>
                                 </div>
-
-                                <div class="tool-simple-card">
+                                <div class="tool-simple-card search-target-item" id="tool-2" data-name="代理配置与插件" data-tag="插件">
                                     <div class="tool-simple-title">⚡ 代理配置与插件</div>
                                     <a href="https://yfamilys.com/" target="_blank" class="btn-action">点击访问</a>
                                 </div>
-
-                                <div class="tool-simple-card">
+                                <div class="tool-simple-card search-target-item" id="tool-3" data-name="Mac 微信多开脚本教程" data-tag="教程">
                                     <div class="tool-simple-title">💻 Mac 微信多开脚本教程</div>
                                     <button class="btn-action" onclick="openWechatModal()">点击查看</button>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -600,7 +545,7 @@
             </div>
 
             <!-- 模块五：常用资源 -->
-            <div class="ios-card">
+            <div class="ios-card" data-category="常用资源">
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
@@ -609,43 +554,116 @@
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner" style="padding-right:0;">
-                                <div class="dev-tip-card">常用资源板块正在开发中...</div>
+                                <div class="tool-simple-card search-target-item" id="res-1" data-name="文件快递柜" data-tag="传输">
+                                    <div class="tool-simple-title">📦 文件快递柜</div>
+                                    <a href="https://filebox.nnuu.nyc.mn/#/send" target="_blank" class="btn-action">点击访问</a>
+                                </div>
+                                <div class="tool-simple-card search-target-item" id="res-2" data-name="文字托管所" data-tag="文本">
+                                    <div class="tool-simple-title">📝 文字托管所</div>
+                                    <a href="https://paste.to/" target="_blank" class="btn-action">点击访问</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 模块六：关于本站 -->
-            <div class="ios-card">
+            <!-- 🌟 模块六：未开放区域（三大主要菜单折叠与搜索整合） -->
+            <div class="ios-card" data-category="未开放区域">
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
-                            <div class="bookmark-title">✨ 关于本站</div>
+                            <div class="bookmark-title">🔒 未开放区域</div>
                             <div class="chevron-badge">▼</div>
                         </div>
                         <div class="bookmark-links">
-                            <div class="bookmark-links-inner" style="padding-right:0;">
-                                <div class="dev-tip-card">关于本站板块正在开发中...</div>
+                            <div class="bookmark-links-inner" style="padding-right:0;" id="secret-area-container">
+                                
+                                <div class="secret-lock-box" id="secret-lock-view">
+                                    <div style="font-size:24px;">🔐</div>
+                                    <div style="font-size:13px; font-weight:600; color:#78716c;">本区域受密码保护，请输入密码访问：</div>
+                                    <button class="btn-action" onclick="unlockSecretArea()">解锁区域</button>
+                                </div>
+
+                                <div id="secret-content-view" style="display:none; flex-direction:column; gap:12px;">
+                                    
+                                    <div class="search-input-box">
+                                        <input type="text" id="secret-search-input" placeholder="🔍 未开放区域内搜索..." oninput="filterSecretItems()">
+                                    </div>
+
+                                    <!-- 主菜单 1：收藏视频 -->
+                                    <div class="secret-category-group">
+                                        <div class="secret-cat-header" onclick="toggleSecretSubCat(this)">
+                                            <span>🎬 收藏视频</span>
+                                            <span style="font-size:10px;">▼</span>
+                                        </div>
+                                        <div class="secret-cat-content">
+                                            <div class="secret-cat-inner">
+                                                <div class="tool-simple-card secret-item search-target-item" id="sec-v1" data-name="示例收藏视频 1" data-tag="收藏视频">
+                                                    <div class="tool-simple-title">🎥 示例收藏视频 1</div>
+                                                    <a href="https://www.youtube.com" target="_blank" class="btn-action">点击观看</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 主菜单 2：收藏网址（已加入指定三大新链接） -->
+                                    <div class="secret-category-group">
+                                        <div class="secret-cat-header" onclick="toggleSecretSubCat(this)">
+                                            <span>🌐 收藏网址</span>
+                                            <span style="font-size:10px;">▼</span>
+                                        </div>
+                                        <div class="secret-cat-content">
+                                            <div class="secret-cat-inner">
+                                                <div class="tool-simple-card secret-item search-target-item" id="sec-w1" data-name="圣经工程" data-tag="收藏网址">
+                                                    <div class="tool-simple-title">📖 圣经工程</div>
+                                                    <a href="https://bibleproject.com/mandarin/" target="_blank" class="btn-action">点击访问</a>
+                                                </div>
+                                                <div class="tool-simple-card secret-item search-target-item" id="sec-w2" data-name="不错的书籍" data-tag="收藏网址">
+                                                    <div class="tool-simple-title">📚 不错的书籍</div>
+                                                    <a href="https://chreformedresources.net/" target="_blank" class="btn-action">点击访问</a>
+                                                </div>
+                                                <div class="tool-simple-card secret-item search-target-item" id="sec-w3" data-name="林格尼尔事工" data-tag="收藏网址">
+                                                    <div class="tool-simple-title">✝️ 林格尼尔事工</div>
+                                                    <a href="https://zh.ligonier.org/" target="_blank" class="btn-action">点击访问</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 主菜单 3：收藏软件 -->
+                                    <div class="secret-category-group">
+                                        <div class="secret-cat-header" onclick="toggleSecretSubCat(this)">
+                                            <span>💻 收藏软件</span>
+                                            <span style="font-size:10px;">▼</span>
+                                        </div>
+                                        <div class="secret-cat-content">
+                                            <div class="secret-cat-inner">
+                                                <div class="tool-simple-card secret-item search-target-item" id="sec-s1" data-name="示例收藏软件 1" data-tag="收藏软件">
+                                                    <div class="tool-simple-title">📦 示例收藏软件 1</div>
+                                                    <a href="#" target="_blank" class="btn-action">点击下载</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 书签二维码弹窗（提示文字已按要求精简） -->
+            <!-- 书籍二维码弹窗 -->
             <div id="qrcode-modal" class="global-modal">
                 <div class="modal-content">
                     <div class="modal-header">
                         <div id="qr-title" class="modal-title"></div>
                         <button class="modal-close" onclick="closeQr()">×</button>
                     </div>
-                    <div id="qrcode-container">
-                        <div id="qrcode"></div>
-                    </div>
-                    <div class="qr-tip-text">
-                        📱 请长按上方二维码识别打开。
-                    </div>
+                    <div id="qrcode-container"><div id="qrcode"></div></div>
+                    <div class="qr-tip-text">📱 请长按上方二维码识别打开。</div>
                     <div><button class="btn-action" onclick="closeQr()" style="padding: 10px 24px; background:#e53e3e;">关闭窗口</button></div>
                 </div>
             </div>
@@ -657,11 +675,9 @@
                         <div class="modal-title">💻 Mac 微信多开脚本教程</div>
                         <button class="modal-close" onclick="closeWechatModal()">×</button>
                     </div>
-
                     <div class="terminal-tip-banner">
                         <span>💡 提示：以下所有指令均需在 Mac 电脑的「终端 (Terminal)」应用中复制并运行。</span>
                     </div>
-
                     <div class="tool-card">
                         <div class="tool-title">📦 1. 下载脚本</div>
                         <div class="cmd-box">
@@ -669,7 +685,6 @@
                             <button class="glass-copy-btn" onclick="copyText('c1', this)">一键复制</button>
                         </div>
                     </div>
-
                     <div class="tool-card">
                         <div class="tool-title">🔑 2. 添加执行权限</div>
                         <div class="cmd-box">
@@ -678,7 +693,6 @@
                         </div>
                         <div class="tool-desc">⚠️ 若终端提示输入 <code>password</code>，请填写本机登录密码（输入时通常不显示字符）。</div>
                     </div>
-
                     <div class="tool-card">
                         <div class="tool-title">🚀 3. 运行脚本</div>
                         <div class="cmd-box">
@@ -686,7 +700,6 @@
                             <button class="glass-copy-btn" onclick="copyText('c3', this)">一键复制</button>
                         </div>
                     </div>
-
                     <div class="tool-card">
                         <div class="tool-title">🔄 4. 版本更新与重复运行</div>
                         <div class="tool-desc">需要先关闭所有微信副本，在终端重新运行：</div>
@@ -696,7 +709,6 @@
                         </div>
                         <div class="tool-desc">删除已有副本后，再基于最新版本微信重新创建副本。</div>
                     </div>
-
                     <div style="text-align: center; margin-top: 4px;">
                         <button class="btn-action" onclick="closeWechatModal()" style="padding: 10px 28px;">关闭窗口</button>
                     </div>
@@ -708,12 +720,154 @@
     </div>
 
     <script>
-        function openWechatModal() {
-            document.getElementById('wechat-modal').style.display = 'flex';
+        // 未开放区域三分类折叠控制
+        function toggleSecretSubCat(header) {
+            const content = header.nextElementSibling;
+            if (content) {
+                content.classList.toggle('collapsed');
+            }
         }
-        function closeWechatModal() {
-            document.getElementById('wechat-modal').style.display = 'none';
+
+        // 密码解锁未开放区域
+        let isSecretUnlocked = false;
+        function unlockSecretArea() {
+            const pwd = prompt("🔐 请输入访问密码：");
+            if (pwd === "5214") {
+                isSecretUnlocked = true;
+                document.getElementById('secret-lock-view').style.display = 'none';
+                document.getElementById('secret-content-view').style.display = 'flex';
+            } else if (pwd !== null) {
+                alert("❌ 密码错误，拒绝访问！");
+            }
         }
+
+        // 顶置全面搜索引擎
+        function handleGlobalSearch() {
+            const input = document.getElementById('global-search-input');
+            const clearBtn = document.getElementById('search-clear-btn');
+            const dropdown = document.getElementById('search-results-dropdown');
+            const query = input.value.trim().toLowerCase();
+
+            if (!query) {
+                clearBtn.style.display = 'none';
+                dropdown.style.display = 'none';
+                return;
+            }
+
+            clearBtn.style.display = 'flex';
+            dropdown.innerHTML = '';
+
+            const allItems = document.querySelectorAll('.search-target-item');
+            const results = [];
+            const keywords = query.split(/\s+/);
+
+            allItems.forEach(item => {
+                // 如果未解锁密码，跳过搜索未开放区域项目
+                if (item.classList.contains('secret-item') && !isSecretUnlocked) return;
+
+                const name = (item.getAttribute('data-name') || '').toLowerCase();
+                const tag = (item.getAttribute('data-tag') || '').toLowerCase();
+                const card = item.closest('.ios-card');
+                const category = card ? card.getAttribute('data-category') : '其他';
+                const id = item.id;
+
+                const exactMatch = name.includes(query) || tag.includes(query);
+                const fuzzyMatch = keywords.every(kw => name.includes(kw) || tag.includes(kw) || category.toLowerCase().includes(kw));
+
+                if (exactMatch || fuzzyMatch) {
+                    results.push({ id, name: item.getAttribute('data-name'), tag: item.getAttribute('data-tag'), category });
+                }
+            });
+
+            if (results.length === 0) {
+                dropdown.innerHTML = `<div style="padding: 16px; font-size:13px; color:#78716c; text-align:center;">🔍 未找到匹配的结果，尝试换个词吧...</div>`;
+            } else {
+                results.forEach(res => {
+                    const row = document.createElement('div');
+                    row.className = 'search-result-item';
+                    row.onclick = () => gotoSearchResult(res.id);
+                    row.innerHTML = `
+                        <div class="result-info">
+                            <div class="result-title">${res.name}</div>
+                            <div class="result-category">所属分类：${res.category}</div>
+                        </div>
+                        <span class="result-tag">${res.tag || '通用'}</span>
+                    `;
+                    dropdown.appendChild(row);
+                });
+            }
+
+            dropdown.style.display = 'flex';
+        }
+
+        // 搜索自动展开父级折叠并滚动定位与动态提示
+        function gotoSearchResult(targetId) {
+            document.getElementById('search-results-dropdown').style.display = 'none';
+
+            const targetEl = document.getElementById(targetId);
+            if (!targetEl) return;
+
+            // 1. 展开顶级卡片
+            const card = targetEl.closest('.ios-card');
+            if (card) {
+                const header = card.querySelector('.bookmark-header');
+                const linksBox = card.querySelector('.bookmark-links');
+                if (header && linksBox && header.classList.contains('collapsed')) {
+                    header.classList.remove('collapsed');
+                    linksBox.classList.remove('collapsed');
+                }
+            }
+
+            // 2. 展开未开放区域内部二级分类
+            const secretContent = targetEl.closest('.secret-cat-content');
+            if (secretContent && secretContent.classList.contains('collapsed')) {
+                secretContent.classList.remove('collapsed');
+            }
+
+            // 3. 丝滑滚动与脉冲动画提示
+            setTimeout(() => {
+                targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                targetEl.classList.remove('target-highlight-pulse');
+                void targetEl.offsetWidth;
+                targetEl.classList.add('target-highlight-pulse');
+            }, 100);
+        }
+
+        function clearGlobalSearch() {
+            const input = document.getElementById('global-search-input');
+            input.value = '';
+            handleGlobalSearch();
+            input.focus();
+        }
+
+        document.addEventListener('click', (e) => {
+            const searchContainer = document.querySelector('.global-search-container');
+            const dropdown = document.getElementById('search-results-dropdown');
+            if (searchContainer && !searchContainer.contains(e.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        function filterSecretItems() {
+            const query = document.getElementById('secret-search-input').value.trim().toLowerCase();
+            const items = document.querySelectorAll('.secret-item');
+
+            if (!query) {
+                items.forEach(item => item.style.display = 'flex');
+                return;
+            }
+
+            const keywords = query.split(/\s+/);
+            items.forEach(item => {
+                const text = item.innerText.toLowerCase();
+                const exactMatch = text.includes(query);
+                const fuzzyMatch = keywords.some(kw => text.includes(kw));
+                item.style.display = (exactMatch || fuzzyMatch) ? 'flex' : 'none';
+            });
+        }
+
+        function openWechatModal() { document.getElementById('wechat-modal').style.display = 'flex'; }
+        function closeWechatModal() { document.getElementById('wechat-modal').style.display = 'none'; }
 
         function copyText(elementId, btn) {
             const text = document.getElementById(elementId).innerText;
@@ -727,9 +881,7 @@
                     btn.style.background = "";
                     btn.style.color = "";
                 }, 1500);
-            }).catch(err => {
-                alert("复制失败，请手动长按复制");
-            });
+            }).catch(err => { alert("复制失败，请手动长按复制"); });
         }
 
         function scrollToLetter(targetId, el) {
@@ -746,17 +898,10 @@
             let modal = document.getElementById('qrcode-modal');
             let title = document.getElementById('qr-title');
             let container = document.getElementById('qrcode');
-            
             container.innerHTML = '';
             title.innerText = `《 ${name} 》`;
             modal.style.display = 'flex';
-            
-            new QRCode(container, {
-                text: url,
-                width: 180,
-                height: 180
-            });
-
+            new QRCode(container, { text: url, width: 180, height: 180 });
             setTimeout(() => {
                 let canvas = container.querySelector('canvas');
                 if (canvas) {
@@ -766,9 +911,7 @@
             }, 50);
         }
 
-        function closeQr() {
-            document.getElementById('qrcode-modal').style.display = 'none';
-        }
+        function closeQr() { document.getElementById('qrcode-modal').style.display = 'none'; }
 
         const toggle = document.getElementById('themeToggle');
         const icon = document.getElementById('themeIcon');
