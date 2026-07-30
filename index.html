@@ -30,39 +30,62 @@
         }
         body.dark { color: #f5f5f4; }
 
-        /* 顶部主题切换按钮 */
+        /* 顶部主题切换按钮（立体玻璃质感） */
         .theme-toggle-corner {
             position: fixed; top: 14px; right: 16px; z-index: 1000;
-            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            border-radius: 50%; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;
-            border: 0.5px solid rgba(245, 158, 11, 0.3); cursor: pointer; box-shadow: 0 2px 10px rgba(245, 158, 11, 0.15);
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(245, 158, 11, 0.4); cursor: pointer; 
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            transition: transform 0.2s ease;
         }
+        .theme-toggle-corner:active { transform: scale(0.92); }
         body.dark .theme-toggle-corner { 
-            background: rgba(30, 24, 18, 0.8); 
-            border-color: rgba(245, 158, 11, 0.25); 
+            background: rgba(30, 24, 18, 0.85); 
+            border-color: rgba(245, 158, 11, 0.3); 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(245, 158, 11, 0.2);
         }
 
-        .container { width: 100%; max-width: 1000px; }
+        .container { width: 100%; max-width: 1050px; }
         
         .header-area { margin-bottom: 25px; text-align: center; }
-        h1 { font-size: 28px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px; color: #1c1917; }
-        body.dark h1 { color: #fef3c7; }
+        h1 { font-size: 28px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px; color: #1c1917; text-shadow: 0 2px 10px rgba(245, 158, 11, 0.15); }
+        body.dark h1 { color: #fef3c7; text-shadow: 0 2px 15px rgba(245, 158, 11, 0.3); }
         
-        /* 太阳头像动效 */
+        /* 🌟 核心：一束阳光动态光芒图（纯 CSS 零延迟秒开，动态光束旋转特效） */
         .avatar-wrapper {
-            position: relative; width: 85px; height: 85px; margin: 0 auto 12px auto;
-            background: radial-gradient(circle, #fef08a 0%, #f59e0b 60%, #d97706 100%);
-            border-radius: 26px;
+            position: relative; width: 90px; height: 90px; margin: 0 auto 14px auto;
+            background: radial-gradient(circle, #fef08a 0%, #f59e0b 65%, #d97706 100%);
+            border-radius: 28px;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 25px rgba(245, 158, 11, 0.7);
-            border: 2px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 35px rgba(245, 158, 11, 0.8), 0 8px 20px rgba(0, 0, 0, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.95);
+            animation: sunPulse 3.5s infinite alternate ease-in-out;
+            overflow: hidden;
         }
-        .sun-icon { font-size: 36px; line-height: 1; }
+        body.dark .avatar-wrapper { border-color: rgba(245, 158, 11, 0.5); box-shadow: 0 0 40px rgba(245, 158, 11, 0.4), 0 8px 20px rgba(0, 0, 0, 0.5); }
+        
+        .sun-ray {
+            position: absolute; width: 140px; height: 140px;
+            background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.75), transparent 60deg);
+            animation: rayRotate 6s infinite linear;
+        }
+        .sun-icon { font-size: 38px; z-index: 2; text-shadow: 0 0 12px rgba(255, 255, 255, 0.9); }
+
+        @keyframes sunPulse {
+            0% { transform: scale(1); box-shadow: 0 0 25px rgba(245, 158, 11, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.9); }
+            100% { transform: scale(1.05); box-shadow: 0 0 50px rgba(251, 191, 36, 0.95), inset 0 2px 4px rgba(255, 255, 255, 1); }
+        }
+        @keyframes rayRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
 
         .subtitle { 
             font-size: 13px; color: #78716c; margin-bottom: 20px; font-weight: 500; 
             background: rgba(255, 251, 235, 0.9); padding: 6px 14px; border-radius: 16px; 
             display: inline-block; border: 0.5px solid rgba(245, 158, 11, 0.2);
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.08);
         }
         body.dark .subtitle { background: rgba(41, 37, 36, 0.8); color: #d7d3d0; }
         
@@ -70,7 +93,7 @@
         .grid-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            gap: 22px;
             width: 100%;
         }
 
@@ -78,59 +101,80 @@
             .grid-container { grid-template-columns: 1fr; gap: 16px; }
         }
 
-        /* 整体大卡片毛玻璃效果 */
+        /* 🌟 整体大卡片立体玻璃效果（高级 3D 浮雕质感） */
         .ios-card {
-            background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border-radius: 20px; overflow: hidden; width: 100%;
-            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.08);
-            border: 0.5px solid rgba(245, 158, 11, 0.3);
+            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border-radius: 22px; overflow: hidden; width: 100%; position: relative;
+            box-shadow: 0 12px 35px rgba(245, 158, 11, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(245, 158, 11, 0.35);
         }
         body.dark .ios-card { 
-            background: rgba(26, 21, 16, 0.65); 
-            border-color: rgba(245, 158, 11, 0.25); 
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            background: rgba(26, 21, 16, 0.7); 
+            border-color: rgba(245, 158, 11, 0.3); 
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(245, 158, 11, 0.2);
         }
         
-        .bookmark-wrapper { padding: 18px; width: 100%; }
-        .bookmark-header { display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 2px 4px; user-select: none; }
+        .bookmark-wrapper { padding: 18px; width: 100%; position: relative; }
+        
+        /* 🌟 醒目且具有立体感的折叠标题栏 */
+        .bookmark-header { 
+            display: flex; align-items: center; justify-content: space-between; cursor: pointer; 
+            padding: 8px 12px; user-select: none; background: rgba(245, 158, 11, 0.12); 
+            border-radius: 14px; border: 1px solid rgba(245, 158, 11, 0.25);
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transition: all 0.2s ease;
+        }
+        .bookmark-header:hover { background: rgba(245, 158, 11, 0.2); }
         .bookmark-title { color: #1c1917; font-size: 15px; font-weight: 700; }
         body.dark .bookmark-title { color: #fef3c7; }
-        .chevron { transition: transform 0.3s ease; color: #d97706; font-size: 14px; font-weight: bold; }
-        .bookmark-header.collapsed .chevron { transform: rotate(-90deg); }
         
-        .bookmark-links { display: grid; grid-template-rows: 1fr; transition: 0.3s ease; overflow: hidden; margin-top: 12px; width: 100%; position: relative; }
+        /* 立体三角形收缩徽章 */
+        .chevron-badge {
+            width: 26px; height: 26px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 11px;
+            box-shadow: 0 3px 8px rgba(245, 158, 11, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.6); 
+            transition: transform 0.3s ease;
+        }
+        .bookmark-header.collapsed .chevron-badge { transform: rotate(-90deg); }
+        
+        .bookmark-links { display: grid; grid-template-rows: 1fr; transition: 0.3s ease; overflow: hidden; margin-top: 14px; width: 100%; position: relative; }
         .bookmark-links.collapsed { grid-template-rows: 0fr; opacity: 0; margin-top: 0; pointer-events: none; }
         
-        /* 关键优化：右侧留出空间，避免被索引条挡住 */
-        .bookmark-links-inner { display: flex; flex-direction: column; gap: 10px; width: 100%; padding-right: 28px; }
+        .bookmark-links-inner { display: flex; flex-direction: column; gap: 10px; width: 100%; padding-right: 48px; }
 
-        /* 各自子模块的精致玻璃质感效果（零延迟秒开） */
+        /* 🌟 各自子模块：立体玻璃质感卡片 */
         .software-card, .file-card, .link-item a { 
-            background: rgba(255, 255, 255, 0.75); 
+            background: rgba(255, 255, 255, 0.85); 
             backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            border-radius: 12px; 
+            border-radius: 14px; 
             padding: 12px 14px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
             gap: 10px;
-            border: 0.5px solid rgba(245, 158, 11, 0.25);
+            border: 1px solid rgba(245, 158, 11, 0.3);
             text-decoration: none;
             color: #1c1917;
             font-weight: 600;
             font-size: 13.5px;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .software-card:active, .file-card:active, .link-item a:active {
+            transform: scale(0.99);
         }
         body.dark .software-card, body.dark .file-card, body.dark .link-item a {
-            background: rgba(41, 33, 24, 0.65);
-            border-color: rgba(245, 158, 11, 0.2);
+            background: rgba(41, 33, 24, 0.75);
+            border-color: rgba(245, 158, 11, 0.25);
             color: #fef3c7;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(245, 158, 11, 0.15);
         }
         
         .software-info, .file-info { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; }
         
         .software-icon-box { 
-            width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center;
-            font-size: 13px; color: #fff; flex-shrink: 0;
+            width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+            font-size: 13px; color: #fff; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.15);
         }
 
         .text-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
@@ -138,60 +182,64 @@
         body.dark .software-name, body.dark .file-name { color: #fef3c7; }
 
         .tag {
-            font-size: 10.5px; background: rgba(245, 158, 11, 0.15);
+            font-size: 10.5px; background: rgba(245, 158, 11, 0.18);
             color: #d97706; padding: 1px 6px; border-radius: 8px; font-weight: 600;
         }
-        body.dark .tag { background: rgba(245, 158, 11, 0.25); color: #fcd34d; }
+        body.dark .tag { background: rgba(245, 158, 11, 0.28); color: #fcd34d; }
 
-        .btn-group { display: flex; gap: 6px; flex-shrink: 0; }
+        .btn-group { display: flex; gap: 5px; flex-shrink: 0; }
         
+        /* 🌟 按钮立体悬浮效果与点击凹陷反馈 */
         button, .btn-action { 
-            padding: 6px 12px; border: none; border-radius: 8px; 
-            background: #f59e0b; color: #fff; cursor: pointer; 
-            font-size: 12px; font-weight: 600; text-align: center; 
+            padding: 6px 10px; border: none; border-radius: 9px; 
+            background: linear-gradient(135deg, #f6ad55, #ed8936); color: #fff; cursor: pointer; 
+            font-size: 11.5px; font-weight: 600; text-align: center; 
             white-space: nowrap; text-decoration: none; display: inline-block;
-            box-shadow: 0 2px 6px rgba(245, 158, 11, 0.2);
+            box-shadow: 0 3px 8px rgba(245, 158, 11, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+            transition: all 0.15s ease;
         }
-        button:active, .btn-action:active { transform: scale(0.96); }
-        .btn-download { background: #d69e2e !important; }
-        .btn-success { background: #10b981 !important; }
+        button:active, .btn-action:active { 
+            transform: scale(0.94); 
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); 
+        }
+        .btn-download { background: linear-gradient(135deg, #d69e2e, #b7791f) !important; }
+        .btn-success { background: linear-gradient(135deg, #38bdf8, #0284c7) !important; padding: 6px 10px !important; box-shadow: 0 3px 8px rgba(2, 132, 199, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5) !important; }
 
         .link-item { width: 100%; }
 
-        /* ==========================================
-           🌟 优化：将 A-Z 索引条移至最右侧卡片边缘外，绝对不挡文字和按钮
-           ========================================== */
+        /* A-Z 索引条立体质感优化 */
         .az-index-bar {
-            position: absolute; right: -4px; top: 50%; transform: translateY(-50%);
-            display: flex; flex-direction: column; align-items: center; z-index: 10;
-            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            padding: 6px 3px; border-radius: 12px; border: 0.5px solid rgba(245, 158, 11, 0.3);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; align-items: center; z-index: 20;
+            background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            padding: 6px 3px; border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.4);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.9);
             user-select: none;
         }
-        body.dark .az-index-bar { background: rgba(30, 24, 18, 0.85); border-color: rgba(245, 158, 11, 0.3); }
+        body.dark .az-index-bar { background: rgba(30, 24, 18, 0.92); border-color: rgba(245, 158, 11, 0.4); box-shadow: 0 4px 15px rgba(0,0,0,0.4), inset 0 1px 0 rgba(245,158,11,0.2); }
 
         .az-item {
-            font-size: 10px; font-weight: 700; color: #b45309; padding: 2px 4px; cursor: pointer;
+            font-size: 9.5px; font-weight: 700; color: #b45309; padding: 2px 4px; cursor: pointer;
             transition: transform 0.15s ease, color 0.15s ease;
         }
         body.dark .az-item { color: #fcd34d; }
-        .az-item.active { transform: scale(1.5); color: #ef4444; }
+        .az-item.active { transform: scale(1.4); color: #ef4444; }
 
         .dev-tip-card {
-            background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(6px); border-radius: 10px; padding: 16px;
-            text-align: center; font-size: 13px; color: #78716c; border: 0.5px dashed rgba(245, 158, 11, 0.3);
+            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(6px); border-radius: 12px; padding: 16px;
+            text-align: center; font-size: 13px; color: #78716c; border: 0.5px dashed rgba(245, 158, 11, 0.4);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);
         }
-        body.dark .dev-tip-card { background: rgba(41, 33, 24, 0.4); color: #a8a29e; }
+        body.dark .dev-tip-card { background: rgba(41, 33, 24, 0.5); color: #a8a29e; }
 
-        /* 二维码弹窗 */
+        /* 二维码弹窗立体化 */
         #qrcode-modal { 
             display: none; text-align: center; margin-top: 20px; padding: 20px 15px; 
-            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: 16px; 
-            border: 1px solid rgba(245, 158, 11, 0.3); grid-column: 1 / -1;
+            background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(20px); border-radius: 20px; 
+            border: 1px solid rgba(245, 158, 11, 0.4); box-shadow: 0 15px 40px rgba(0,0,0,0.15); grid-column: 1 / -1;
         }
-        body.dark #qrcode-modal { background: rgba(30, 24, 18, 0.95); }
-        #qrcode-container { display: inline-block; margin: 10px 0; background: #fff; padding: 10px; border-radius: 10px; }
+        body.dark #qrcode-modal { background: rgba(30, 24, 18, 0.98); box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+        #qrcode-container { display: inline-block; margin: 10px 0; background: #fff; padding: 10px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         
         .footer-text { font-size: 11.5px; color: #78716c; text-align: center; padding: 30px 0 10px 0; font-weight: 500; grid-column: 1 / -1; }
         body.dark .footer-text { color: #a8a29e; }
@@ -208,7 +256,9 @@
     <div class="container">
         <div class="header-area">
             <h1>一束阳光</h1>
+            <!-- 🌟 动态一束阳光发光旋转图标 -->
             <div class="avatar-wrapper">
+                <div class="sun-ray"></div>
                 <div class="sun-icon">☀️</div>
             </div>
             <div class="subtitle">⚠️ 请在手机浏览器中打开</div>
@@ -218,11 +268,11 @@
             
             <!-- 模块一：软件导航 -->
             <div class="ios-card">
-                <div class="bookmark-wrapper" style="position: relative;">
+                <div class="bookmark-wrapper">
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
                             <div class="bookmark-title">💻 软件导航</div>
-                            <span class="chevron">▼</span>
+                            <div class="chevron-badge">▼</div>
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner">
@@ -231,45 +281,44 @@
                                         <div class="software-icon-box" style="background:#10b981;">📺</div>
                                         <div class="text-group"><span class="software-name">福音TV</span><span class="tag">视频</span></div>
                                     </div>
-                                    <a href="https://www.fuyin.tv/" target="_blank" class="btn-action btn-success" style="padding:6px 12px;">观看</a>
+                                    <a href="https://www.fuyin.tv/" target="_blank" class="btn-action btn-success">观看</a>
                                 </div>
                                 <div class="software-card" id="soft-J" style="border-left: 4px solid #2563eb;">
                                     <div class="software-info">
                                         <div class="software-icon-box" style="background:#2563eb;">📖</div>
                                         <div class="text-group"><span class="software-name">精读圣经</span><span class="tag">官方</span></div>
                                     </div>
-                                    <a href="https://appsky.icu/#/bible" target="_blank" class="btn-action" style="padding:6px 12px;">下载</a>
+                                    <a href="https://appsky.icu/#/bible" target="_blank" class="btn-action">下载</a>
                                 </div>
                                 <div class="software-card" id="soft-S" style="border-left: 4px solid #3b82f6;">
                                     <div class="software-info">
                                         <div class="software-icon-box" style="background:#3b82f6;">🎵</div>
                                         <div class="text-group"><span class="software-name">诗歌本</span><span class="tag">官方</span></div>
                                     </div>
-                                    <a href="https://appsky.icu/#/hymn" target="_blank" class="btn-action" style="padding:6px 12px;">下载</a>
+                                    <a href="https://appsky.icu/#/hymn" target="_blank" class="btn-action">下载</a>
                                 </div>
                                 <div class="software-card" id="soft-W" style="border-left: 4px solid #1d4ed8;">
                                     <div class="software-info">
                                         <div class="software-icon-box" style="background:#1d4ed8;">📖</div>
                                         <div class="text-group"><span class="software-name">微读圣经</span><span class="tag">官方</span></div>
                                     </div>
-                                    <a href="https://wd.bible/app" target="_blank" class="btn-action" style="padding:6px 12px;">下载</a>
+                                    <a href="https://wd.bible/app" target="_blank" class="btn-action">下载</a>
                                 </div>
                                 <div class="software-card" id="soft-X" style="border-left: 4px solid #6366f1;">
                                     <div class="software-info">
                                         <div class="software-icon-box" style="background:#6366f1;">🕊️</div>
                                         <div class="text-group"><span class="software-name">小鸽子</span><span class="tag">客户端</span></div>
                                     </div>
-                                    <a href="https://www.idigest.app/#/appDownload" target="_blank" class="btn-action" style="padding:6px 12px;">下载</a>
+                                    <a href="https://www.idigest.app/#/appDownload" target="_blank" class="btn-action">下载</a>
                                 </div>
                                 <div class="software-card" id="soft-Z" style="border-left: 4px solid #0ea5e9;">
                                     <div class="software-info">
                                         <div class="software-icon-box" style="background:#0ea5e9;">👥</div>
                                         <div class="text-group"><span class="software-name">Zoom 会议</span><span class="tag">官方</span></div>
                                     </div>
-                                    <a href="https://zoom.us/download" target="_blank" class="btn-action" style="padding:6px 12px;">下载</a>
+                                    <a href="https://zoom.us/download" target="_blank" class="btn-action">下载</a>
                                 </div>
                             </div>
-                            <!-- 右侧 A-Z 索引条，位置已向右调整，不再遮挡文字和按钮 -->
                             <div class="az-index-bar">
                                 <div class="az-item" onclick="scrollToLetter('soft-F', this)">F</div>
                                 <div class="az-item" onclick="scrollToLetter('soft-J', this)">J</div>
@@ -285,11 +334,11 @@
 
             <!-- 模块二：书籍共享 -->
             <div class="ios-card">
-                <div class="bookmark-wrapper" style="position: relative;">
+                <div class="bookmark-wrapper">
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
                             <div class="bookmark-title">📚 书籍共享</div>
-                            <span class="chevron">▼</span>
+                            <div class="chevron-badge">▼</div>
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner">
@@ -297,46 +346,45 @@
                                     <div class="file-info"><div class="file-name">📖 晨恩日新</div></div>
                                     <div class="btn-group">
                                         <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=B5MTZ', '_blank')">下载</button>
-                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=B5MTZ', '晨恩日新')">码</button>
+                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=B5MTZ', '晨恩日新')">二维码</button>
                                     </div>
                                 </div>
                                 <div class="file-card" id="file-F" style="border-left: 4px solid #2b6cb0;">
                                     <div class="file-info"><div class="file-name">📖 福音DNA</div></div>
                                     <div class="btn-group">
                                         <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=3OGI0', '_blank')">下载</button>
-                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=3OGI0', '福音DNA')">码</button>
+                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=3OGI0', '福音DNA')">二维码</button>
                                     </div>
                                 </div>
                                 <div class="file-card" id="file-J" style="border-left: 4px solid #2f855a;">
                                     <div class="file-info"><div class="file-name">📖 J曲线</div></div>
                                     <div class="btn-group">
                                         <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=GAY18', '_blank')">下载</button>
-                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=GAY18', 'J曲线')">码</button>
+                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=GAY18', 'J曲线')">二维码</button>
                                     </div>
                                 </div>
                                 <div class="file-card" id="file-R" style="border-left: 4px solid #3182ce;">
                                     <div class="file-info"><div class="file-name">📖 人如何改变</div></div>
                                     <div class="btn-group">
                                         <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=6T3QL', '_blank')">下载</button>
-                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=6T3QL', '人如何改变')">码</button>
+                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=6T3QL', '人如何改变')">二维码</button>
                                     </div>
                                 </div>
                                 <div class="file-card" id="file-Y" style="border-left: 4px solid #d69e2e;">
                                     <div class="file-info"><div class="file-name">📖 雅各的尘俗灵程</div></div>
                                     <div class="btn-group">
                                         <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=3Q2XT', '_blank')">下载</button>
-                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=3Q2XT', '雅博渡口')">码</button>
+                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=3Q2XT', '雅各的尘俗灵程')">二维码</button>
                                     </div>
                                 </div>
                                 <div class="file-card" id="file-Y2" style="border-left: 4px solid #dd6b20;">
                                     <div class="file-info"><div class="file-name">📖 亚伯拉罕应许和现实的落差</div></div>
                                     <div class="btn-group">
                                         <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=O3QSS', '_blank')">下载</button>
-                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=O3QSS', '亚伯拉罕应许')">码</button>
+                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=O3QSS', '亚伯拉罕应许')">二维码</button>
                                     </div>
                                 </div>
                             </div>
-                            <!-- 右侧 A-Z 索引条，位置已向右调整，不再遮挡文字和按钮 -->
                             <div class="az-index-bar">
                                 <div class="az-item" onclick="scrollToLetter('file-C', this)">C</div>
                                 <div class="az-item" onclick="scrollToLetter('file-F', this)">F</div>
@@ -355,7 +403,7 @@
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
                             <div class="bookmark-title">🚀 加速区</div>
-                            <span class="chevron">▼</span>
+                            <div class="chevron-badge">▼</div>
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner" style="padding-right:0;">
@@ -373,7 +421,7 @@
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
                             <div class="bookmark-title">🛠️ 实用工具</div>
-                            <span class="chevron">▼</span>
+                            <div class="chevron-badge">▼</div>
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner" style="padding-right:0;">
@@ -391,7 +439,7 @@
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
                             <div class="bookmark-title">📂 常用资源</div>
-                            <span class="chevron">▼</span>
+                            <div class="chevron-badge">▼</div>
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner" style="padding-right:0;">
@@ -408,7 +456,7 @@
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
                             <div class="bookmark-title">✨ 关于本站</div>
-                            <span class="chevron">▼</span>
+                            <div class="chevron-badge">▼</div>
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner" style="padding-right:0;">
