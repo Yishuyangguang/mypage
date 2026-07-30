@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>一束阳光</title>
-    <!-- 使用国内稳定极速的 FontAwesome 与 QRCode CDN -->
+    <!-- 引入国内极速稳定的 FontAwesome 与 QRCode 公共 CDN -->
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.bootcdn.net/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
@@ -24,10 +24,6 @@
         .orb-1 { width: 55vw; height: 55vw; background: #fef08a; top: -15%; left: -10%; animation-duration: 20s; }
         .orb-2 { width: 60vw; height: 60vw; background: #f59e0b; bottom: -20%; right: -10%; animation-duration: 26s; }
         .orb-3 { width: 45vw; height: 45vw; background: #d97706; top: 35%; left: 30%; animation-duration: 30s; }
-
-        body.dark .orb-1 { background: #451a03; opacity: 0.5; }
-        body.dark .orb-2 { background: #78350f; opacity: 0.45; }
-        body.dark .orb-3 { background: #92400e; opacity: 0.4; }
 
         @keyframes floatOrb {
             0% { transform: translate(0, 0) scale(1) rotate(0deg); }
@@ -138,12 +134,10 @@
         .bookmark-header i.chevron { transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); color: #d97706; }
         .bookmark-header.collapsed i.chevron { transform: rotate(-90deg); }
         
-        .bookmark-links { display: grid; grid-template-rows: 1fr; gap: 14px; transition: 0.35s ease; overflow: hidden; margin-top: 16px; width: 100%; position: relative; }
+        /* 取消内部滚动限制，确保整体滑动丝滑、绝不卡顿 */
+        .bookmark-links { display: grid; grid-template-rows: 1fr; transition: 0.35s ease; overflow: hidden; margin-top: 16px; width: 100%; position: relative; }
         .bookmark-links.collapsed { grid-template-rows: 0fr; opacity: 0; margin-top: 0; pointer-events: none; }
-        .bookmark-links-inner { display: flex; flex-direction: column; gap: 14px; width: 100%; max-height: 420px; overflow-y: auto; padding-right: 18px; }
-        
-        .bookmark-links-inner::-webkit-scrollbar { width: 4px; }
-        .bookmark-links-inner::-webkit-scrollbar-thumb { background: rgba(217, 119, 6, 0.3); border-radius: 4px; }
+        .bookmark-links-inner { display: flex; flex-direction: column; gap: 14px; width: 100%; }
 
         /* 子卡片通用样式 */
         .software-card, .file-card { 
@@ -163,7 +157,12 @@
         }
         
         .software-info, .file-info { flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px; }
-        .software-icon { width: 26px; height: 26px; object-fit: contain; border-radius: 6px; flex-shrink: 0; background: rgba(255,255,255,0.8); padding: 2px; border: 1px solid rgba(245, 158, 11, 0.2); }
+        
+        /* 采用稳定高清的 FontAwesome 矢量图标代替网络小图标，秒开且永不失效 */
+        .software-icon-box { 
+            width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+            font-size: 15px; color: #fff; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
 
         .text-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .software-name, .file-name { font-weight: 700; font-size: 14px; color: #1c1917; line-height: 1.4; }
@@ -200,7 +199,7 @@
         
         /* 🌟 右侧 A-Z 丝滑浮动索引栏设计（带放大动效） */
         .az-index-bar {
-            position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+            position: absolute; right: 2px; top: 50%; transform: translateY(-50%);
             display: flex; flex-direction: column; align-items: center; z-index: 10;
             background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(10px);
             padding: 6px 3px; border-radius: 12px; border: 0.5px solid rgba(245, 158, 11, 0.2);
@@ -281,7 +280,7 @@
         <!-- 左右两列式网格布局容器 -->
         <div class="grid-container">
             
-            <!-- 模块一：软件导航 (静态直接渲染，实现无延迟秒开) -->
+            <!-- 模块一：软件导航 (静态秒开，完美解决图标不显示和卡顿) -->
             <div class="ios-card">
                 <div class="bookmark-wrapper" style="position: relative;">
                     <div class="bookmark">
@@ -290,45 +289,45 @@
                             <i class="fas fa-chevron-down chevron"></i>
                         </div>
                         <div class="bookmark-links">
-                            <div class="bookmark-links-inner" id="softwareListContainer">
+                            <div class="bookmark-links-inner">
                                 <div class="software-card" id="soft-F" style="border-left: 4px solid #10b981;">
                                     <div class="software-info">
-                                        <img src="https://www.google.com/s2/favicons?domain=fuyin.tv&sz=64" alt="" class="software-icon">
+                                        <div class="software-icon-box" style="background:#10b981;"><i class="fa-solid fa-video"></i></div>
                                         <div class="text-group"><span class="software-name">福音TV</span><span class="tag">视频平台</span></div>
                                     </div>
                                     <a href="https://www.fuyin.tv/" target="_blank" class="btn-action btn-success">点击观看</a>
                                 </div>
                                 <div class="software-card" id="soft-J" style="border-left: 4px solid #2563eb;">
                                     <div class="software-info">
-                                        <img src="https://www.google.com/s2/favicons?domain=appsky.icu&sz=64" alt="" class="software-icon">
+                                        <div class="software-icon-box" style="background:#2563eb;"><i class="fa-solid fa-book-bible"></i></div>
                                         <div class="text-group"><span class="software-name">精读圣经</span><span class="tag">官方下载</span></div>
                                     </div>
                                     <a href="https://appsky.icu/#/bible" target="_blank" class="btn-action">点击下载</a>
                                 </div>
                                 <div class="software-card" id="soft-S" style="border-left: 4px solid #3b82f6;">
                                     <div class="software-info">
-                                        <img src="https://www.google.com/s2/favicons?domain=appsky.icu&sz=64" alt="" class="software-icon">
+                                        <div class="software-icon-box" style="background:#3b82f6;"><i class="fa-solid fa-music"></i></div>
                                         <div class="text-group"><span class="software-name">诗歌本</span><span class="tag">官方下载</span></div>
                                     </div>
                                     <a href="https://appsky.icu/#/hymn" target="_blank" class="btn-action">点击下载</a>
                                 </div>
                                 <div class="software-card" id="soft-W" style="border-left: 4px solid #1d4ed8;">
                                     <div class="software-info">
-                                        <img src="https://www.google.com/s2/favicons?domain=wd.bible&sz=64" alt="" class="software-icon">
+                                        <div class="software-icon-box" style="background:#1d4ed8;"><i class="fa-solid fa-book-open"></i></div>
                                         <div class="text-group"><span class="software-name">微读圣经</span><span class="tag">官方下载</span></div>
                                     </div>
                                     <a href="https://wd.bible/app" target="_blank" class="btn-action">点击下载</a>
                                 </div>
                                 <div class="software-card" id="soft-X" style="border-left: 4px solid #6366f1;">
                                     <div class="software-info">
-                                        <img src="https://www.google.com/s2/favicons?domain=idigest.app&sz=64" alt="" class="software-icon">
+                                        <div class="software-icon-box" style="background:#6366f1;"><i class="fa-solid fa-dove"></i></div>
                                         <div class="text-group"><span class="software-name">小鸽子</span><span class="tag">客户端下载</span></div>
                                     </div>
                                     <a href="https://www.idigest.app/#/appDownload" target="_blank" class="btn-action">点击下载</a>
                                 </div>
                                 <div class="software-card" id="soft-Z" style="border-left: 4px solid #0ea5e9;">
                                     <div class="software-info">
-                                        <img src="https://www.google.com/s2/favicons?domain=zoom.us&sz=64" alt="" class="software-icon">
+                                        <div class="software-icon-box" style="background:#0ea5e9;"><i class="fa-solid fa-video-camera"></i></div>
                                         <div class="text-group"><span class="software-name">Zoom 会议</span><span class="tag">官方客户端</span></div>
                                     </div>
                                     <a href="https://zoom.us/download" target="_blank" class="btn-action">点击下载</a>
@@ -348,7 +347,7 @@
                 </div>
             </div>
 
-            <!-- 模块二：书籍共享 (静态直接渲染，实现无延迟秒开) -->
+            <!-- 模块二：书籍共享 (静态秒开，按A-Z精心排序) -->
             <div class="ios-card">
                 <div class="bookmark-wrapper" style="position: relative;">
                     <div class="bookmark">
@@ -357,7 +356,7 @@
                             <i class="fas fa-chevron-down chevron"></i>
                         </div>
                         <div class="bookmark-links">
-                            <div class="bookmark-links-inner" id="fileListContainer">
+                            <div class="bookmark-links-inner">
                                 <div class="file-card" id="file-C" style="border-left: 4px solid #805ad5;">
                                     <div class="file-info"><div class="file-name">📖 晨恩日新</div></div>
                                     <div class="btn-group">
@@ -509,13 +508,13 @@
     </div>
 
     <script>
-        // 滚动与高亮特效
+        // 滚动定位与高亮特效
         function scrollToLetter(targetId, el) {
             const targetEl = document.getElementById(targetId);
             const container = targetEl.closest('.bookmark-links-inner');
             if (targetEl && container) {
                 container.scrollTo({
-                    top: targetEl.offsetTop - container.offsetTop,
+                    top: targetEl.offsetTop - container.offsetTop - 10,
                     behavior: 'smooth'
                 });
             }
