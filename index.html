@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>一束阳光</title>
-    <!-- 引入 FontAwesome 图标库与 QRCode.js 二维码库 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- 使用国内稳定极速的 FontAwesome 与 QRCode CDN -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
         
@@ -281,7 +281,7 @@
         <!-- 左右两列式网格布局容器 -->
         <div class="grid-container">
             
-            <!-- 模块一：软件导航 (自动A-Z排序 + 右侧索引) -->
+            <!-- 模块一：软件导航 (静态直接渲染，实现无延迟秒开) -->
             <div class="ios-card">
                 <div class="bookmark-wrapper" style="position: relative;">
                     <div class="bookmark">
@@ -290,14 +290,65 @@
                             <i class="fas fa-chevron-down chevron"></i>
                         </div>
                         <div class="bookmark-links">
-                            <div class="bookmark-links-inner" id="softwareListContainer"></div>
-                            <div class="az-index-bar" id="softwareAzBar"></div>
+                            <div class="bookmark-links-inner" id="softwareListContainer">
+                                <div class="software-card" id="soft-F" style="border-left: 4px solid #10b981;">
+                                    <div class="software-info">
+                                        <img src="https://www.google.com/s2/favicons?domain=fuyin.tv&sz=64" alt="" class="software-icon">
+                                        <div class="text-group"><span class="software-name">福音TV</span><span class="tag">视频平台</span></div>
+                                    </div>
+                                    <a href="https://www.fuyin.tv/" target="_blank" class="btn-action btn-success">点击观看</a>
+                                </div>
+                                <div class="software-card" id="soft-J" style="border-left: 4px solid #2563eb;">
+                                    <div class="software-info">
+                                        <img src="https://www.google.com/s2/favicons?domain=appsky.icu&sz=64" alt="" class="software-icon">
+                                        <div class="text-group"><span class="software-name">精读圣经</span><span class="tag">官方下载</span></div>
+                                    </div>
+                                    <a href="https://appsky.icu/#/bible" target="_blank" class="btn-action">点击下载</a>
+                                </div>
+                                <div class="software-card" id="soft-S" style="border-left: 4px solid #3b82f6;">
+                                    <div class="software-info">
+                                        <img src="https://www.google.com/s2/favicons?domain=appsky.icu&sz=64" alt="" class="software-icon">
+                                        <div class="text-group"><span class="software-name">诗歌本</span><span class="tag">官方下载</span></div>
+                                    </div>
+                                    <a href="https://appsky.icu/#/hymn" target="_blank" class="btn-action">点击下载</a>
+                                </div>
+                                <div class="software-card" id="soft-W" style="border-left: 4px solid #1d4ed8;">
+                                    <div class="software-info">
+                                        <img src="https://www.google.com/s2/favicons?domain=wd.bible&sz=64" alt="" class="software-icon">
+                                        <div class="text-group"><span class="software-name">微读圣经</span><span class="tag">官方下载</span></div>
+                                    </div>
+                                    <a href="https://wd.bible/app" target="_blank" class="btn-action">点击下载</a>
+                                </div>
+                                <div class="software-card" id="soft-X" style="border-left: 4px solid #6366f1;">
+                                    <div class="software-info">
+                                        <img src="https://www.google.com/s2/favicons?domain=idigest.app&sz=64" alt="" class="software-icon">
+                                        <div class="text-group"><span class="software-name">小鸽子</span><span class="tag">客户端下载</span></div>
+                                    </div>
+                                    <a href="https://www.idigest.app/#/appDownload" target="_blank" class="btn-action">点击下载</a>
+                                </div>
+                                <div class="software-card" id="soft-Z" style="border-left: 4px solid #0ea5e9;">
+                                    <div class="software-info">
+                                        <img src="https://www.google.com/s2/favicons?domain=zoom.us&sz=64" alt="" class="software-icon">
+                                        <div class="text-group"><span class="software-name">Zoom 会议</span><span class="tag">官方客户端</span></div>
+                                    </div>
+                                    <a href="https://zoom.us/download" target="_blank" class="btn-action">点击下载</a>
+                                </div>
+                            </div>
+                            <!-- 软件导航右侧 A-Z 索引条 -->
+                            <div class="az-index-bar">
+                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('soft-F', this)">F</div>
+                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('soft-J', this)">J</div>
+                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('soft-S', this)">S</div>
+                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('soft-W', this)">W</div>
+                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('soft-X', this)">X</div>
+                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('soft-Z', this)">Z</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 模块二：书籍共享 (自动A-Z排序 + 右侧索引) -->
+            <!-- 模块二：书籍共享 (静态直接渲染，实现无延迟秒开) -->
             <div class="ios-card">
                 <div class="bookmark-wrapper" style="position: relative;">
                     <div class="bookmark">
@@ -306,8 +357,58 @@
                             <i class="fas fa-chevron-down chevron"></i>
                         </div>
                         <div class="bookmark-links">
-                            <div class="bookmark-links-inner" id="fileListContainer"></div>
-                            <div class="az-index-bar" id="fileAzBar"></div>
+                            <div class="bookmark-links-inner" id="fileListContainer">
+                                <div class="file-card" id="file-C" style="border-left: 4px solid #805ad5;">
+                                    <div class="file-info"><div class="file-name">📖 晨恩日新</div></div>
+                                    <div class="btn-group">
+                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=B5MTZ', '_blank')">点击下载</button>
+                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=B5MTZ', '晨恩日新')">二维码</button>
+                                    </div>
+                                </div>
+                                <div class="file-card" id="file-F" style="border-left: 4px solid #2b6cb0;">
+                                    <div class="file-info"><div class="file-name">📖 福音DNA</div></div>
+                                    <div class="btn-group">
+                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=3OGI0', '_blank')">点击下载</button>
+                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=3OGI0', '福音DNA')">二维码</button>
+                                    </div>
+                                </div>
+                                <div class="file-card" id="file-J" style="border-left: 4px solid #2f855a;">
+                                    <div class="file-info"><div class="file-name">📖 J曲线</div></div>
+                                    <div class="btn-group">
+                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=GAY18', '_blank')">点击下载</button>
+                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=GAY18', 'J曲线')">二维码</button>
+                                    </div>
+                                </div>
+                                <div class="file-card" id="file-R" style="border-left: 4px solid #3182ce;">
+                                    <div class="file-info"><div class="file-name">📖 人如何改变：在恩典中经历蜕变的喜乐</div></div>
+                                    <div class="btn-group">
+                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=6T3QL', '_blank')">点击下载</button>
+                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=6T3QL', '人如何改变：在恩典中经历蜕变的喜乐')">二维码</button>
+                                    </div>
+                                </div>
+                                <div class="file-card" id="file-Y" style="border-left: 4px solid #d69e2e;">
+                                    <div class="file-info"><div class="file-name">📖 雅博渡口——雅各的尘俗灵程</div></div>
+                                    <div class="btn-group">
+                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=3Q2XT', '_blank')">点击下载</button>
+                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=3Q2XT', '雅博渡口——雅各的尘俗灵程')">二维码</button>
+                                    </div>
+                                </div>
+                                <div class="file-card" id="file-Y2" style="border-left: 4px solid #dd6b20;">
+                                    <div class="file-info"><div class="file-name">📖 亚伯拉罕应许和现实的落差</div></div>
+                                    <div class="btn-group">
+                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=O3QSS', '_blank')">点击下载</button>
+                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=O3QSS', '亚伯拉罕应许和现实的落差')">二维码</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 书籍共享右侧 A-Z 索引条 -->
+                            <div class="az-index-bar">
+                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('file-C', this)">C</div>
+                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('file-F', this)">F</div>
+                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('file-J', this)">J</div>
+                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('file-R', this)">R</div>
+                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('file-Y', this)">Y</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -349,7 +450,7 @@
                 </div>
             </div>
 
-            <!-- 模块五：常用资源（内容已清空，显示正在开发中） -->
+            <!-- 模块五：常用资源（开发中） -->
             <div class="ios-card">
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
@@ -369,7 +470,7 @@
                 </div>
             </div>
 
-            <!-- 模块六：关于本站（内容已清空，显示正在开发中） -->
+            <!-- 模块六：关于本站（开发中） -->
             <div class="ios-card">
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
@@ -408,110 +509,6 @@
     </div>
 
     <script>
-        // 软件导航数据
-        const softwareList = [
-            { name: "诗歌本", tag: "官方下载", url: "https://appsky.icu/#/hymn", icon: "https://www.google.com/s2/favicons?domain=appsky.icu&sz=64", btnText: "点击下载", borderColor: "#3b82f6" },
-            { name: "精读圣经", tag: "官方下载", url: "https://appsky.icu/#/bible", icon: "https://www.google.com/s2/favicons?domain=appsky.icu&sz=64", btnText: "点击下载", borderColor: "#2563eb" },
-            { name: "微读圣经", tag: "官方下载", url: "https://wd.bible/app", icon: "https://www.google.com/s2/favicons?domain=wd.bible&sz=64", btnText: "点击下载", borderColor: "#1d4ed8" },
-            { name: "Zoom 会议", tag: "官方客户端", url: "https://zoom.us/download", icon: "https://www.google.com/s2/favicons?domain=zoom.us&sz=64", btnText: "点击下载", borderColor: "#0ea5e9" },
-            { name: "小鸽子", tag: "客户端下载", url: "https://www.idigest.app/#/appDownload", icon: "https://www.google.com/s2/favicons?domain=idigest.app&sz=64", btnText: "点击下载", borderColor: "#6366f1" },
-            { name: "福音TV", tag: "视频平台", url: "https://www.fuyin.tv/", icon: "https://www.google.com/s2/favicons?domain=fuyin.tv&sz=64", btnText: "点击观看", isWatch: true, borderColor: "#10b981" }
-        ];
-
-        // 书籍共享数据
-        const fileList = [
-            { name: "人如何改变：在恩典中经历蜕变的喜乐", url: "https://filebox.nnuu.nyc.mn/#/?code=6T3QL", color: "#3182ce" },
-            { name: "福音DNA", url: "https://filebox.nnuu.nyc.mn/#/?code=3OGI0", color: "#2b6cb0" },
-            { name: "J曲线", url: "https://filebox.nnuu.nyc.mn/#/?code=GAY18", color: "#2f855a" },
-            { name: "雅博渡口——雅各的尘俗灵程", url: "https://filebox.nnuu.nyc.mn/#/?code=3Q2XT", color: "#d69e2e" },
-            { name: "晨恩日新", url: "https://filebox.nnuu.nyc.mn/#/?code=B5MTZ", color: "#805ad5" },
-            { name: "亚伯拉罕应许和现实的落差", url: "https://filebox.nnuu.nyc.mn/#/?code=O3QSS", color: "#dd6b20" }
-        ];
-
-        // 获取首字母辅助函数
-        function getFirstLetter(str) {
-            if (!str) return '#';
-            let firstChar = str.trim().charAt(0).toUpperCase();
-            if ((firstChar >= 'A' && firstChar <= 'Z') || (firstChar >= '0' && firstChar <= '9')) {
-                return firstChar;
-            }
-            return firstChar;
-        }
-
-        // 渲染软件列表（自动 A-Z 排序 + 右侧索引条）
-        function renderSoftware() {
-            const container = document.getElementById('softwareListContainer');
-            const azBar = document.getElementById('softwareAzBar');
-            
-            softwareList.sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'));
-
-            let html = '';
-            let letters = new Set();
-
-            softwareList.forEach((item) => {
-                let firstLetter = getFirstLetter(item.name);
-                letters.add(firstLetter);
-                let btnClass = item.isWatch ? "btn-action btn-success" : "btn-action";
-                html += `
-                    <div class="software-card" id="soft-${firstLetter}" style="border-left: 4px solid ${item.borderColor};">
-                        <div class="software-info">
-                            <img src="${item.icon}" alt="" class="software-icon" onerror="this.src='https://www.google.com/s2/favicons?domain=github.com&sz=64'">
-                            <div class="text-group">
-                                <span class="software-name">${item.name}</span>
-                                <span class="tag">${item.tag}</span>
-                            </div>
-                        </div>
-                        <a href="${item.url}" target="_blank" class="${btnClass}">${item.btnText}</a>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-
-            let azHtml = '';
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(char => {
-                if (letters.has(char)) {
-                    azHtml += `<div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('soft-${char}', this)">${char}</div>`;
-                }
-            });
-            azBar.innerHTML = azHtml;
-        }
-
-        // 渲染书籍列表（自动 A-Z 排序 + 右侧索引条）
-        function renderFiles() {
-            const container = document.getElementById('fileListContainer');
-            const azBar = document.getElementById('fileAzBar');
-
-            fileList.sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'));
-
-            let html = '';
-            let letters = new Set();
-
-            fileList.forEach((item) => {
-                let firstLetter = getFirstLetter(item.name);
-                letters.add(firstLetter);
-                html += `
-                    <div class="file-card" id="file-${firstLetter}" style="border-left: 4px solid ${item.color};">
-                        <div class="file-info">
-                            <div class="file-name">📖 ${item.name}</div>
-                        </div>
-                        <div class="btn-group">
-                            <button class="btn-download" onclick="window.open('${item.url}', '_blank')">点击下载</button>
-                            <button class="btn-success" onclick="showQr('${item.url}', '${item.name}')">二维码</button>
-                        </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-
-            let azHtml = '';
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(char => {
-                if (letters.has(char)) {
-                    azHtml += `<div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('file-${char}', this)">${char}</div>`;
-                }
-            });
-            azBar.innerHTML = azHtml;
-        }
-
         // 滚动与高亮特效
         function scrollToLetter(targetId, el) {
             const targetEl = document.getElementById(targetId);
@@ -577,12 +574,6 @@
         window.toggleBookmark = (header) => {
             header.classList.toggle('collapsed');
             header.nextElementSibling.classList.toggle('collapsed');
-        };
-
-        // 页面加载完成后自动渲染
-        window.onload = () => {
-            renderSoftware();
-            renderFiles();
         };
     </script>
 </body>
