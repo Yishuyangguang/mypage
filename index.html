@@ -169,7 +169,7 @@
         }
 
         /* 网格布局 */
-        .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; width: 100%; }
+        .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; width: 100%; align-items: start; }
         @media (max-width: 768px) { .grid-container { grid-template-columns: 1fr; gap: 16px; } }
 
         /* 玻璃质感大卡片 */
@@ -179,14 +179,15 @@
             border-radius: 24px; overflow: hidden; width: 100%; position: relative;
             box-shadow: 0 16px 40px rgba(245, 158, 11, 0.15), inset 0 1.5px 0 rgba(255, 255, 255, 1);
             border: 1px solid rgba(245, 158, 11, 0.45);
-            transform: translateZ(0); will-change: transform; transition: all 0.3s ease;
+            transform: translateZ(0); will-change: transform, height; 
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
         body.dark .ios-card { 
             background: rgba(26, 21, 16, 0.55); border-color: rgba(245, 158, 11, 0.35); 
             box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), inset 0 1.5px 0 rgba(245, 158, 11, 0.25);
         }
         
-        .bookmark-wrapper { padding: 18px; width: 100%; position: relative; }
+        .bookmark-wrapper { padding: 18px; width: 100%; position: relative; transition: padding 0.35s ease; }
         .bookmark-header { 
             display: flex; align-items: center; justify-content: space-between; cursor: pointer; 
             padding: 9px 14px; user-select: none; background: rgba(255, 255, 255, 0.6); 
@@ -209,9 +210,21 @@
         }
         .bookmark-header.collapsed .chevron-badge { transform: rotate(-90deg); }
         
-        .bookmark-links { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.3s ease, opacity 0.3s ease; overflow: hidden; margin-top: 14px; width: 100%; position: relative; }
-        .bookmark-links.collapsed { grid-template-rows: 0fr; opacity: 0; margin-top: 0; pointer-events: none; }
-        .bookmark-links-inner { display: flex; flex-direction: column; gap: 10px; width: 100%; padding-right: 48px; }
+        /* 折叠下部空间收缩 */
+        .bookmark-links { 
+            display: grid; grid-template-rows: 1fr; 
+            transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, margin-top 0.35s ease; 
+            overflow: hidden; margin-top: 14px; width: 100%; position: relative; 
+        }
+        .bookmark-links.collapsed { 
+            grid-template-rows: 0fr; opacity: 0; margin-top: 0; pointer-events: none; 
+        }
+
+        .bookmark-links.collapsed .az-index-bar {
+            opacity: 0; pointer-events: none; transform: translateY(-50%) scale(0.8);
+        }
+        
+        .bookmark-links-inner { display: flex; flex-direction: column; gap: 10px; width: 100%; padding-right: 48px; min-height: 0; }
 
         /* 子模块卡片 */
         .software-card, .file-card, .link-item a, .tool-simple-card { 
@@ -256,6 +269,7 @@
             position: absolute; right: -2px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; z-index: 20;
             background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
             padding: 6px 3px; border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.45); box-shadow: 0 6px 18px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.95); user-select: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
         }
         body.dark .az-index-bar { background: rgba(30, 24, 18, 0.85); border-color: rgba(245, 158, 11, 0.4); }
 
@@ -266,7 +280,7 @@
         .dev-tip-card { background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(8px); border-radius: 12px; padding: 16px; text-align: center; font-size: 13px; color: #78716c; border: 0.5px dashed rgba(245, 158, 11, 0.4); }
         body.dark .dev-tip-card { background: rgba(41, 33, 24, 0.5); color: #a8a29e; }
 
-        /* 隐藏未开放区域与折叠子分类 CSS */
+        /* 未开放区域组件 */
         .secret-lock-box {
             display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px; text-align: center; background: rgba(255, 255, 255, 0.4); border-radius: 16px; border: 1px dashed rgba(245, 158, 11, 0.4);
         }
@@ -279,7 +293,6 @@
         }
         body.dark .search-input-box input { background: rgba(30, 24, 18, 0.8); color: #fef3c7; }
 
-        /* 🌟 未开放区域丝滑折叠子菜单样式 */
         .secret-category-group { display: flex; flex-direction: column; width: 100%; gap: 6px; }
         .secret-cat-header {
             font-size: 13.5px; font-weight: 700; color: #d97706; padding: 8px 12px; border-radius: 10px;
@@ -290,7 +303,86 @@
         .secret-cat-header:hover { background: rgba(245, 158, 11, 0.22); }
         .secret-cat-content { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.3s ease, opacity 0.3s ease; overflow: hidden; }
         .secret-cat-content.collapsed { grid-template-rows: 0fr; opacity: 0; pointer-events: none; }
-        .secret-cat-inner { display: flex; flex-direction: column; gap: 8px; padding-top: 6px; }
+        .secret-cat-inner { display: flex; flex-direction: column; gap: 8px; padding-top: 6px; min-height: 0; }
+
+        /* 🌟【印象笔记风测试模块】专属 CSS 升级 */
+        .note-container-box { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+        .note-nav-tabs { display: flex; gap: 8px; border-bottom: 1px solid rgba(245, 158, 11, 0.25); padding-bottom: 8px; flex-wrap: wrap; }
+        .note-tab-btn {
+            padding: 6px 14px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer;
+            background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.25); color: #b45309;
+            transition: all 0.2s ease;
+        }
+        body.dark .note-tab-btn { color: #fcd34d; background: rgba(245, 158, 11, 0.18); }
+        .note-tab-btn.active {
+            background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border-color: transparent;
+            box-shadow: 0 3px 10px rgba(245, 158, 11, 0.35);
+        }
+
+        .note-main-layout { display: grid; grid-template-columns: 230px 1fr; gap: 14px; min-height: 300px; }
+        @media (max-width: 680px) { .note-main-layout { grid-template-columns: 1fr; } }
+
+        /* 嵌套树状多级菜单列表 */
+        .note-sidebar {
+            background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px);
+            border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.25); padding: 10px;
+            display: flex; flex-direction: column; gap: 6px; max-height: 380px; overflow-y: auto;
+        }
+        body.dark .note-sidebar { background: rgba(41, 33, 24, 0.5); }
+
+        .book-group-header {
+            font-size: 12px; font-weight: 700; color: #d97706; padding: 6px 8px; border-radius: 6px;
+            background: rgba(245, 158, 11, 0.1); cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+        }
+        .book-sub-container {
+            display: flex; flex-direction: column; gap: 4px; padding-left: 8px; margin-top: 4px;
+        }
+        .book-sub-container.collapsed { display: none; }
+
+        .note-list-item {
+            padding: 6px 8px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600;
+            color: #1c1917; background: rgba(255, 255, 255, 0.6); border: 0.5px solid rgba(245, 158, 11, 0.15);
+            display: flex; justify-content: space-between; align-items: center; transition: all 0.15s;
+        }
+        body.dark .note-list-item { color: #fef3c7; background: rgba(30, 24, 18, 0.6); }
+        .note-list-item:hover, .note-list-item.active {
+            background: rgba(245, 158, 11, 0.22); border-color: rgba(245, 158, 11, 0.45); color: #d97706;
+        }
+        body.dark .note-list-item:hover, body.dark .note-list-item.active { color: #fcd34d; }
+
+        /* 编辑器与精确排版样式 */
+        .note-editor-wrapper {
+            background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(12px);
+            border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.3); padding: 14px;
+            display: flex; flex-direction: column; gap: 10px; position: relative;
+        }
+        body.dark .note-editor-wrapper { background: rgba(41, 33, 24, 0.65); }
+
+        /* 🌟 重述规范：标题/小标题设置 font-family: SimSun, "宋体"; font-size: 16pt; color: #dc2626; (宋体 3号红色) */
+        .styled-title-text, .note-title-input {
+            font-family: SimSun, "宋体", serif !important;
+            font-size: 16pt !important;
+            font-weight: bold !important;
+            color: #dc2626 !important;
+            border: none; background: transparent; outline: none; width: 100%;
+        }
+
+        /* 🌟 重述规范：正文设置 font-family: SimSun, "宋体"; font-size: 14pt; color: #1c1917; (宋体 4号黑色) */
+        .styled-body-text, .note-body-textarea {
+            font-family: SimSun, "宋体", serif !important;
+            font-size: 14pt !important;
+            color: #1c1917 !important;
+            line-height: 1.6; border: none; background: transparent; outline: none; width: 100%;
+            min-height: 180px; resize: vertical; white-space: pre-wrap; word-break: break-word;
+        }
+        body.dark .styled-body-text, body.dark .note-body-textarea { color: #fef3c7 !important; }
+
+        .note-mode-tip {
+            font-size: 11px; font-weight: 600; color: #b45309; background: rgba(245, 158, 11, 0.15);
+            padding: 4px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;
+            border: 0.5px solid rgba(245, 158, 11, 0.25); user-select: none; width: fit-content;
+        }
+        body.dark .note-mode-tip { color: #fcd34d; }
 
         /* 全局悬浮遮罩弹窗 */
         .global-modal {
@@ -568,7 +660,7 @@
                 </div>
             </div>
 
-            <!-- 🌟 模块六：未开放区域（三大主要菜单折叠与搜索整合） -->
+            <!-- 模块六：未开放区域 -->
             <div class="ios-card" data-category="未开放区域">
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
@@ -591,7 +683,6 @@
                                         <input type="text" id="secret-search-input" placeholder="🔍 未开放区域内搜索..." oninput="filterSecretItems()">
                                     </div>
 
-                                    <!-- 主菜单 1：收藏视频 -->
                                     <div class="secret-category-group">
                                         <div class="secret-cat-header" onclick="toggleSecretSubCat(this)">
                                             <span>🎬 收藏视频</span>
@@ -607,7 +698,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- 主菜单 2：收藏网址（已加入指定三大新链接） -->
                                     <div class="secret-category-group">
                                         <div class="secret-cat-header" onclick="toggleSecretSubCat(this)">
                                             <span>🌐 收藏网址</span>
@@ -631,7 +721,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- 主菜单 3：收藏软件 -->
                                     <div class="secret-category-group">
                                         <div class="secret-cat-header" onclick="toggleSecretSubCat(this)">
                                             <span>💻 收藏软件</span>
@@ -644,6 +733,72 @@
                                                     <a href="#" target="_blank" class="btn-action">点击下载</a>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🌟 模块七：印象笔记风测试模块（密码5214隐藏保护 + 旧约/新约/主题三大主菜单 + 包含子菜单与子子菜单 + 防误触双击编辑 + 一键格式规范） -->
+            <div class="ios-card" style="grid-column: 1 / -1;" data-category="测试模块">
+                <div class="bookmark-wrapper">
+                    <div class="bookmark">
+                        <div class="bookmark-header" onclick="toggleBookmark(this)">
+                            <div class="bookmark-title">📝 测试模块 (隐藏密码保护)</div>
+                            <div class="chevron-badge">▼</div>
+                        </div>
+                        <div class="bookmark-links">
+                            <div class="note-container-box" style="padding-top: 6px;">
+                                
+                                <!-- 解锁密码保护层 -->
+                                <div class="secret-lock-box" id="test-module-lock-view">
+                                    <div style="font-size:24px;">🔐</div>
+                                    <div style="font-size:13px; font-weight:600; color:#78716c;">测试模块受受保护，请输入管理密码访问：</div>
+                                    <button class="btn-action" onclick="unlockTestModule()">输入密码解锁</button>
+                                </div>
+
+                                <!-- 解锁后显示的笔记主界面 -->
+                                <div id="test-module-content-view" style="display:none; flex-direction:column; gap:12px;">
+                                    
+                                    <!-- 选项卡：旧约、新约、主题三大主菜单 -->
+                                    <div class="note-nav-tabs">
+                                        <button class="note-tab-btn active" id="tab-old" onclick="switchNoteTab('old')">📜 旧约</button>
+                                        <button class="note-tab-btn" id="tab-new" onclick="switchNoteTab('new')">📖 新约</button>
+                                        <button class="note-tab-btn" id="tab-theme" onclick="switchNoteTab('theme')">💡 主题</button>
+                                        <button class="btn-action" onclick="createNewSubBook()" style="margin-left: auto; padding: 4px 10px; font-size: 11.5px; background:#d97706;">+ 新增书卷(子菜单)</button>
+                                        <button class="btn-action" onclick="createNewNoteLeaf()" style="padding: 4px 10px; font-size: 11.5px;">+ 新建记录(子子菜单)</button>
+                                    </div>
+
+                                    <div class="note-main-layout">
+                                        <!-- 左侧嵌套树状导航侧边栏（主菜单 -> 子菜单书卷 -> 子子菜单笔记） -->
+                                        <div class="note-sidebar" id="note-list-sidebar"></div>
+
+                                        <!-- 右侧防误触阅读与编辑器 -->
+                                        <div class="note-editor-wrapper" id="note-editor-box">
+                                            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap:wrap; gap:8px;">
+                                                <div class="note-mode-tip" id="note-status-tip">📖 阅读防打扰模式（双击下方文字进入编辑）</div>
+                                                <div class="btn-group">
+                                                    <!-- 🌟 一键字体格式规范按钮 -->
+                                                    <button class="glass-copy-btn" onclick="applyFormatStandard()" style="color:#d97706; border-color:rgba(217,119,6,0.4);">✨ 一键格式规范</button>
+                                                    <button class="glass-copy-btn" id="edit-toggle-btn" onclick="toggleEditMode()">✏️ 编辑</button>
+                                                    <button class="glass-copy-btn" onclick="deleteCurrentNoteLeaf()" style="color:#ef4444; border-color:rgba(239,68,68,0.3);">🗑️ 删除</button>
+                                                </div>
+                                            </div>
+
+                                            <!-- 标题展示与编辑（默认宋体 3号 红色 16pt / #dc2626） -->
+                                            <div id="title-read-view" class="styled-title-text" ondblclick="enableEditMode()">标题</div>
+                                            <input type="text" id="title-edit-input" class="note-title-input" style="display:none;" placeholder="输入笔记标题..." oninput="autoSaveCurrentNote()">
+
+                                            <hr style="border: none; border-top: 1px solid rgba(245, 158, 11, 0.2);">
+
+                                            <!-- 正文展示与编辑（默认宋体 4号 黑色 14pt / #1c1917） -->
+                                            <div id="body-read-view" class="styled-body-text" ondblclick="enableEditMode()">正文内容...</div>
+                                            <textarea id="body-edit-input" class="note-body-textarea" style="display:none;" placeholder="在此输入正文内容（双击阅读区域保存）..." oninput="autoSaveCurrentNote()"></textarea>
                                         </div>
                                     </div>
 
@@ -720,15 +875,281 @@
     </div>
 
     <script>
-        // 未开放区域三分类折叠控制
-        function toggleSecretSubCat(header) {
-            const content = header.nextElementSibling;
-            if (content) {
-                content.classList.toggle('collapsed');
+        // 🌟【测试模块隐藏解锁逻辑 (密码：5214)】
+        let isTestModuleUnlocked = false;
+        function unlockTestModule() {
+            const pwd = prompt("🔐 请输入测试模块管理密码：");
+            if (pwd === "5214") {
+                isTestModuleUnlocked = true;
+                document.getElementById('test-module-lock-view').style.display = 'none';
+                document.getElementById('test-module-content-view').style.display = 'flex';
+                switchNoteTab('old'); // 初始加载旧约
+            } else if (pwd !== null) {
+                alert("❌ 密码错误，拒绝解锁！");
             }
         }
 
-        // 密码解锁未开放区域
+        // 🌟【三层架构笔记数据中心：主菜单(旧约/新约/主题) -> 子菜单书卷 -> 子子菜单记录】
+        let currentTab = 'old'; // 'old', 'new', 或 'theme'
+        let currentSubBookId = null;
+        let currentNoteLeafId = null;
+        let isEditingMode = false;
+
+        let notesTreeData = JSON.parse(localStorage.getItem('sun_app_notes_tree_v2')) || {
+            old: [
+                {
+                    id: 'sb_創世记',
+                    name: '创世记',
+                    collapsed: false,
+                    leaves: [
+                        { id: 'nl_1', title: '创世记 1章 研读', content: '【小标题】神创造天地\n起初神创造天地。地是空虚混沌，渊面黑暗；神的灵运行在水面上。' }
+                    ]
+                }
+            ],
+            new: [
+                {
+                    id: 'sb_马太福音',
+                    name: '马太福音',
+                    collapsed: false,
+                    leaves: [
+                        { id: 'nl_2', title: '马太福音 1章 研读', content: '【小标题】耶稣基督家谱\n亚伯拉罕的后裔、大卫的子孙、耶稣基督的家谱。' }
+                    ]
+                }
+            ],
+            theme: [
+                {
+                    id: 'sb_救恩论',
+                    name: '救恩专题',
+                    collapsed: false,
+                    leaves: [
+                        { id: 'nl_3', title: '因信称义要义', content: '【小标题】称义的核心\n我们既因信称义，就借着我们的主耶稣基督得与神相和。' }
+                    ]
+                }
+            ]
+        };
+
+        function saveNotesTreeStorage() {
+            localStorage.setItem('sun_app_notes_tree_v2', JSON.stringify(notesTreeData));
+        }
+
+        function switchNoteTab(tab) {
+            currentTab = tab;
+            document.getElementById('tab-old').classList.toggle('active', tab === 'old');
+            document.getElementById('tab-new').classList.toggle('active', tab === 'new');
+            document.getElementById('tab-theme').classList.toggle('active', tab === 'theme');
+            
+            const books = notesTreeData[currentTab];
+            if (books.length > 0) {
+                currentSubBookId = books[0].id;
+                if (books[0].leaves.length > 0) {
+                    currentNoteLeafId = books[0].leaves[0].id;
+                } else {
+                    currentNoteLeafId = null;
+                }
+            } else {
+                currentSubBookId = null;
+                currentNoteLeafId = null;
+            }
+
+            renderNoteSidebarTree();
+            loadCurrentLeafToView();
+        }
+
+        function renderNoteSidebarTree() {
+            const sidebar = document.getElementById('note-list-sidebar');
+            sidebar.innerHTML = '';
+
+            const books = notesTreeData[currentTab];
+            if (books.length === 0) {
+                sidebar.innerHTML = `<div style="font-size:12px; color:#78716c; text-align:center; padding:10px;">暂无书卷(子菜单)，点击上方“+ 新增书卷”</div>`;
+                return;
+            }
+
+            books.forEach(book => {
+                const bookHeader = document.createElement('div');
+                bookHeader.className = 'book-group-header';
+                bookHeader.innerHTML = `<span>📖 ${book.name}</span><span style="font-size:10px;">${book.collapsed ? '►' : '▼'}</span>`;
+                bookHeader.onclick = () => {
+                    book.collapsed = !book.collapsed;
+                    saveNotesTreeStorage();
+                    renderNoteSidebarTree();
+                };
+
+                const subContainer = document.createElement('div');
+                subContainer.className = `book-sub-container ${book.collapsed ? 'collapsed' : ''}`;
+
+                book.leaves.forEach(leaf => {
+                    const leafItem = document.createElement('div');
+                    leafItem.className = `note-list-item ${leaf.id === currentNoteLeafId ? 'active' : ''}`;
+                    leafItem.innerText = `📄 ${leaf.title || '无标题记录'}`;
+                    leafItem.onclick = (e) => {
+                        e.stopPropagation();
+                        currentSubBookId = book.id;
+                        currentNoteLeafId = leaf.id;
+                        renderNoteSidebarTree();
+                        loadCurrentLeafToView();
+                    };
+                    subContainer.appendChild(leafItem);
+                });
+
+                sidebar.appendChild(bookHeader);
+                sidebar.appendChild(subContainer);
+            });
+        }
+
+        function loadCurrentLeafToView() {
+            const books = notesTreeData[currentTab];
+            let foundLeaf = null;
+            for (let b of books) {
+                let l = b.leaves.find(x => x.id === currentNoteLeafId);
+                if (l) { foundLeaf = l; break; }
+            }
+
+            const titleRead = document.getElementById('title-read-view');
+            const titleEdit = document.getElementById('title-edit-input');
+            const bodyRead = document.getElementById('body-read-view');
+            const bodyEdit = document.getElementById('body-edit-input');
+
+            if (foundLeaf) {
+                titleRead.innerText = foundLeaf.title || '无标题记录';
+                titleEdit.value = foundLeaf.title || '';
+                bodyRead.innerHTML = formatBodyHtml(foundLeaf.content || '双击进入编辑状态...');
+                bodyEdit.value = foundLeaf.content || '';
+            } else {
+                titleRead.innerText = '请选择或新建记录';
+                titleEdit.value = '';
+                bodyRead.innerText = '';
+                bodyEdit.value = '';
+            }
+
+            disableEditMode();
+        }
+
+        // 🌟 正文小标题自动样式渲染逻辑【小标题】识别
+        function formatBodyHtml(text) {
+            if (!text) return '';
+            const lines = text.split('\n');
+            return lines.map(line => {
+                if (line.includes('【') && line.includes('】')) {
+                    return `<div class="styled-title-text" style="font-size:16pt !important; margin:6px 0;">${escapeHtml(line)}</div>`;
+                } else {
+                    return `<div>${escapeHtml(line)}</div>`;
+                }
+            }).join('');
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        // 🌟【一键字体格式规范】：标题/小标题 宋体 3号 红色 16pt(#dc2626)；正文 宋体 4号 黑色 14pt(#1c1917)
+        function applyFormatStandard() {
+            if (!currentNoteLeafId) return;
+            autoSaveCurrentNote();
+            loadCurrentLeafToView();
+            alert("✨ 一键字体格式规范已成功套用！\n标题/小标题：宋体 3号 红色 (16pt / #dc2626)\n正文：宋体 4号 黑色 (14pt / #1c1917)");
+        }
+
+        function enableEditMode() {
+            if (!currentNoteLeafId) return;
+            isEditingMode = true;
+            document.getElementById('note-status-tip').innerText = '✏️ 正在编辑中（双击阅读界面可返回预览）';
+            document.getElementById('edit-toggle-btn').innerText = '📖 视读';
+            
+            document.getElementById('title-read-view').style.display = 'none';
+            document.getElementById('title-edit-input').style.display = 'block';
+            document.getElementById('body-read-view').style.display = 'none';
+            document.getElementById('body-edit-input').style.display = 'block';
+        }
+
+        function disableEditMode() {
+            isEditingMode = false;
+            document.getElementById('note-status-tip').innerText = '📖 阅读防打扰模式（双击下方文字进入编辑）';
+            document.getElementById('edit-toggle-btn').innerText = '✏️ 编辑';
+
+            document.getElementById('title-read-view').style.display = 'block';
+            document.getElementById('title-edit-input').style.display = 'none';
+            document.getElementById('body-read-view').style.display = 'block';
+            document.getElementById('body-edit-input').style.display = 'none';
+        }
+
+        function toggleEditMode() {
+            if (isEditingMode) { disableEditMode(); } else { enableEditMode(); }
+        }
+
+        function autoSaveCurrentNote() {
+            if (!currentNoteLeafId) return;
+            const books = notesTreeData[currentTab];
+            for (let b of books) {
+                let l = b.leaves.find(x => x.id === currentNoteLeafId);
+                if (l) {
+                    l.title = document.getElementById('title-edit-input').value;
+                    l.content = document.getElementById('body-edit-input').value;
+                    document.getElementById('title-read-view').innerText = l.title || '无标题记录';
+                    document.getElementById('body-read-view').innerHTML = formatBodyHtml(l.content);
+                    saveNotesTreeStorage();
+                    renderNoteSidebarTree();
+                    break;
+                }
+            }
+        }
+
+        function createNewSubBook() {
+            const name = prompt("📖 请输入新书卷(子菜单)名称：");
+            if (name) {
+                const newBook = {
+                    id: 'sb_' + Date.now(),
+                    name: name,
+                    collapsed: false,
+                    leaves: []
+                };
+                notesTreeData[currentTab].push(newBook);
+                currentSubBookId = newBook.id;
+                saveNotesTreeStorage();
+                renderNoteSidebarTree();
+            }
+        }
+
+        function createNewNoteLeaf() {
+            const books = notesTreeData[currentTab];
+            if (books.length === 0) {
+                alert("⚠️ 请先新增一个书卷(子菜单)，然后再创建记录子子菜单！");
+                return;
+            }
+            let targetBook = books.find(b => b.id === currentSubBookId) || books[0];
+            const newLeafId = 'nl_' + Date.now();
+            const newLeaf = {
+                id: newLeafId,
+                title: '【小标题】未命名记录',
+                content: '【小标题】正文开始\n在此双击即可输入详细研读和查阅文字...'
+            };
+            targetBook.leaves.unshift(newLeaf);
+            currentSubBookId = targetBook.id;
+            currentNoteLeafId = newLeafId;
+            saveNotesTreeStorage();
+            renderNoteSidebarTree();
+            loadCurrentLeafToView();
+            enableEditMode();
+        }
+
+        function deleteCurrentNoteLeaf() {
+            if (!currentNoteLeafId) return;
+            if (confirm("⚠️ 确定要删除当前选择的记录子子菜单吗？")) {
+                const books = notesTreeData[currentTab];
+                for (let b of books) {
+                    b.leaves = b.leaves.filter(x => x.id !== currentNoteLeafId);
+                }
+                saveNotesTreeStorage();
+                switchNoteTab(currentTab);
+            }
+        }
+
+        // --- 未开放区域与全局搜索 JavaScript ---
+        function toggleSecretSubCat(header) {
+            const content = header.nextElementSibling;
+            if (content) { content.classList.toggle('collapsed'); }
+        }
+
         let isSecretUnlocked = false;
         function unlockSecretArea() {
             const pwd = prompt("🔐 请输入访问密码：");
@@ -741,7 +1162,6 @@
             }
         }
 
-        // 顶置全面搜索引擎
         function handleGlobalSearch() {
             const input = document.getElementById('global-search-input');
             const clearBtn = document.getElementById('search-clear-btn');
@@ -762,7 +1182,6 @@
             const keywords = query.split(/\s+/);
 
             allItems.forEach(item => {
-                // 如果未解锁密码，跳过搜索未开放区域项目
                 if (item.classList.contains('secret-item') && !isSecretUnlocked) return;
 
                 const name = (item.getAttribute('data-name') || '').toLowerCase();
@@ -800,14 +1219,11 @@
             dropdown.style.display = 'flex';
         }
 
-        // 搜索自动展开父级折叠并滚动定位与动态提示
         function gotoSearchResult(targetId) {
             document.getElementById('search-results-dropdown').style.display = 'none';
-
             const targetEl = document.getElementById(targetId);
             if (!targetEl) return;
 
-            // 1. 展开顶级卡片
             const card = targetEl.closest('.ios-card');
             if (card) {
                 const header = card.querySelector('.bookmark-header');
@@ -818,13 +1234,11 @@
                 }
             }
 
-            // 2. 展开未开放区域内部二级分类
             const secretContent = targetEl.closest('.secret-cat-content');
             if (secretContent && secretContent.classList.contains('collapsed')) {
                 secretContent.classList.remove('collapsed');
             }
 
-            // 3. 丝滑滚动与脉冲动画提示
             setTimeout(() => {
                 targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 targetEl.classList.remove('target-highlight-pulse');
