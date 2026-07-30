@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>一束阳光</title>
-    <!-- 引入国内极速稳定的 FontAwesome 与 QRCode 公共 CDN -->
-    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 引入极速轻量的 QRCode 二维码库 -->
     <script src="https://cdn.bootcdn.net/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
         
-        /* 尊贵金色流光背景 */
+        /* 尊贵金色流光背景（针对手机端优化渲染性能） */
         .bg-ambient {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; overflow: hidden;
             background-color: #fffbeb; transition: background-color 0.5s ease;
@@ -18,243 +17,177 @@
         body.dark .bg-ambient { background-color: #0c0a09; }
         
         .bg-orb {
-            position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.75; will-change: transform;
-            animation: floatOrb 25s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+            position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.6; will-change: transform;
         }
-        .orb-1 { width: 55vw; height: 55vw; background: #fef08a; top: -15%; left: -10%; animation-duration: 20s; }
-        .orb-2 { width: 60vw; height: 60vw; background: #f59e0b; bottom: -20%; right: -10%; animation-duration: 26s; }
-        .orb-3 { width: 45vw; height: 45vw; background: #d97706; top: 35%; left: 30%; animation-duration: 30s; }
-
-        @keyframes floatOrb {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            50% { transform: translate(5vw, 6vh) scale(1.1) rotate(10deg); }
-            100% { transform: translate(-5vw, -5vh) scale(0.95) rotate(-10deg); }
-        }
+        .orb-1 { width: 60vw; height: 60vw; background: #fef08a; top: -10%; left: -10%; }
+        .orb-2 { width: 65vw; height: 65vw; background: #f59e0b; bottom: -15%; right: -10%; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
             color: #292524; display: flex; flex-direction: column; min-height: 100vh; align-items: center;
-            padding: 40px 24px env(safe-area-inset-bottom); overflow-x: hidden; position: relative;
+            padding: 24px 16px env(safe-area-inset-bottom); overflow-x: hidden; position: relative;
             transition: color 0.3s ease;
         }
         body.dark { color: #f5f5f4; }
 
         /* 顶部主题切换按钮 */
         .theme-toggle-corner {
-            position: fixed; top: 16px; right: 24px; z-index: 1000;
-            background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-            border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
-            border: 0.5px solid rgba(245, 158, 11, 0.3); cursor: pointer; box-shadow: 0 4px 20px rgba(245, 158, 11, 0.15);
+            position: fixed; top: 14px; right: 16px; z-index: 1000;
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border-radius: 50%; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;
+            border: 0.5px solid rgba(245, 158, 11, 0.3); cursor: pointer; box-shadow: 0 2px 10px rgba(245, 158, 11, 0.15);
         }
         body.dark .theme-toggle-corner { 
-            background: rgba(30, 24, 18, 0.6); 
+            background: rgba(30, 24, 18, 0.8); 
             border-color: rgba(245, 158, 11, 0.25); 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
         }
 
-        .container { width: 100%; max-width: 1120px; }
+        .container { width: 100%; max-width: 1000px; }
         
-        .header-area { margin-bottom: 35px; text-align: center; }
-        h1 { font-size: 32px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; color: #1c1917; }
-        body.dark h1 { color: #fef3c7; text-shadow: 0 2px 15px rgba(245, 158, 11, 0.3); }
+        .header-area { margin-bottom: 25px; text-align: center; }
+        h1 { font-size: 28px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px; color: #1c1917; }
+        body.dark h1 { color: #fef3c7; }
         
-        /* 纯 CSS 高级发光旋转太阳动效 */
+        /* 太阳头像动效 */
         .avatar-wrapper {
-            position: relative; width: 100px; height: 100px; margin: 0 auto 16px auto;
+            position: relative; width: 85px; height: 85px; margin: 0 auto 12px auto;
             background: radial-gradient(circle, #fef08a 0%, #f59e0b 60%, #d97706 100%);
-            border-radius: 32px;
+            border-radius: 26px;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 40px rgba(245, 158, 11, 0.8), 0 10px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.7);
             border: 2px solid rgba(255, 255, 255, 0.9);
-            animation: sunPulse 3s infinite alternate ease-in-out;
-            overflow: hidden;
         }
-        body.dark .avatar-wrapper { border-color: rgba(245, 158, 11, 0.4); }
-        
-        .sun-ray {
-            position: absolute; width: 150px; height: 150px;
-            background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.7), transparent 60deg);
-            animation: rayRotate 6s infinite linear;
-        }
-        .sun-icon {
-            font-size: 42px; color: #ffffff; z-index: 2;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
-        }
-        @keyframes sunPulse {
-            0% { transform: scale(1); box-shadow: 0 0 25px rgba(245, 158, 11, 0.6); }
-            100% { transform: scale(1.06); box-shadow: 0 0 55px rgba(251, 191, 36, 0.95); }
-        }
-        @keyframes rayRotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+        .sun-icon { font-size: 36px; line-height: 1; }
 
         .subtitle { 
-            font-size: 14px; color: #78716c; margin-bottom: 24px; font-weight: 500; 
-            background: rgba(255, 251, 235, 0.8); padding: 8px 18px; border-radius: 20px; 
-            display: inline-block; backdrop-filter: blur(10px); border: 0.5px solid rgba(245, 158, 11, 0.2);
-            box-shadow: 0 2px 10px rgba(245, 158, 11, 0.08);
+            font-size: 13px; color: #78716c; margin-bottom: 20px; font-weight: 500; 
+            background: rgba(255, 251, 235, 0.9); padding: 6px 14px; border-radius: 16px; 
+            display: inline-block; border: 0.5px solid rgba(245, 158, 11, 0.2);
         }
-        body.dark .subtitle { background: rgba(41, 37, 36, 0.6); color: #d7d3d0; border-color: rgba(245, 158, 11, 0.2); }
+        body.dark .subtitle { background: rgba(41, 37, 36, 0.8); color: #d7d3d0; }
         
-        /* 核心网格布局：每行 2 列 */
+        /* 核心网格布局 */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 32px;
+            gap: 20px;
             width: 100%;
         }
 
-        @media (max-width: 850px) {
-            .grid-container { grid-template-columns: 1fr; }
+        @media (max-width: 768px) {
+            .grid-container { grid-template-columns: 1fr; gap: 16px; }
         }
 
-        /* 金色毛玻璃卡片模块 */
+        /* 金色毛玻璃卡片模块（手机端轻量化） */
         .ios-card {
-            background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(35px) saturate(200%); -webkit-backdrop-filter: blur(35px) saturate(200%);
-            border-radius: 24px; overflow: hidden; width: 100%;
-            box-shadow: 0 12px 35px rgba(245, 158, 11, 0.08), inset 0 0.5px 0 rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px; overflow: hidden; width: 100%;
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.08);
             border: 0.5px solid rgba(245, 158, 11, 0.3);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .ios-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 18px 40px rgba(245, 158, 11, 0.15);
         }
         body.dark .ios-card { 
-            background: rgba(26, 21, 16, 0.65); 
+            background: rgba(26, 21, 16, 0.75); 
             border-color: rgba(245, 158, 11, 0.25); 
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4), inset 0 0.5px 0 rgba(245, 158, 11, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
         
-        .bookmark-wrapper { padding: 24px; width: 100%; }
-        .bookmark-header { display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 4px 8px; position: relative; user-select: none; }
-        .bookmark-title { color: #1c1917; font-size: 16px; font-weight: 700; letter-spacing: 0.3px; }
+        .bookmark-wrapper { padding: 18px; width: 100%; }
+        .bookmark-header { display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 2px 4px; user-select: none; }
+        .bookmark-title { color: #1c1917; font-size: 15px; font-weight: 700; }
         body.dark .bookmark-title { color: #fef3c7; }
-        .bookmark-header i.chevron { transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); color: #d97706; }
-        .bookmark-header.collapsed i.chevron { transform: rotate(-90deg); }
+        .chevron { transition: transform 0.3s ease; color: #d97706; font-size: 14px; font-weight: bold; }
+        .bookmark-header.collapsed .chevron { transform: rotate(-90deg); }
         
-        /* 取消内部滚动限制，确保整体滑动丝滑、绝不卡顿 */
-        .bookmark-links { display: grid; grid-template-rows: 1fr; transition: 0.35s ease; overflow: hidden; margin-top: 16px; width: 100%; position: relative; }
+        .bookmark-links { display: grid; grid-template-rows: 1fr; transition: 0.3s ease; overflow: hidden; margin-top: 12px; width: 100%; position: relative; }
         .bookmark-links.collapsed { grid-template-rows: 0fr; opacity: 0; margin-top: 0; pointer-events: none; }
-        .bookmark-links-inner { display: flex; flex-direction: column; gap: 14px; width: 100%; }
+        .bookmark-links-inner { display: flex; flex-direction: column; gap: 10px; width: 100%; }
 
-        /* 子卡片通用样式 */
+        /* 子卡片样式 */
         .software-card, .file-card { 
-            background: rgba(255, 255, 255, 0.75); 
-            border-radius: 14px; 
-            padding: 15px 18px; 
+            background: rgba(255, 255, 255, 0.85); 
+            border-radius: 12px; 
+            padding: 12px 14px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            gap: 14px;
+            gap: 10px;
             border: 0.5px solid rgba(245, 158, 11, 0.2);
-            transition: all 0.2s ease; 
         }
         body.dark .software-card, body.dark .file-card {
-            background: rgba(41, 33, 24, 0.6);
+            background: rgba(41, 33, 24, 0.7);
             border-color: rgba(245, 158, 11, 0.2);
         }
         
-        .software-info, .file-info { flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px; }
+        .software-info, .file-info { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; }
         
-        /* 采用稳定高清的 FontAwesome 矢量图标代替网络小图标，秒开且永不失效 */
+        /* 纯本地 SVG/Emoji 图标盒子，手机秒开绝不失效 */
         .software-icon-box { 
-            width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
-            font-size: 15px; color: #fff; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center;
+            font-size: 13px; color: #fff; flex-shrink: 0;
         }
 
-        .text-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .software-name, .file-name { font-weight: 700; font-size: 14px; color: #1c1917; line-height: 1.4; }
+        .text-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        .software-name, .file-name { font-weight: 700; font-size: 13.5px; color: #1c1917; line-height: 1.3; }
         body.dark .software-name, body.dark .file-name { color: #fef3c7; }
 
         .tag {
-            font-size: 11px; background: rgba(245, 158, 11, 0.15);
-            color: #d97706; padding: 2px 8px; border-radius: 10px; font-weight: 600;
+            font-size: 10.5px; background: rgba(245, 158, 11, 0.15);
+            color: #d97706; padding: 1px 6px; border-radius: 8px; font-weight: 600;
         }
         body.dark .tag { background: rgba(245, 158, 11, 0.25); color: #fcd34d; }
 
-        .btn-group { display: flex; gap: 8px; flex-shrink: 0; }
+        .btn-group { display: flex; gap: 6px; flex-shrink: 0; }
         
         button, .btn-action { 
-            padding: 8px 16px; border: none; border-radius: 9px; 
+            padding: 6px 12px; border: none; border-radius: 8px; 
             background: #f59e0b; color: #fff; cursor: pointer; 
-            font-size: 13px; font-weight: 600; transition: all 0.2s ease; 
-            text-align: center; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.25);
+            font-size: 12px; font-weight: 600; text-align: center; 
             white-space: nowrap; text-decoration: none; display: inline-block;
+            box-shadow: 0 2px 6px rgba(245, 158, 11, 0.2);
         }
-        button:hover, .btn-action:hover { background: #d97706; }
+        button:active, .btn-action:active { transform: scale(0.96); }
         .btn-download { background: #d69e2e !important; }
-        .btn-download:hover { background: #b7791f !important; }
-        .btn-success { background: #10b981 !important; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25) !important; }
-        .btn-success:hover { background: #059669 !important; }
+        .btn-success { background: #10b981 !important; }
 
         .link-item a {
-            display: block; width: 100%; padding: 15px 18px; background: rgba(255, 255, 255, 0.75);
-            border-radius: 12px; font-size: 14px; text-align: left; color: #1c1917;
+            display: block; width: 100%; padding: 12px 14px; background: rgba(255, 255, 255, 0.85);
+            border-radius: 10px; font-size: 13.5px; text-align: left; color: #1c1917;
             text-decoration: none; border: 0.5px solid rgba(245, 158, 11, 0.2); font-weight: 600;
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.04); transition: all 0.2s;
         }
-        body.dark .link-item a { color: #fef3c7; background: rgba(41, 33, 24, 0.6); border-color: rgba(245, 158, 11, 0.2); box-shadow: none; }
+        body.dark .link-item a { color: #fef3c7; background: rgba(41, 33, 24, 0.7); border-color: rgba(245, 158, 11, 0.2); }
         
-        /* 🌟 右侧 A-Z 丝滑浮动索引栏设计（带放大动效） */
+        /* 手机端 A-Z 索引条优化 */
         .az-index-bar {
             position: absolute; right: 2px; top: 50%; transform: translateY(-50%);
             display: flex; flex-direction: column; align-items: center; z-index: 10;
-            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(10px);
-            padding: 6px 3px; border-radius: 12px; border: 0.5px solid rgba(245, 158, 11, 0.2);
+            background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(5px);
+            padding: 4px 2px; border-radius: 10px; border: 0.5px solid rgba(245, 158, 11, 0.2);
             user-select: none;
         }
-        body.dark .az-index-bar { background: rgba(20, 16, 12, 0.5); }
+        body.dark .az-index-bar { background: rgba(20, 16, 12, 0.6); }
 
         .az-item {
-            font-size: 10px; font-weight: 700; color: #b45309; padding: 1px 4px;
-            cursor: pointer; transition: transform 0.15s ease, color 0.15s ease;
+            font-size: 9.5px; font-weight: 700; color: #b45309; padding: 1px 3px; cursor: pointer;
         }
         body.dark .az-item { color: #fcd34d; }
-        
-        .az-item.active, .az-item:hover {
-            transform: scale(1.6);
-            color: #ef4444;
-            text-shadow: 0 0 8px rgba(245, 158, 11, 0.8);
-        }
+        .az-item.active { transform: scale(1.4); color: #ef4444; }
 
-        /* 正在开发中提示卡片样式 */
         .dev-tip-card {
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            font-size: 13.5px;
-            color: #78716c;
-            border: 0.5px dashed rgba(245, 158, 11, 0.3);
-            font-weight: 500;
+            background: rgba(255, 255, 255, 0.5); border-radius: 10px; padding: 16px;
+            text-align: center; font-size: 13px; color: #78716c; border: 0.5px dashed rgba(245, 158, 11, 0.3);
         }
-        body.dark .dev-tip-card {
-            background: rgba(41, 33, 24, 0.4);
-            color: #a8a29e;
-            border-color: rgba(245, 158, 11, 0.25);
-        }
+        body.dark .dev-tip-card { background: rgba(41, 33, 24, 0.4); color: #a8a29e; }
 
-        /* 二维码弹窗美化 */
+        /* 二维码弹窗 */
         #qrcode-modal { 
-            display: none; text-align: center; margin-top: 30px; padding: 30px 20px; 
-            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);
-            border-radius: 18px; border: 1px solid rgba(245, 158, 11, 0.3); 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1); grid-column: 1 / -1;
+            display: none; text-align: center; margin-top: 20px; padding: 20px 15px; 
+            background: rgba(255, 255, 255, 0.95); border-radius: 16px; 
+            border: 1px solid rgba(245, 158, 11, 0.3); grid-column: 1 / -1;
         }
-        body.dark #qrcode-modal { background: rgba(30, 24, 18, 0.9); border-color: rgba(245, 158, 11, 0.3); }
+        body.dark #qrcode-modal { background: rgba(30, 24, 18, 0.95); }
+        #qrcode-container { display: inline-block; margin: 10px 0; background: #fff; padding: 10px; border-radius: 10px; }
         
-        #qrcode-container { display: inline-block; margin: 14px 0; background: #fff; padding: 14px; border-radius: 14px; border: 1px solid #e2e8f0; }
-        #qrcode-container img { display: block; border-radius: 6px; }
-
-        .qr-tip-box {
-            font-size: 12.5px; font-weight: 600; color: #d97706; margin: 10px auto 18px auto; 
-            background: rgba(254, 243, 199, 0.6); padding: 10px 16px; border-radius: 10px; 
-            max-width: 340px; line-height: 1.5; text-align: center;
-        }
-
-        .footer-text { font-size: 12px; color: #78716c; text-align: center; padding: 40px 0 10px 0; font-weight: 500; grid-column: 1 / -1; }
+        .footer-text { font-size: 11.5px; color: #78716c; text-align: center; padding: 30px 0 10px 0; font-weight: 500; grid-column: 1 / -1; }
         body.dark .footer-text { color: #a8a29e; }
     </style>
 </head>
@@ -262,7 +195,6 @@
     <div class="bg-ambient">
         <div class="bg-orb orb-1"></div>
         <div class="bg-orb orb-2"></div>
-        <div class="bg-orb orb-3"></div>
     </div>
     
     <div class="theme-toggle-corner" id="themeToggle"><span id="themeIcon">☀️</span></div>
@@ -271,142 +203,138 @@
         <div class="header-area">
             <h1>一束阳光</h1>
             <div class="avatar-wrapper">
-                <div class="sun-ray"></div>
-                <i class="fas fa-sun sun-icon"></i>
+                <div class="sun-icon">☀️</div>
             </div>
-            <div class="subtitle">⚠️ 注意事项：请在浏览器中打开本网站。</div>
+            <div class="subtitle">⚠️ 请在手机浏览器中打开</div>
         </div>
         
-        <!-- 左右两列式网格布局容器 -->
         <div class="grid-container">
             
-            <!-- 模块一：软件导航 (静态秒开，完美解决图标不显示和卡顿) -->
+            <!-- 模块一：软件导航 (纯本地图标秒开) -->
             <div class="ios-card">
                 <div class="bookmark-wrapper" style="position: relative;">
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
                             <div class="bookmark-title">💻 软件导航</div>
-                            <i class="fas fa-chevron-down chevron"></i>
+                            <span class="chevron">▼</span>
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner">
                                 <div class="software-card" id="soft-F" style="border-left: 4px solid #10b981;">
                                     <div class="software-info">
-                                        <div class="software-icon-box" style="background:#10b981;"><i class="fa-solid fa-video"></i></div>
-                                        <div class="text-group"><span class="software-name">福音TV</span><span class="tag">视频平台</span></div>
+                                        <div class="software-icon-box" style="background:#10b981;">📺</div>
+                                        <div class="text-group"><span class="software-name">福音TV</span><span class="tag">视频</span></div>
                                     </div>
-                                    <a href="https://www.fuyin.tv/" target="_blank" class="btn-action btn-success">点击观看</a>
+                                    <a href="https://www.fuyin.tv/" target="_blank" class="btn-action btn-success">观看</a>
                                 </div>
                                 <div class="software-card" id="soft-J" style="border-left: 4px solid #2563eb;">
                                     <div class="software-info">
-                                        <div class="software-icon-box" style="background:#2563eb;"><i class="fa-solid fa-book-bible"></i></div>
-                                        <div class="text-group"><span class="software-name">精读圣经</span><span class="tag">官方下载</span></div>
+                                        <div class="software-icon-box" style="background:#2563eb;">📖</div>
+                                        <div class="text-group"><span class="software-name">精读圣经</span><span class="tag">官方</span></div>
                                     </div>
-                                    <a href="https://appsky.icu/#/bible" target="_blank" class="btn-action">点击下载</a>
+                                    <a href="https://appsky.icu/#/bible" target="_blank" class="btn-action">下载</a>
                                 </div>
                                 <div class="software-card" id="soft-S" style="border-left: 4px solid #3b82f6;">
                                     <div class="software-info">
-                                        <div class="software-icon-box" style="background:#3b82f6;"><i class="fa-solid fa-music"></i></div>
-                                        <div class="text-group"><span class="software-name">诗歌本</span><span class="tag">官方下载</span></div>
+                                        <div class="software-icon-box" style="background:#3b82f6;">🎵</div>
+                                        <div class="text-group"><span class="software-name">诗歌本</span><span class="tag">官方</span></div>
                                     </div>
-                                    <a href="https://appsky.icu/#/hymn" target="_blank" class="btn-action">点击下载</a>
+                                    <a href="https://appsky.icu/#/hymn" target="_blank" class="btn-action">下载</a>
                                 </div>
                                 <div class="software-card" id="soft-W" style="border-left: 4px solid #1d4ed8;">
                                     <div class="software-info">
-                                        <div class="software-icon-box" style="background:#1d4ed8;"><i class="fa-solid fa-book-open"></i></div>
-                                        <div class="text-group"><span class="software-name">微读圣经</span><span class="tag">官方下载</span></div>
+                                        <div class="software-icon-box" style="background:#1d4ed8;">📖</div>
+                                        <div class="text-group"><span class="software-name">微读圣经</span><span class="tag">官方</span></div>
                                     </div>
-                                    <a href="https://wd.bible/app" target="_blank" class="btn-action">点击下载</a>
+                                    <a href="https://wd.bible/app" target="_blank" class="btn-action">下载</a>
                                 </div>
                                 <div class="software-card" id="soft-X" style="border-left: 4px solid #6366f1;">
                                     <div class="software-info">
-                                        <div class="software-icon-box" style="background:#6366f1;"><i class="fa-solid fa-dove"></i></div>
-                                        <div class="text-group"><span class="software-name">小鸽子</span><span class="tag">客户端下载</span></div>
+                                        <div class="software-icon-box" style="background:#6366f1;">🕊️</div>
+                                        <div class="text-group"><span class="software-name">小鸽子</span><span class="tag">客户端</span></div>
                                     </div>
-                                    <a href="https://www.idigest.app/#/appDownload" target="_blank" class="btn-action">点击下载</a>
+                                    <a href="https://www.idigest.app/#/appDownload" target="_blank" class="btn-action">下载</a>
                                 </div>
                                 <div class="software-card" id="soft-Z" style="border-left: 4px solid #0ea5e9;">
                                     <div class="software-info">
-                                        <div class="software-icon-box" style="background:#0ea5e9;"><i class="fa-solid fa-video-camera"></i></div>
-                                        <div class="text-group"><span class="software-name">Zoom 会议</span><span class="tag">官方客户端</span></div>
+                                        <div class="software-icon-box" style="background:#0ea5e9;">👥</div>
+                                        <div class="text-group"><span class="software-name">Zoom 会议</span><span class="tag">官方</span></div>
                                     </div>
-                                    <a href="https://zoom.us/download" target="_blank" class="btn-action">点击下载</a>
+                                    <a href="https://zoom.us/download" target="_blank" class="btn-action">下载</a>
                                 </div>
                             </div>
-                            <!-- 软件导航右侧 A-Z 索引条 -->
                             <div class="az-index-bar">
-                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('soft-F', this)">F</div>
-                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('soft-J', this)">J</div>
-                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('soft-S', this)">S</div>
-                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('soft-W', this)">W</div>
-                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('soft-X', this)">X</div>
-                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('soft-Z', this)">Z</div>
+                                <div class="az-item" onclick="scrollToLetter('soft-F', this)">F</div>
+                                <div class="az-item" onclick="scrollToLetter('soft-J', this)">J</div>
+                                <div class="az-item" onclick="scrollToLetter('soft-S', this)">S</div>
+                                <div class="az-item" onclick="scrollToLetter('soft-W', this)">W</div>
+                                <div class="az-item" onclick="scrollToLetter('soft-X', this)">X</div>
+                                <div class="az-item" onclick="scrollToLetter('soft-Z', this)">Z</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 模块二：书籍共享 (静态秒开，按A-Z精心排序) -->
+            <!-- 模块二：书籍共享 -->
             <div class="ios-card">
                 <div class="bookmark-wrapper" style="position: relative;">
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
                             <div class="bookmark-title">📚 书籍共享</div>
-                            <i class="fas fa-chevron-down chevron"></i>
+                            <span class="chevron">▼</span>
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner">
                                 <div class="file-card" id="file-C" style="border-left: 4px solid #805ad5;">
                                     <div class="file-info"><div class="file-name">📖 晨恩日新</div></div>
                                     <div class="btn-group">
-                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=B5MTZ', '_blank')">点击下载</button>
-                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=B5MTZ', '晨恩日新')">二维码</button>
+                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=B5MTZ', '_blank')">下载</button>
+                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=B5MTZ', '晨恩日新')">码</button>
                                     </div>
                                 </div>
                                 <div class="file-card" id="file-F" style="border-left: 4px solid #2b6cb0;">
                                     <div class="file-info"><div class="file-name">📖 福音DNA</div></div>
                                     <div class="btn-group">
-                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=3OGI0', '_blank')">点击下载</button>
-                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=3OGI0', '福音DNA')">二维码</button>
+                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=3OGI0', '_blank')">下载</button>
+                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=3OGI0', '福音DNA')">码</button>
                                     </div>
                                 </div>
                                 <div class="file-card" id="file-J" style="border-left: 4px solid #2f855a;">
                                     <div class="file-info"><div class="file-name">📖 J曲线</div></div>
                                     <div class="btn-group">
-                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=GAY18', '_blank')">点击下载</button>
-                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=GAY18', 'J曲线')">二维码</button>
+                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=GAY18', '_blank')">下载</button>
+                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=GAY18', 'J曲线')">码</button>
                                     </div>
                                 </div>
                                 <div class="file-card" id="file-R" style="border-left: 4px solid #3182ce;">
                                     <div class="file-info"><div class="file-name">📖 人如何改变：在恩典中经历蜕变的喜乐</div></div>
                                     <div class="btn-group">
-                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=6T3QL', '_blank')">点击下载</button>
-                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=6T3QL', '人如何改变：在恩典中经历蜕变的喜乐')">二维码</button>
+                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=6T3QL', '_blank')">下载</button>
+                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=6T3QL', '人如何改变')">码</button>
                                     </div>
                                 </div>
                                 <div class="file-card" id="file-Y" style="border-left: 4px solid #d69e2e;">
                                     <div class="file-info"><div class="file-name">📖 雅博渡口——雅各的尘俗灵程</div></div>
                                     <div class="btn-group">
-                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=3Q2XT', '_blank')">点击下载</button>
-                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=3Q2XT', '雅博渡口——雅各的尘俗灵程')">二维码</button>
+                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=3Q2XT', '_blank')">下载</button>
+                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=3Q2XT', '雅博渡口')">码</button>
                                     </div>
                                 </div>
                                 <div class="file-card" id="file-Y2" style="border-left: 4px solid #dd6b20;">
                                     <div class="file-info"><div class="file-name">📖 亚伯拉罕应许和现实的落差</div></div>
                                     <div class="btn-group">
-                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=O3QSS', '_blank')">点击下载</button>
-                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=O3QSS', '亚伯拉罕应许和现实的落差')">二维码</button>
+                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=O3QSS', '_blank')">下载</button>
+                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=O3QSS', '亚伯拉罕应许')">码</button>
                                     </div>
                                 </div>
                             </div>
-                            <!-- 书籍共享右侧 A-Z 索引条 -->
                             <div class="az-index-bar">
-                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('file-C', this)">C</div>
-                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('file-F', this)">F</div>
-                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('file-J', this)">J</div>
-                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('file-R', this)">R</div>
-                                <div class="az-item" onmouseover="highlightAz(this, true)" onmouseout="highlightAz(this, false)" onclick="scrollToLetter('file-Y', this)">Y</div>
+                                <div class="az-item" onclick="scrollToLetter('file-C', this)">C</div>
+                                <div class="az-item" onclick="scrollToLetter('file-F', this)">F</div>
+                                <div class="az-item" onclick="scrollToLetter('file-J', this)">J</div>
+                                <div class="az-item" onclick="scrollToLetter('file-R', this)">R</div>
+                                <div class="az-item" onclick="scrollToLetter('file-Y', this)">Y</div>
                             </div>
                         </div>
                     </div>
@@ -419,12 +347,12 @@
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
                             <div class="bookmark-title">🚀 加速区</div>
-                            <i class="fas fa-chevron-down chevron"></i>
+                            <span class="chevron">▼</span>
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner">
-                                <div class="link-item"><a href="https://gh-proxy.com/" target="_blank"><i class="fab fa-github mr-2"></i> GitHub 链接加速下载代理</a></div>
-                                <div class="link-item"><a href="https://sps.yy-gp.com/hk5dm/i.html" target="_blank"><i class="fa-solid fa-bolt mr-2"></i> 电报代理与节点实时测速</a></div>
+                                <div class="link-item"><a href="https://gh-proxy.com/" target="_blank">🔗 GitHub 链接加速下载代理</a></div>
+                                <div class="link-item"><a href="https://sps.yy-gp.com/hk5dm/i.html" target="_blank">⚡ 电报代理与节点实时测速</a></div>
                             </div>
                         </div>
                     </div>
@@ -437,123 +365,85 @@
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
                             <div class="bookmark-title">🛠️ 实用工具</div>
-                            <i class="fas fa-chevron-down chevron"></i>
+                            <span class="chevron">▼</span>
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner">
-                                <div class="link-item"><a href="#" target="_blank">IP 优选测试工具</a></div>
-                                <div class="link-item"><a href="#" target="_blank">临时邮箱服务</a></div>
+                                <div class="link-item"><a href="#" target="_blank">🔍 IP 优选测试工具</a></div>
+                                <div class="link-item"><a href="#" target="_blank">✉️ 临时邮箱服务</a></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 模块五：常用资源（开发中） -->
+            <!-- 模块五：常用资源 -->
             <div class="ios-card">
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
                             <div class="bookmark-title">📂 常用资源</div>
-                            <i class="fas fa-chevron-down chevron"></i>
+                            <span class="chevron">▼</span>
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner">
-                                <div class="dev-tip-card">
-                                    <i class="fa-solid fa-person-digging mb-1 text-base"></i><br>
-                                    常用资源板块正在开发中，敬请期待...
-                                </div>
+                                <div class="dev-tip-card">常用资源板块正在开发中...</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 模块六：关于本站（开发中） -->
+            <!-- 模块六：关于本站 -->
             <div class="ios-card">
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
                             <div class="bookmark-title">✨ 关于本站</div>
-                            <i class="fas fa-chevron-down chevron"></i>
+                            <span class="chevron">▼</span>
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner">
-                                <div class="dev-tip-card">
-                                    <i class="fa-solid fa-person-digging mb-1 text-base"></i><br>
-                                    关于本站板块正在开发中，敬请期待...
-                                </div>
+                                <div class="dev-tip-card">关于本站板块正在开发中...</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 全局二维码弹窗展示区 -->
+            <!-- 二维码弹窗 -->
             <div id="qrcode-modal">
-                <h4 id="qr-title" style="margin:0 0 8px 0; font-size:16px; color:inherit;"></h4>
+                <h4 id="qr-title" style="margin:0 0 6px 0; font-size:14px; color:inherit;"></h4>
                 <div id="qrcode-container">
                     <div id="qrcode"></div>
                 </div>
-                <div class="qr-tip-box">
-                    📱 手机端提示：长按上方二维码可直接识别打开，或复制链接访问。
-                </div>
-                <div><button class="btn-action" onclick="closeQr()" style="background:#e53e3e; box-shadow:0 2px 8px rgba(229,62,62,0.3);">关闭窗口</button></div>
+                <div class="qr-tip-box">长按上方二维码识别打开</div>
+                <div><button class="btn-action" onclick="closeQr()" style="background:#e53e3e; padding:4px 10px; font-size:11px;">关闭</button></div>
             </div>
 
-            <!-- 底部版权 -->
             <p class="footer-text">© 2026 一束阳光. All Rights Reserved.</p>
-
         </div>
     </div>
 
     <script>
-        // 滚动定位与高亮特效
         function scrollToLetter(targetId, el) {
             const targetEl = document.getElementById(targetId);
             const container = targetEl.closest('.bookmark-links-inner');
             if (targetEl && container) {
-                container.scrollTo({
-                    top: targetEl.offsetTop - container.offsetTop - 10,
-                    behavior: 'smooth'
-                });
+                container.scrollTo({ top: targetEl.offsetTop - container.offsetTop - 5, behavior: 'smooth' });
             }
             el.classList.add('active');
-            setTimeout(() => el.classList.remove('active'), 400);
+            setTimeout(() => el.classList.remove('active'), 300);
         }
 
-        function highlightAz(el, isEnter) {
-            if (isEnter) {
-                el.classList.add('active');
-            } else {
-                el.classList.remove('active');
-            }
-        }
-
-        // 二维码弹窗展示
         function showQr(url, name) {
             let modal = document.getElementById('qrcode-modal');
             let title = document.getElementById('qr-title');
             let container = document.getElementById('qrcode');
-            
             container.innerHTML = '';
-            title.innerText = `【 ${name} 】的取件二维码`;
+            title.innerText = `【 ${name} 】`;
             modal.style.display = 'block';
-            
-            new QRCode(container, {
-                text: url,
-                width: 160,
-                height: 160
-            });
-
-            setTimeout(() => {
-                let canvas = container.querySelector('canvas');
-                if (canvas) {
-                    let imgDataUrl = canvas.toDataURL("image/png");
-                    container.innerHTML = `<img src="${imgDataUrl}" alt="二维码" style="width: 160px; height: 160px; display: block;" />`;
-                }
-            }, 50);
-            
+            new QRCode(container, { text: url, width: 140, height: 140 });
             modal.scrollIntoView({ behavior: 'smooth' });
         }
 
@@ -561,7 +451,6 @@
             document.getElementById('qrcode-modal').style.display = 'none';
         }
 
-        // 主题切换逻辑
         const toggle = document.getElementById('themeToggle');
         const icon = document.getElementById('themeIcon');
         toggle.onclick = () => {
@@ -569,7 +458,6 @@
             icon.innerText = document.body.classList.contains('dark') ? '🌙' : '☀️';
         };
 
-        // 模块折叠展开逻辑
         window.toggleBookmark = (header) => {
             header.classList.toggle('collapsed');
             header.nextElementSibling.classList.toggle('collapsed');
