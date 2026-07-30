@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>一束阳光</title>
+    
+    <!-- 🌟 完美秒开的内联金色太阳网页图标（Favicon），彻底替换黑色地球 -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2232%22 fill=%22%23f59e0b%22/%3E%3Cpath d=%22M50 10v12M50 78v12M10 50h12M78 50h12M22 22l8 8M70 70l8 8M22 78l8-8M70 30l8-8%22 stroke=%22%23f59e0b%22 stroke-width=%228%22 stroke-linecap=%22round%22/%3E%3C/svg%3E">
+
     <!-- 引入极速轻量的 QRCode 二维码库 -->
     <script src="https://cdn.bootcdn.net/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
@@ -275,7 +279,6 @@
         }
         #qrcode-container img { display: block; border-radius: 8px; width: 180px; height: 180px; }
 
-        /* 🌟 已按要求精简为仅提示：请长按上方二维码识别打开。 */
         .qr-tip-text {
             font-size: 13px; font-weight: 600; color: #d97706; 
             background: rgba(254, 243, 199, 0.7); padding: 10px 14px; border-radius: 12px; 
@@ -368,6 +371,17 @@
               【板块模板一：软件导航 / 外部链接类板块】
               如果要在【软件导航】里面增加一个新的软件或链接，请直接在下方 
               <div class="bookmark-links-inner"> 里面复制并粘贴一个相同的代码块：
+              --------------------------------------------------------------------
+              <div class="software-card" id="soft-你的首字母大写" style="border-left: 4px solid #颜色代码;">
+                  <div class="software-info">
+                      <div class="software-icon-box" style="background:#颜色代码;">图标表情</div>
+                      <div class="text-group"><span class="software-name">软件名字</span><span class="tag">标签分类</span></div>
+                  </div>
+                  <a href="你的跳转网址" target="_blank" class="btn-action">按钮文字</a>
+              </div>
+              --------------------------------------------------------------------
+              同时别忘了在底下的 `.az-index-bar` 里面加上对应的字母按钮：
+              <div class="az-item" onclick="scrollToLetter('soft-你的首字母大写', this)">首字母</div>
               ====================================================================
             -->
             <div class="ios-card">
@@ -380,7 +394,6 @@
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner">
                                 
-                                <!-- 示例菜单项：如需新增，复制这行并修改文字、网址、图标背景色即可 -->
                                 <div class="software-card" id="soft-F" style="border-left: 4px solid #10b981;">
                                     <div class="software-info">
                                         <div class="software-icon-box" style="background:#10b981;">📺</div>
@@ -388,7 +401,6 @@
                                     </div>
                                     <a href="https://www.fuyin.tv/" target="_blank" class="btn-action btn-success">观看</a>
                                 </div>
-
                                 <div class="software-card" id="soft-J" style="border-left: 4px solid #2563eb;">
                                     <div class="software-info">
                                         <div class="software-icon-box" style="background:#2563eb;">📖</div>
@@ -426,7 +438,8 @@
                                 </div>
 
                             </div>
-                            <!-- 右侧 A-Z 索引条：如果新加了字母开头的菜单，记得在这里同步增加对应的字母跳转项 -->
+                            
+                            <!-- 右侧 A-Z 索引条 -->
                             <div class="az-index-bar">
                                 <div class="az-item" onclick="scrollToLetter('soft-F', this)">F</div>
                                 <div class="az-item" onclick="scrollToLetter('soft-J', this)">J</div>
@@ -449,12 +462,13 @@
               <div class="file-card" id="file-你的首字母" style="border-left: 4px solid #颜色代码;">
                   <div class="file-info"><div class="file-name">📖 新书名字</div></div>
                   <div class="btn-group">
-                      <button class="btn-download" onclick="window.open('你的下载链接', '_blank')">下载</button>
+                      <button class="btn-download" onclick="window.open('你的下载直达链接', '_blank')">下载</button>
                       <button class="btn-success" onclick="showQr('你的二维码跳转链接', '新书名字')">二维码</button>
                   </div>
               </div>
               --------------------------------------------------------------------
-              同时别忘了在右侧 `.az-index-bar` 里面加上对应的字母按钮！
+              同时别忘了在右侧 `.az-index-bar` 里面加上对应的字母按钮：
+              <div class="az-item" onclick="scrollToLetter('file-你的首字母', this)">首字母</div>
               ====================================================================
             -->
             <div class="ios-card">
@@ -509,6 +523,8 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            <!-- 右侧 A-Z 索引条 -->
                             <div class="az-index-bar">
                                 <div class="az-item" onclick="scrollToLetter('file-C', this)">C</div>
                                 <div class="az-item" onclick="scrollToLetter('file-F', this)">F</div>
@@ -539,7 +555,19 @@
                 </div>
             </div>
 
-            <!-- 模块四：实用工具 -->
+            <!-- 
+              ====================================================================
+              【板块模板三：实用工具 / 独立网页跳转或弹窗类板块】
+              如果要在【实用工具】里面增加一个新链接，请直接复制并粘贴以下结构：
+              --------------------------------------------------------------------
+              <div class="tool-simple-card">
+                  <div class="tool-simple-title">📚 菜单名称</div>
+                  <a href="跳转网址" target="_blank" class="btn-action">点击访问</a>
+              </div>
+              --------------------------------------------------------------------
+              如果是要像微信多开那样点击弹窗显示的，可以复制带有 `onclick="openWechatModal()"` 的按钮。
+              ====================================================================
+            -->
             <div class="ios-card">
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
@@ -605,7 +633,7 @@
                 </div>
             </div>
 
-            <!-- 二维码弹窗（已按要求精简提示文字：请长按上方二维码识别打开。） -->
+            <!-- 书籍二维码弹窗 -->
             <div id="qrcode-modal" class="global-modal">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -634,7 +662,6 @@
                         <span>💡 提示：以下所有指令均需在 Mac 电脑的「终端 (Terminal)」应用中复制并运行。</span>
                     </div>
 
-                    <!-- 步骤 1 -->
                     <div class="tool-card">
                         <div class="tool-title">📦 1. 下载脚本</div>
                         <div class="cmd-box">
@@ -643,7 +670,6 @@
                         </div>
                     </div>
 
-                    <!-- 步骤 2 -->
                     <div class="tool-card">
                         <div class="tool-title">🔑 2. 添加执行权限</div>
                         <div class="cmd-box">
@@ -653,7 +679,6 @@
                         <div class="tool-desc">⚠️ 若终端提示输入 <code>password</code>，请填写本机登录密码（输入时通常不显示字符）。</div>
                     </div>
 
-                    <!-- 步骤 3 -->
                     <div class="tool-card">
                         <div class="tool-title">🚀 3. 运行脚本</div>
                         <div class="cmd-box">
@@ -662,7 +687,6 @@
                         </div>
                     </div>
 
-                    <!-- 步骤 4 -->
                     <div class="tool-card">
                         <div class="tool-title">🔄 4. 版本更新与重复运行</div>
                         <div class="tool-desc">需要先关闭所有微信副本，在终端重新运行：</div>
@@ -684,7 +708,6 @@
     </div>
 
     <script>
-        // 弹窗控制函数
         function openWechatModal() {
             document.getElementById('wechat-modal').style.display = 'flex';
         }
@@ -692,7 +715,6 @@
             document.getElementById('wechat-modal').style.display = 'none';
         }
 
-        // 一键复制指令函数
         function copyText(elementId, btn) {
             const text = document.getElementById(elementId).innerText;
             navigator.clipboard.writeText(text).then(() => {
@@ -720,7 +742,6 @@
             setTimeout(() => el.classList.remove('active'), 300);
         }
 
-        // 书籍二维码弹窗展示
         function showQr(url, name) {
             let modal = document.getElementById('qrcode-modal');
             let title = document.getElementById('qr-title');
