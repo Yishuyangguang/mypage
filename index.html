@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>一束阳光</title>
     
-    <!-- 完美秒开的内联 Base64 金色太阳网页图标（Favicon） -->
+    <!-- 完美秒开的内联 Base64 金色太阳网页图标 -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='18' fill='%23f59e0b'/%3E%3Cpath d='M32 4v8m0 40v8M4 32h8m40 0h8m-38-18l6 6m20 20l6 6m-26 0l6-6m20-20l6-6' stroke='%23f59e0b' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
 
     <!-- 引入极速轻量的 QRCode 二维码库 -->
     <script src="https://cdn.bootcdn.net/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     
-    <!-- 引入轻量级 AES-256 客户端加密库 -->
+    <!-- 🌟 引入轻量级 AES-256 加密库 -->
     <script src="https://cdn.bootcdn.net/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
     <style>
@@ -50,8 +50,7 @@
         }
         .theme-toggle-corner:active { transform: scale(0.92); }
         body.dark .theme-toggle-corner { 
-            background: rgba(30, 24, 18, 0.75); 
-            border-color: rgba(245, 158, 11, 0.4); 
+            background: rgba(30, 24, 18, 0.75); border-color: rgba(245, 158, 11, 0.4); 
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(245, 158, 11, 0.3);
         }
 
@@ -61,25 +60,20 @@
         h1 { font-size: 28px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px; color: #1c1917; text-shadow: 0 2px 10px rgba(245, 158, 11, 0.15); }
         body.dark h1 { color: #fef3c7; text-shadow: 0 2px 15px rgba(245, 158, 11, 0.3); }
         
-        /* 动态一束阳光发光旋转图标 */
         .avatar-wrapper {
             position: relative; width: 90px; height: 90px; margin: 0 auto 14px auto;
             background: radial-gradient(circle, #fef08a 0%, #f59e0b 65%, #d97706 100%);
-            border-radius: 28px;
-            display: flex; align-items: center; justify-content: center;
+            border-radius: 28px; display: flex; align-items: center; justify-content: center;
             box-shadow: 0 0 35px rgba(245, 158, 11, 0.8), 0 8px 20px rgba(0, 0, 0, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.9);
             border: 2px solid rgba(255, 255, 255, 0.95);
             animation: sunPulse 3.5s infinite alternate ease-in-out;
-            overflow: hidden;
-            transform: translateZ(0);
+            overflow: hidden; transform: translateZ(0);
         }
         body.dark .avatar-wrapper { border-color: rgba(245, 158, 11, 0.5); box-shadow: 0 0 40px rgba(245, 158, 11, 0.4), 0 8px 20px rgba(0, 0, 0, 0.5); }
         
         .sun-ray {
-            position: absolute; width: 140px; height: 140px;
-            background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.75), transparent 60deg);
-            animation: rayRotate 6s infinite linear;
-            will-change: transform;
+            position: absolute; width: 140px; height: 140px; background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.75), transparent 60deg);
+            animation: rayRotate 6s infinite linear; will-change: transform;
         }
         .sun-icon { font-size: 38px; z-index: 2; text-shadow: 0 0 12px rgba(255, 255, 255, 0.9); }
 
@@ -87,72 +81,44 @@
             0% { transform: scale(1); box-shadow: 0 0 25px rgba(245, 158, 11, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.9); }
             100% { transform: scale(1.05); box-shadow: 0 0 50px rgba(251, 191, 36, 0.95), inset 0 2px 4px rgba(255, 255, 255, 1); }
         }
-        @keyframes rayRotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+        @keyframes rayRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         .subtitle { 
             font-size: 13px; color: #78716c; margin-bottom: 20px; font-weight: 500; 
             background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            padding: 6px 16px; border-radius: 16px; 
-            display: inline-block; border: 1px solid rgba(245, 158, 11, 0.35);
+            padding: 6px 16px; border-radius: 16px; display: inline-block; border: 1px solid rgba(245, 158, 11, 0.35);
             box-shadow: 0 4px 15px rgba(245, 158, 11, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
         }
         body.dark .subtitle { background: rgba(30, 24, 18, 0.65); color: #d7d3d0; border-color: rgba(245, 158, 11, 0.3); }
 
         /* 全局全面搜索引擎 */
-        .global-search-container {
-            width: 100%; max-width: 680px; margin: 0 auto 25px auto; position: relative; z-index: 100;
-        }
+        .global-search-container { width: 100%; max-width: 680px; margin: 0 auto 25px auto; position: relative; z-index: 100; }
         .global-search-box {
             display: flex; align-items: center; background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-radius: 18px; padding: 6px 8px 6px 16px;
-            border: 1.5px solid rgba(245, 158, 11, 0.45);
-            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.15), inset 0 1px 0 rgba(255, 255, 255, 1);
-            transition: all 0.25s ease;
+            border-radius: 18px; padding: 6px 8px 6px 16px; border: 1.5px solid rgba(245, 158, 11, 0.45);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.15), inset 0 1px 0 rgba(255, 255, 255, 1); transition: all 0.25s ease;
         }
-        body.dark .global-search-box {
-            background: rgba(30, 24, 18, 0.75); border-color: rgba(245, 158, 11, 0.4);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(245, 158, 11, 0.2);
-        }
-        .global-search-box:focus-within {
-            border-color: #f59e0b; box-shadow: 0 12px 35px rgba(245, 158, 11, 0.3); transform: translateY(-1px);
-        }
-        .global-search-input {
-            flex: 1; border: none; background: transparent; outline: none;
-            font-size: 14.5px; font-weight: 600; color: #1c1917; padding: 6px 0;
-        }
+        body.dark .global-search-box { background: rgba(30, 24, 18, 0.75); border-color: rgba(245, 158, 11, 0.4); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(245, 158, 11, 0.2); }
+        .global-search-box:focus-within { border-color: #f59e0b; box-shadow: 0 12px 35px rgba(245, 158, 11, 0.3); transform: translateY(-1px); }
+        .global-search-input { flex: 1; border: none; background: transparent; outline: none; font-size: 14.5px; font-weight: 600; color: #1c1917; padding: 6px 0; }
         body.dark .global-search-input { color: #fef3c7; }
         .global-search-input::placeholder { color: #a8a29e; font-weight: 500; }
-        
         .search-clear-btn {
             background: rgba(245, 158, 11, 0.2); border: none; color: #d97706; width: 24px; height: 24px;
-            border-radius: 50%; display: none; align-items: center; justify-content: center;
-            font-size: 12px; cursor: pointer; margin-right: 8px; font-weight: bold;
+            border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; margin-right: 8px; font-weight: bold;
         }
         
-        /* 搜索下拉展示面板 */
         .search-results-dropdown {
             position: absolute; top: calc(100% + 8px); left: 0; width: 100%;
             background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
             border-radius: 18px; border: 1px solid rgba(245, 158, 11, 0.4);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2); overflow: hidden;
-            display: none; flex-direction: column; max-height: 380px; overflow-y: auto;
-            animation: fadeIn 0.2s ease;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2); overflow: hidden; display: none; flex-direction: column; max-height: 380px; overflow-y: auto; animation: fadeIn 0.2s ease;
         }
-        body.dark .search-results-dropdown {
-            background: rgba(30, 24, 18, 0.95); border-color: rgba(245, 158, 11, 0.35); box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-        }
-        .search-result-item {
-            padding: 12px 16px; border-bottom: 0.5px solid rgba(245, 158, 11, 0.15);
-            display: flex; align-items: center; justify-content: space-between;
-            cursor: pointer; transition: background 0.15s ease;
-        }
+        body.dark .search-results-dropdown { background: rgba(30, 24, 18, 0.95); border-color: rgba(245, 158, 11, 0.35); box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+        .search-result-item { padding: 12px 16px; border-bottom: 0.5px solid rgba(245, 158, 11, 0.15); display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: background 0.15s ease; }
         .search-result-item:last-child { border-bottom: none; }
         .search-result-item:hover { background: rgba(245, 158, 11, 0.12); }
-        
         .result-info { display: flex; flex-direction: column; gap: 2px; text-align: left; }
         .result-title { font-size: 13.5px; font-weight: 700; color: #1c1917; }
         body.dark .result-title { color: #fef3c7; }
@@ -162,7 +128,7 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 目标定位高亮脉冲动画 */
+        /* 目标定位高亮动画 */
         .target-highlight-pulse { animation: targetPulse 2.2s ease-in-out; }
         @keyframes targetPulse {
             0% { transform: scale(1); box-shadow: 0 0 0 rgba(245, 158, 11, 0); }
@@ -172,33 +138,22 @@
             100% { transform: scale(1); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.08); }
         }
 
-        /* 网格布局 */
         .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; width: 100%; align-items: start; }
         @media (max-width: 768px) { .grid-container { grid-template-columns: 1fr; gap: 16px; } }
 
-        /* 玻璃质感大卡片 */
         .ios-card {
-            background: rgba(255, 255, 255, 0.55); 
-            backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
+            background: rgba(255, 255, 255, 0.55); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
             border-radius: 24px; overflow: hidden; width: 100%; position: relative;
-            box-shadow: 0 16px 40px rgba(245, 158, 11, 0.15), inset 0 1.5px 0 rgba(255, 255, 255, 1);
-            border: 1px solid rgba(245, 158, 11, 0.45);
-            transform: translateZ(0); will-change: transform, height; 
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 16px 40px rgba(245, 158, 11, 0.15), inset 0 1.5px 0 rgba(255, 255, 255, 1); border: 1px solid rgba(245, 158, 11, 0.45);
+            transform: translateZ(0); will-change: transform, height; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        body.dark .ios-card { 
-            background: rgba(26, 21, 16, 0.55); border-color: rgba(245, 158, 11, 0.35); 
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), inset 0 1.5px 0 rgba(245, 158, 11, 0.25);
-        }
+        body.dark .ios-card { background: rgba(26, 21, 16, 0.55); border-color: rgba(245, 158, 11, 0.35); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), inset 0 1.5px 0 rgba(245, 158, 11, 0.25); }
         
         .bookmark-wrapper { padding: 18px; width: 100%; position: relative; transition: padding 0.35s ease; }
         .bookmark-header { 
-            display: flex; align-items: center; justify-content: space-between; cursor: pointer; 
-            padding: 9px 14px; user-select: none; background: rgba(255, 255, 255, 0.6); 
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border-radius: 14px; border: 1px solid rgba(245, 158, 11, 0.35);
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-            transition: background 0.2s ease;
+            display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 9px 14px; user-select: none; background: rgba(255, 255, 255, 0.6); 
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 14px; border: 1px solid rgba(245, 158, 11, 0.35);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9); transition: background 0.2s ease;
         }
         .bookmark-header:hover { background: rgba(255, 255, 255, 0.8); }
         body.dark .bookmark-header { background: rgba(41, 33, 24, 0.6); border-color: rgba(245, 158, 11, 0.3); }
@@ -208,41 +163,23 @@
         
         .chevron-badge {
             width: 26px; height: 26px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 11px;
-            box-shadow: 0 3px 8px rgba(245, 158, 11, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.6); 
-            transition: transform 0.3s ease;
+            display: flex; align-items: center; justify-content: center; font-size: 11px; box-shadow: 0 3px 8px rgba(245, 158, 11, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.6); transition: transform 0.3s ease;
         }
         .bookmark-header.collapsed .chevron-badge { transform: rotate(-90deg); }
         
-        /* 折叠下部空间收缩 */
-        .bookmark-links { 
-            display: grid; grid-template-rows: 1fr; 
-            transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, margin-top 0.35s ease; 
-            overflow: hidden; margin-top: 14px; width: 100%; position: relative; 
-        }
-        .bookmark-links.collapsed { 
-            grid-template-rows: 0fr; opacity: 0; margin-top: 0; pointer-events: none; 
-        }
-
-        .bookmark-links.collapsed .az-index-bar {
-            opacity: 0; pointer-events: none; transform: translateY(-50%) scale(0.8);
-        }
-        
+        .bookmark-links { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, margin-top 0.35s ease; overflow: hidden; margin-top: 14px; width: 100%; position: relative; }
+        .bookmark-links.collapsed { grid-template-rows: 0fr; opacity: 0; margin-top: 0; pointer-events: none; }
+        .bookmark-links.collapsed .az-index-bar { opacity: 0; pointer-events: none; transform: translateY(-50%) scale(0.8); }
         .bookmark-links-inner { display: flex; flex-direction: column; gap: 10px; width: 100%; padding-right: 48px; min-height: 0; }
 
-        /* 子模块卡片 */
         .software-card, .file-card, .link-item a, .tool-simple-card { 
             background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
             border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px;
             border: 1px solid rgba(245, 158, 11, 0.4); text-decoration: none; color: #1c1917; font-weight: 600; font-size: 13.5px;
-            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1);
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1); transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
         .software-card:active, .file-card:active { transform: scale(0.99); }
-        body.dark .software-card, body.dark .file-card, body.dark .link-item a, body.dark .tool-simple-card {
-            background: rgba(41, 33, 24, 0.6); border-color: rgba(245, 158, 11, 0.35); color: #fef3c7;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(245, 158, 11, 0.25);
-        }
+        body.dark .software-card, body.dark .file-card, body.dark .link-item a, body.dark .tool-simple-card { background: rgba(41, 33, 24, 0.6); border-color: rgba(245, 158, 11, 0.35); color: #fef3c7; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(245, 158, 11, 0.25); }
         
         .software-info, .file-info { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; }
         .software-icon-box { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #fff; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
@@ -254,8 +191,7 @@
 
         .btn-group { display: flex; gap: 6px; flex-shrink: 0; }
         button, .btn-action { 
-            padding: 6px 12px; border: none; border-radius: 10px; 
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.95), rgba(217, 119, 6, 0.95)); color: #fff; cursor: pointer; 
+            padding: 6px 12px; border: none; border-radius: 10px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.95), rgba(217, 119, 6, 0.95)); color: #fff; cursor: pointer; 
             font-size: 12px; font-weight: 600; text-align: center; white-space: nowrap; text-decoration: none; display: inline-block;
             box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4), inset 0 1px 1.5px rgba(255, 255, 255, 0.7); backdrop-filter: blur(6px); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -268,155 +204,104 @@
         .tool-simple-title { font-weight: 700; font-size: 13.5px; color: #1c1917; display: flex; align-items: center; gap: 8px; }
         body.dark .tool-simple-title { color: #fef3c7; }
 
-        /* A-Z 索引条 */
         .az-index-bar {
             position: absolute; right: -2px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; z-index: 20;
             background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            padding: 6px 3px; border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.45); box-shadow: 0 6px 18px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.95); user-select: none;
-            transition: opacity 0.25s ease, transform 0.25s ease;
+            padding: 6px 3px; border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.45); box-shadow: 0 6px 18px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.95); user-select: none; transition: opacity 0.25s ease, transform 0.25s ease;
         }
         body.dark .az-index-bar { background: rgba(30, 24, 18, 0.85); border-color: rgba(245, 158, 11, 0.4); }
-
         .az-item { font-size: 10px; font-weight: 700; color: #b45309; padding: 2px 5px; cursor: pointer; transition: transform 0.15s ease; }
         body.dark .az-item { color: #fcd34d; }
         .az-item.active { transform: scale(1.4); color: #ef4444; }
 
-        /* 未开放区域组件 */
-        .secret-lock-box {
-            display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px; text-align: center; background: rgba(255, 255, 255, 0.4); border-radius: 16px; border: 1px dashed rgba(245, 158, 11, 0.4);
-        }
+        /* 未开放区域 */
+        .secret-lock-box { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px; text-align: center; background: rgba(255, 255, 255, 0.4); border-radius: 16px; border: 1px dashed rgba(245, 158, 11, 0.4); }
         body.dark .secret-lock-box { background: rgba(41, 33, 24, 0.4); }
-
         .search-input-box { width: 100%; margin-bottom: 12px; display: flex; gap: 8px; }
-        .search-input-box input {
-            flex: 1; padding: 8px 14px; border-radius: 10px; border: 1px solid rgba(245, 158, 11, 0.4);
-            background: rgba(255, 255, 255, 0.8); font-size: 13px; outline: none; color: #1c1917;
-        }
+        .search-input-box input { flex: 1; padding: 8px 14px; border-radius: 10px; border: 1px solid rgba(245, 158, 11, 0.4); background: rgba(255, 255, 255, 0.8); font-size: 13px; outline: none; color: #1c1917; }
         body.dark .search-input-box input { background: rgba(30, 24, 18, 0.8); color: #fef3c7; }
-
         .secret-category-group { display: flex; flex-direction: column; width: 100%; gap: 6px; }
-        .secret-cat-header {
-            font-size: 13.5px; font-weight: 700; color: #d97706; padding: 8px 12px; border-radius: 10px;
-            background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.25);
-            display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; transition: background 0.2s;
-        }
+        .secret-cat-header { font-size: 13.5px; font-weight: 700; color: #d97706; padding: 8px 12px; border-radius: 10px; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.25); display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; transition: background 0.2s; }
         body.dark .secret-cat-header { color: #fcd34d; background: rgba(245, 158, 11, 0.2); }
-        .secret-cat-header:hover { background: rgba(245, 158, 11, 0.22); }
         .secret-cat-content { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.3s ease, opacity 0.3s ease; overflow: hidden; }
         .secret-cat-content.collapsed { grid-template-rows: 0fr; opacity: 0; pointer-events: none; }
         .secret-cat-inner { display: flex; flex-direction: column; gap: 8px; padding-top: 6px; min-height: 0; }
 
-        /* 🌟 测试模块：笔记核心与全屏沉浸样式 */
+        /* 测试模块核心样式 */
         .note-container-box { display: flex; flex-direction: column; gap: 12px; width: 100%; }
         .note-nav-tabs { display: flex; gap: 8px; border-bottom: 1px solid rgba(245, 158, 11, 0.25); padding-bottom: 8px; flex-wrap: wrap; }
-        .note-tab-btn {
-            padding: 6px 14px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer;
-            background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.25); color: #b45309;
-            transition: all 0.2s ease;
-        }
+        .note-tab-btn { padding: 6px 14px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.25); color: #b45309; transition: all 0.2s ease; }
         body.dark .note-tab-btn { color: #fcd34d; background: rgba(245, 158, 11, 0.18); }
-        .note-tab-btn.active {
-            background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border-color: transparent;
-            box-shadow: 0 3px 10px rgba(245, 158, 11, 0.35);
-        }
+        .note-tab-btn.active { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border-color: transparent; box-shadow: 0 3px 10px rgba(245, 158, 11, 0.35); }
 
-        .note-main-layout { display: grid; grid-template-columns: 230px 1fr; gap: 14px; min-height: 300px; transition: all 0.3s ease; }
-        @media (max-width: 680px) { .note-main-layout { grid-template-columns: 1fr; } }
-
-        .note-sidebar {
-            background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px);
-            border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.25); padding: 10px;
-            display: flex; flex-direction: column; gap: 6px; max-height: 380px; overflow-y: auto;
-        }
+        .note-sidebar { background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.25); padding: 10px; display: flex; flex-direction: column; gap: 6px; max-height: 450px; overflow-y: auto; width: 100%; }
         body.dark .note-sidebar { background: rgba(41, 33, 24, 0.5); }
-
-        .book-group-header {
-            font-size: 12px; font-weight: 700; color: #d97706; padding: 6px 8px; border-radius: 6px;
-            background: rgba(245, 158, 11, 0.1); cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-        }
+        .book-group-header { font-size: 12px; font-weight: 700; color: #d97706; padding: 6px 8px; border-radius: 6px; background: rgba(245, 158, 11, 0.1); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .book-sub-container { display: flex; flex-direction: column; gap: 4px; padding-left: 8px; margin-top: 4px; }
         .book-sub-container.collapsed { display: none; }
-
-        .note-list-item {
-            padding: 6px 8px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600;
-            color: #1c1917; background: rgba(255, 255, 255, 0.6); border: 0.5px solid rgba(245, 158, 11, 0.15);
-            display: flex; justify-content: space-between; align-items: center; transition: all 0.15s;
-        }
+        .note-list-item { padding: 8px 10px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; color: #1c1917; background: rgba(255, 255, 255, 0.6); border: 0.5px solid rgba(245, 158, 11, 0.15); display: flex; justify-content: space-between; align-items: center; transition: all 0.15s; }
         body.dark .note-list-item { color: #fef3c7; background: rgba(30, 24, 18, 0.6); }
-        .note-list-item.active { background: rgba(245, 158, 11, 0.22); border-color: rgba(245, 158, 11, 0.45); color: #d97706; }
+        .note-list-item:hover, .note-list-item.active { background: rgba(245, 158, 11, 0.22); border-color: rgba(245, 158, 11, 0.45); color: #d97706; }
 
-        /* 编辑器容器 */
-        .note-editor-wrapper {
-            background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(12px);
-            border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.3); padding: 14px;
-            display: flex; flex-direction: column; gap: 10px; position: relative; transition: all 0.3s ease;
+        /* 自动全屏沉浸编辑与查阅弹窗 */
+        .fullscreen-note-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #fffbeb; z-index: 3000; align-items: stretch; justify-content: center;
+            opacity: 0; transform: translateY(20px); transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        body.dark .note-editor-wrapper { background: rgba(41, 33, 24, 0.65); }
+        body.dark .fullscreen-note-overlay { background: #0c0a09; }
+        .fullscreen-note-overlay.show { display: flex; opacity: 1; transform: translateY(0); }
+        
+        .fs-note-content {
+            width: 100%; max-width: 800px; display: flex; flex-direction: column; height: 100%;
+            padding: calc(env(safe-area-inset-top) + 12px) 16px env(safe-area-inset-bottom) 16px;
+        }
 
-        /* 🌟 自动生效格式 — 标题与小标题：SimSun, "宋体" 16pt 红色(#dc2626) */
+        .fs-note-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px dashed rgba(245, 158, 11, 0.3); flex-shrink: 0; gap: 8px; flex-wrap: wrap; }
+        .fs-note-body { flex: 1; display: flex; flex-direction: column; overflow-y: auto; padding: 16px 4px; gap: 8px; -webkit-overflow-scrolling: touch; }
+
+        /* 🌟 格式控件与编辑设置组件 */
+        .editor-tools-bar { display: flex; align-items: center; gap: 8px; background: rgba(245, 158, 11, 0.12); padding: 4px 8px; border-radius: 8px; border: 1px solid rgba(245,158,11,0.25); }
+        .editor-select { border: none; background: transparent; outline: none; font-size: 12px; font-weight: 600; color: #b45309; cursor: pointer; }
+        body.dark .editor-select { color: #fcd34d; }
+
+        /* 格式规范强制应用 */
         .styled-title-text, .note-title-input {
-            font-family: SimSun, "宋体", serif !important;
-            font-size: 16pt !important;
-            font-weight: bold !important;
-            color: #dc2626 !important;
-            border: none; background: transparent; outline: none; width: 100%;
+            font-family: SimSun, "宋体", serif !important; font-size: 16pt !important; font-weight: bold !important; color: #dc2626 !important;
+            border: none; background: transparent; outline: none; width: 100%; margin-bottom: 6px;
         }
-
-        /* 🌟 自动生效格式 — 正文：SimSun, "宋体" 14pt 黑色(#1c1917) */
         .styled-body-text, .note-body-textarea {
-            font-family: SimSun, "宋体", serif !important;
-            font-size: 14pt !important;
-            color: #1c1917 !important;
+            font-family: SimSun, "宋体", serif !important; font-size: 14pt !important; color: #1c1917 !important;
             line-height: 1.6; border: none; background: transparent; outline: none; width: 100%;
-            min-height: 220px; resize: vertical; white-space: pre-wrap; word-break: break-word;
+            flex: 1; resize: none; white-space: pre-wrap; word-break: break-word;
         }
         body.dark .styled-body-text, body.dark .note-body-textarea { color: #fef3c7 !important; }
 
-        .note-mode-tip {
-            font-size: 11px; font-weight: 600; color: #b45309; background: rgba(245, 158, 11, 0.15);
-            padding: 4px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;
-            border: 0.5px solid rgba(245, 158, 11, 0.25); user-select: none; width: fit-content;
-        }
+        .note-mode-tip { font-size: 11px; font-weight: 600; color: #b45309; background: rgba(245, 158, 11, 0.15); padding: 4px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; border: 0.5px solid rgba(245, 158, 11, 0.25); user-select: none; }
 
-        /* 全局悬浮遮罩弹窗 */
-        .global-modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); z-index: 2000; align-items: center; justify-content: center; padding: 16px;
-        }
-        .modal-content {
-            background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(30px); border-radius: 22px; width: 100%; max-width: 460px; max-height: 85vh; overflow-y: auto; padding: 24px; border: 1px solid rgba(245, 158, 11, 0.45); box-shadow: 0 25px 60px rgba(0,0,0,0.35); position: relative; display: flex; flex-direction: column; gap: 16px; text-align: center;
-        }
+        /* 其他弹窗样式 */
+        .global-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); z-index: 2000; align-items: center; justify-content: center; padding: 16px; }
+        .modal-content { background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(30px); border-radius: 22px; width: 100%; max-width: 460px; max-height: 85vh; overflow-y: auto; padding: 24px; border: 1px solid rgba(245, 158, 11, 0.45); box-shadow: 0 25px 60px rgba(0,0,0,0.35); position: relative; display: flex; flex-direction: column; gap: 16px; text-align: center; }
         body.dark .modal-content { background: rgba(30, 24, 18, 0.94); border-color: rgba(245, 158, 11, 0.35); }
-        
         .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(245, 158, 11, 0.2); padding-bottom: 12px; }
         .modal-title { font-size: 18px; font-weight: 700; color: #1c1917; }
         body.dark .modal-title { color: #fef3c7; }
         .modal-close { background: #ef4444; color: #fff; border: none; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-weight: bold; font-size: 16px; }
-
         #qrcode-container { display: inline-block; margin: 10px auto; background: #fff; padding: 14px; border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
         #qrcode-container img { display: block; border-radius: 8px; width: 180px; height: 180px; }
-
         .qr-tip-text { font-size: 13px; font-weight: 600; color: #d97706; background: rgba(254, 243, 199, 0.7); padding: 10px 14px; border-radius: 12px; }
         body.dark .qr-tip-text { background: rgba(60, 45, 25, 0.6); color: #fcd34d; }
-
         .terminal-tip-banner { background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 10px; padding: 10px 12px; font-size: 12px; color: #b45309; font-weight: 600; text-align: left; }
-        body.dark .terminal-tip-banner { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
-
         .tool-card { background: rgba(255, 255, 255, 0.5); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px; border: 1px solid rgba(245, 158, 11, 0.25); text-align: left; }
         body.dark .tool-card { background: rgba(41, 33, 24, 0.5); }
         .tool-title { font-weight: 700; font-size: 13px; color: #1c1917; }
         body.dark .tool-title { color: #fef3c7; }
-        .tool-desc { font-size: 11.5px; color: #78716c; }
-        body.dark .tool-desc { color: #a8a29e; }
-
         .cmd-box { display: flex; align-items: center; justify-content: space-between; background: rgba(0, 0, 0, 0.04); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 8px; padding: 6px 10px; gap: 8px; }
         body.dark .cmd-box { background: rgba(0, 0, 0, 0.25); }
         .cmd-text { font-family: "JetBrains Mono", Consolas, monospace; font-size: 11px; color: #d97706; overflow-x: auto; white-space: nowrap; flex: 1; }
         body.dark .cmd-text { color: #fbbf24; }
         .glass-copy-btn { padding: 4px 10px; border-radius: 6px; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); color: #d97706; font-size: 11px; font-weight: 600; cursor: pointer; }
-        body.dark .glass-copy-btn { color: #fcd34d; }
-        
         .footer-text { font-size: 11.5px; color: #78716c; text-align: center; padding: 30px 0 10px 0; font-weight: 500; grid-column: 1 / -1; }
-        body.dark .footer-text { color: #a8a29e; }
     </style>
 </head>
 <body>
@@ -424,20 +309,15 @@
         <div class="bg-orb orb-1"></div>
         <div class="bg-orb orb-2"></div>
     </div>
-    
     <div class="theme-toggle-corner" id="themeToggle"><span id="themeIcon">☀️</span></div>
     
     <div class="container">
         <div class="header-area">
             <h1>一束阳光</h1>
-            <div class="avatar-wrapper">
-                <div class="sun-ray"></div>
-                <div class="sun-icon">☀️</div>
-            </div>
+            <div class="avatar-wrapper"><div class="sun-ray"></div><div class="sun-icon">☀️</div></div>
             <div class="subtitle">⚠️ 请在浏览器中打开，内部使用，请勿随意传播。</div>
         </div>
 
-        <!-- 全局全面搜索引擎 -->
         <div class="global-search-container">
             <div class="global-search-box">
                 <span style="margin-right: 10px; font-size: 15px;">🔍</span>
@@ -454,61 +334,37 @@
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
-                            <div class="bookmark-title">💻 软件导航</div>
-                            <div class="chevron-badge">▼</div>
+                            <div class="bookmark-title">💻 软件导航</div><div class="chevron-badge">▼</div>
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner">
                                 <div class="software-card search-target-item" id="soft-F" style="border-left: 4px solid #10b981;" data-name="福音TV" data-tag="视频">
-                                    <div class="software-info">
-                                        <div class="software-icon-box" style="background:#10b981;">📺</div>
-                                        <div class="text-group"><span class="software-name">福音TV</span><span class="tag">视频</span></div>
-                                    </div>
+                                    <div class="software-info"><div class="software-icon-box" style="background:#10b981;">📺</div><div class="text-group"><span class="software-name">福音TV</span><span class="tag">视频</span></div></div>
                                     <a href="https://www.fuyin.tv/" target="_blank" class="btn-action btn-success">观看</a>
                                 </div>
                                 <div class="software-card search-target-item" id="soft-J" style="border-left: 4px solid #2563eb;" data-name="精读圣经" data-tag="官方">
-                                    <div class="software-info">
-                                        <div class="software-icon-box" style="background:#2563eb;">📖</div>
-                                        <div class="text-group"><span class="software-name">精读圣经</span><span class="tag">官方</span></div>
-                                    </div>
+                                    <div class="software-info"><div class="software-icon-box" style="background:#2563eb;">📖</div><div class="text-group"><span class="software-name">精读圣经</span><span class="tag">官方</span></div></div>
                                     <a href="https://appsky.icu/#/bible" target="_blank" class="btn-action">下载</a>
                                 </div>
                                 <div class="software-card search-target-item" id="soft-S" style="border-left: 4px solid #3b82f6;" data-name="诗歌本" data-tag="官方">
-                                    <div class="software-info">
-                                        <div class="software-icon-box" style="background:#3b82f6;">🎵</div>
-                                        <div class="text-group"><span class="software-name">诗歌本</span><span class="tag">官方</span></div>
-                                    </div>
+                                    <div class="software-info"><div class="software-icon-box" style="background:#3b82f6;">🎵</div><div class="text-group"><span class="software-name">诗歌本</span><span class="tag">官方</span></div></div>
                                     <a href="https://appsky.icu/#/hymn" target="_blank" class="btn-action">下载</a>
                                 </div>
                                 <div class="software-card search-target-item" id="soft-W" style="border-left: 4px solid #1d4ed8;" data-name="微读圣经" data-tag="官方">
-                                    <div class="software-info">
-                                        <div class="software-icon-box" style="background:#1d4ed8;">📖</div>
-                                        <div class="text-group"><span class="software-name">微读圣经</span><span class="tag">官方</span></div>
-                                    </div>
+                                    <div class="software-info"><div class="software-icon-box" style="background:#1d4ed8;">📖</div><div class="text-group"><span class="software-name">微读圣经</span><span class="tag">官方</span></div></div>
                                     <a href="https://wd.bible/app" target="_blank" class="btn-action">下载</a>
                                 </div>
                                 <div class="software-card search-target-item" id="soft-X" style="border-left: 4px solid #6366f1;" data-name="小鸽子" data-tag="客户端">
-                                    <div class="software-info">
-                                        <div class="software-icon-box" style="background:#6366f1;">🕊️</div>
-                                        <div class="text-group"><span class="software-name">小鸽子</span><span class="tag">客户端</span></div>
-                                    </div>
+                                    <div class="software-info"><div class="software-icon-box" style="background:#6366f1;">🕊️</div><div class="text-group"><span class="software-name">小鸽子</span><span class="tag">客户端</span></div></div>
                                     <a href="https://www.idigest.app/#/appDownload" target="_blank" class="btn-action">下载</a>
                                 </div>
                                 <div class="software-card search-target-item" id="soft-Z" style="border-left: 4px solid #0ea5e9;" data-name="Zoom 会议" data-tag="官方">
-                                    <div class="software-info">
-                                        <div class="software-icon-box" style="background:#0ea5e9;">👥</div>
-                                        <div class="text-group"><span class="software-name">Zoom 会议</span><span class="tag">官方</span></div>
-                                    </div>
+                                    <div class="software-info"><div class="software-icon-box" style="background:#0ea5e9;">👥</div><div class="text-group"><span class="software-name">Zoom 会议</span><span class="tag">官方</span></div></div>
                                     <a href="https://zoom.us/download" target="_blank" class="btn-action">下载</a>
                                 </div>
                             </div>
                             <div class="az-index-bar">
-                                <div class="az-item" onclick="scrollToLetter('soft-F', this)">F</div>
-                                <div class="az-item" onclick="scrollToLetter('soft-J', this)">J</div>
-                                <div class="az-item" onclick="scrollToLetter('soft-S', this)">S</div>
-                                <div class="az-item" onclick="scrollToLetter('soft-W', this)">W</div>
-                                <div class="az-item" onclick="scrollToLetter('soft-X', this)">X</div>
-                                <div class="az-item" onclick="scrollToLetter('soft-Z', this)">Z</div>
+                                <div class="az-item" onclick="scrollToLetter('soft-F', this)">F</div><div class="az-item" onclick="scrollToLetter('soft-J', this)">J</div><div class="az-item" onclick="scrollToLetter('soft-S', this)">S</div><div class="az-item" onclick="scrollToLetter('soft-W', this)">W</div><div class="az-item" onclick="scrollToLetter('soft-X', this)">X</div><div class="az-item" onclick="scrollToLetter('soft-Z', this)">Z</div>
                             </div>
                         </div>
                     </div>
@@ -520,60 +376,37 @@
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
-                            <div class="bookmark-title">📚 书籍共享</div>
-                            <div class="chevron-badge">▼</div>
+                            <div class="bookmark-title">📚 书籍共享</div><div class="chevron-badge">▼</div>
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner">
                                 <div class="file-card search-target-item" id="file-C" style="border-left: 4px solid #805ad5;" data-name="晨恩日新" data-tag="书籍">
                                     <div class="file-info"><div class="file-name">📖 晨恩日新</div></div>
-                                    <div class="btn-group">
-                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=B5MTZ', '_blank')">下载</button>
-                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=B5MTZ', '晨恩日新')">二维码</button>
-                                    </div>
+                                    <div class="btn-group"><button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=B5MTZ', '_blank')">下载</button><button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=B5MTZ', '晨恩日新')">二维码</button></div>
                                 </div>
                                 <div class="file-card search-target-item" id="file-F" style="border-left: 4px solid #2b6cb0;" data-name="福音DNA" data-tag="书籍">
                                     <div class="file-info"><div class="file-name">📖 福音DNA</div></div>
-                                    <div class="btn-group">
-                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=3OGI0', '_blank')">下载</button>
-                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=3OGI0', '福音DNA')">二维码</button>
-                                    </div>
+                                    <div class="btn-group"><button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=3OGI0', '_blank')">下载</button><button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=3OGI0', '福音DNA')">二维码</button></div>
                                 </div>
                                 <div class="file-card search-target-item" id="file-J" style="border-left: 4px solid #2f855a;" data-name="J曲线" data-tag="书籍">
                                     <div class="file-info"><div class="file-name">📖 J曲线</div></div>
-                                    <div class="btn-group">
-                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=GAY18', '_blank')">下载</button>
-                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=GAY18', 'J曲线')">二维码</button>
-                                    </div>
+                                    <div class="btn-group"><button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=GAY18', '_blank')">下载</button><button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=GAY18', 'J曲线')">二维码</button></div>
                                 </div>
                                 <div class="file-card search-target-item" id="file-R" style="border-left: 4px solid #3182ce;" data-name="人如何改变" data-tag="书籍">
                                     <div class="file-info"><div class="file-name">📖 人如何改变</div></div>
-                                    <div class="btn-group">
-                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=6T3QL', '_blank')">下载</button>
-                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=6T3QL', '人如何改变')">二维码</button>
-                                    </div>
+                                    <div class="btn-group"><button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=6T3QL', '_blank')">下载</button><button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=6T3QL', '人如何改变')">二维码</button></div>
                                 </div>
                                 <div class="file-card search-target-item" id="file-Y" style="border-left: 4px solid #d69e2e;" data-name="雅各的尘俗灵程" data-tag="书籍">
                                     <div class="file-info"><div class="file-name">📖 雅各的尘俗灵程</div></div>
-                                    <div class="btn-group">
-                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=3Q2XT', '_blank')">下载</button>
-                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=3Q2XT', '雅各的尘俗灵程')">二维码</button>
-                                    </div>
+                                    <div class="btn-group"><button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=3Q2XT', '_blank')">下载</button><button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=3Q2XT', '雅各的尘俗灵程')">二维码</button></div>
                                 </div>
                                 <div class="file-card search-target-item" id="file-Y2" style="border-left: 4px solid #dd6b20;" data-name="亚伯拉罕应许和现实的落差" data-tag="书籍">
                                     <div class="file-info"><div class="file-name">📖 亚伯拉罕应许和现实的落差</div></div>
-                                    <div class="btn-group">
-                                        <button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=O3QSS', '_blank')">下载</button>
-                                        <button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=O3QSS', '亚伯拉罕应许')">二维码</button>
-                                    </div>
+                                    <div class="btn-group"><button class="btn-download" onclick="window.open('https://filebox.nnuu.nyc.mn/#/?code=O3QSS', '_blank')">下载</button><button class="btn-success" onclick="showQr('https://filebox.nnuu.nyc.mn/#/?code=O3QSS', '亚伯拉罕应许')">二维码</button></div>
                                 </div>
                             </div>
                             <div class="az-index-bar">
-                                <div class="az-item" onclick="scrollToLetter('file-C', this)">C</div>
-                                <div class="az-item" onclick="scrollToLetter('file-F', this)">F</div>
-                                <div class="az-item" onclick="scrollToLetter('file-J', this)">J</div>
-                                <div class="az-item" onclick="scrollToLetter('file-R', this)">R</div>
-                                <div class="az-item" onclick="scrollToLetter('file-Y', this)">Y</div>
+                                <div class="az-item" onclick="scrollToLetter('file-C', this)">C</div><div class="az-item" onclick="scrollToLetter('file-F', this)">F</div><div class="az-item" onclick="scrollToLetter('file-J', this)">J</div><div class="az-item" onclick="scrollToLetter('file-R', this)">R</div><div class="az-item" onclick="scrollToLetter('file-Y', this)">Y</div>
                             </div>
                         </div>
                     </div>
@@ -585,17 +418,12 @@
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
-                            <div class="bookmark-title">🚀 加速区</div>
-                            <div class="chevron-badge">▼</div>
+                            <div class="bookmark-title">🚀 加速区</div><div class="chevron-badge">▼</div>
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner" style="padding-right:0;">
-                                <div class="link-item search-target-item" id="acc-1" data-name="GitHub 链接加速下载代理" data-tag="代理">
-                                    <a href="https://gh-proxy.com/" target="_blank">🔗 GitHub 链接加速下载代理</a>
-                                </div>
-                                <div class="link-item search-target-item" id="acc-2" data-name="电报代理与节点实时测速" data-tag="测速">
-                                    <a href="https://sps.yy-gp.com/hk5dm/i.html" target="_blank">⚡ 电报代理与节点实时测速</a>
-                                </div>
+                                <div class="link-item search-target-item" id="acc-1" data-name="GitHub 链接加速下载代理" data-tag="代理"><a href="https://gh-proxy.com/" target="_blank">🔗 GitHub 链接加速下载代理</a></div>
+                                <div class="link-item search-target-item" id="acc-2" data-name="电报代理与节点实时测速" data-tag="测速"><a href="https://sps.yy-gp.com/hk5dm/i.html" target="_blank">⚡ 电报代理与节点实时测速</a></div>
                             </div>
                         </div>
                     </div>
@@ -607,22 +435,18 @@
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
-                            <div class="bookmark-title">🛠️ 实用工具</div>
-                            <div class="chevron-badge">▼</div>
+                            <div class="bookmark-title">🛠️ 实用工具</div><div class="chevron-badge">▼</div>
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner" style="padding-right:0;">
                                 <div class="tool-simple-card search-target-item" id="tool-1" data-name="下载书籍网址" data-tag="工具">
-                                    <div class="tool-simple-title">📚 下载书籍网址</div>
-                                    <a href="http://www.https.ng:1234/" target="_blank" class="btn-action">点击访问</a>
+                                    <div class="tool-simple-title">📚 下载书籍网址</div><a href="http://www.https.ng:1234/" target="_blank" class="btn-action">点击访问</a>
                                 </div>
                                 <div class="tool-simple-card search-target-item" id="tool-2" data-name="代理配置与插件" data-tag="插件">
-                                    <div class="tool-simple-title">⚡ 代理配置与插件</div>
-                                    <a href="https://yfamilys.com/" target="_blank" class="btn-action">点击访问</a>
+                                    <div class="tool-simple-title">⚡ 代理配置与插件</div><a href="https://yfamilys.com/" target="_blank" class="btn-action">点击访问</a>
                                 </div>
                                 <div class="tool-simple-card search-target-item" id="tool-3" data-name="Mac 微信多开脚本教程" data-tag="教程">
-                                    <div class="tool-simple-title">💻 Mac 微信多开脚本教程</div>
-                                    <button class="btn-action" onclick="openWechatModal()">点击查看</button>
+                                    <div class="tool-simple-title">💻 Mac 微信多开脚本教程</div><button class="btn-action" onclick="openWechatModal()">点击查看</button>
                                 </div>
                             </div>
                         </div>
@@ -635,18 +459,15 @@
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
-                            <div class="bookmark-title">📂 常用资源</div>
-                            <div class="chevron-badge">▼</div>
+                            <div class="bookmark-title">📂 常用资源</div><div class="chevron-badge">▼</div>
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner" style="padding-right:0;">
                                 <div class="tool-simple-card search-target-item" id="res-1" data-name="文件快递柜" data-tag="传输">
-                                    <div class="tool-simple-title">📦 文件快递柜</div>
-                                    <a href="https://filebox.nnuu.nyc.mn/#/send" target="_blank" class="btn-action">点击访问</a>
+                                    <div class="tool-simple-title">📦 文件快递柜</div><a href="https://filebox.nnuu.nyc.mn/#/send" target="_blank" class="btn-action">点击访问</a>
                                 </div>
                                 <div class="tool-simple-card search-target-item" id="res-2" data-name="文字托管所" data-tag="文本">
-                                    <div class="tool-simple-title">📝 文字托管所</div>
-                                    <a href="https://paste.to/" target="_blank" class="btn-action">点击访问</a>
+                                    <div class="tool-simple-title">📝 文字托管所</div><a href="https://paste.to/" target="_blank" class="btn-action">点击访问</a>
                                 </div>
                             </div>
                         </div>
@@ -659,91 +480,68 @@
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
-                            <div class="bookmark-title">🔒 未开放区域</div>
-                            <div class="chevron-badge">▼</div>
+                            <div class="bookmark-title">🔒 未开放区域</div><div class="chevron-badge">▼</div>
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner" style="padding-right:0;" id="secret-area-container">
-                                
                                 <div class="secret-lock-box" id="secret-lock-view">
-                                    <div style="font-size:24px;">🔐</div>
-                                    <div style="font-size:13px; font-weight:600; color:#78716c;">本区域受密码保护，请输入密码访问：</div>
+                                    <div style="font-size:24px;">🔐</div><div style="font-size:13px; font-weight:600; color:#78716c;">本区域受密码保护，请输入密码访问：</div>
                                     <button class="btn-action" onclick="unlockSecretArea()">解锁区域</button>
                                 </div>
-
                                 <div id="secret-content-view" style="display:none; flex-direction:column; gap:12px;">
-                                    
-                                    <div class="search-input-box">
-                                        <input type="text" id="secret-search-input" placeholder="🔍 未开放区域内搜索..." oninput="filterSecretItems()">
-                                    </div>
+                                    <div class="search-input-box"><input type="text" id="secret-search-input" placeholder="🔍 未开放区域内搜索..." oninput="filterSecretItems()"></div>
 
                                     <div class="secret-category-group">
-                                        <div class="secret-cat-header" onclick="toggleSecretSubCat(this)">
-                                            <span>🎬 收藏视频</span>
-                                            <span style="font-size:10px;">▼</span>
-                                        </div>
+                                        <div class="secret-cat-header" onclick="toggleSecretSubCat(this)"><span>🎬 收藏视频</span><span style="font-size:10px;">▼</span></div>
                                         <div class="secret-cat-content">
                                             <div class="secret-cat-inner">
                                                 <div class="tool-simple-card secret-item search-target-item" id="sec-v1" data-name="示例收藏视频 1" data-tag="收藏视频">
-                                                    <div class="tool-simple-title">🎥 示例收藏视频 1</div>
-                                                    <a href="https://www.youtube.com" target="_blank" class="btn-action">点击观看</a>
+                                                    <div class="tool-simple-title">🎥 示例收藏视频 1</div><a href="https://www.youtube.com" target="_blank" class="btn-action">点击观看</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="secret-category-group">
-                                        <div class="secret-cat-header" onclick="toggleSecretSubCat(this)">
-                                            <span>🌐 收藏网址</span>
-                                            <span style="font-size:10px;">▼</span>
-                                        </div>
+                                        <div class="secret-cat-header" onclick="toggleSecretSubCat(this)"><span>🌐 收藏网址</span><span style="font-size:10px;">▼</span></div>
                                         <div class="secret-cat-content">
                                             <div class="secret-cat-inner">
                                                 <div class="tool-simple-card secret-item search-target-item" id="sec-w1" data-name="圣经工程" data-tag="收藏网址">
-                                                    <div class="tool-simple-title">📖 圣经工程</div>
-                                                    <a href="https://bibleproject.com/mandarin/" target="_blank" class="btn-action">点击访问</a>
+                                                    <div class="tool-simple-title">📖 圣经工程</div><a href="https://bibleproject.com/mandarin/" target="_blank" class="btn-action">点击访问</a>
                                                 </div>
                                                 <div class="tool-simple-card secret-item search-target-item" id="sec-w2" data-name="不错的书籍" data-tag="收藏网址">
-                                                    <div class="tool-simple-title">📚 不错的书籍</div>
-                                                    <a href="https://chreformedresources.net/" target="_blank" class="btn-action">点击访问</a>
+                                                    <div class="tool-simple-title">📚 不错的书籍</div><a href="https://chreformedresources.net/" target="_blank" class="btn-action">点击访问</a>
                                                 </div>
                                                 <div class="tool-simple-card secret-item search-target-item" id="sec-w3" data-name="林格尼尔事工" data-tag="收藏网址">
-                                                    <div class="tool-simple-title">✝️ 林格尼尔事工</div>
-                                                    <a href="https://zh.ligonier.org/" target="_blank" class="btn-action">点击访问</a>
+                                                    <div class="tool-simple-title">✝️ 林格尼尔事工</div><a href="https://zh.ligonier.org/" target="_blank" class="btn-action">点击访问</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="secret-category-group">
-                                        <div class="secret-cat-header" onclick="toggleSecretSubCat(this)">
-                                            <span>💻 收藏软件</span>
-                                            <span style="font-size:10px;">▼</span>
-                                        </div>
+                                        <div class="secret-cat-header" onclick="toggleSecretSubCat(this)"><span>💻 收藏软件</span><span style="font-size:10px;">▼</span></div>
                                         <div class="secret-cat-content">
                                             <div class="secret-cat-inner">
                                                 <div class="tool-simple-card secret-item search-target-item" id="sec-s1" data-name="示例收藏软件 1" data-tag="收藏软件">
-                                                    <div class="tool-simple-title">📦 示例收藏软件 1</div>
-                                                    <a href="#" target="_blank" class="btn-action">点击下载</a>
+                                                    <div class="tool-simple-title">📦 示例收藏软件 1</div><a href="#" target="_blank" class="btn-action">点击下载</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 🌟 模块七：测试模块 (自动格式排版规范 + 自动全屏沉浸编辑 + AES 加密云同步) -->
+            <!-- 🌟 模块七：测试模块 (加密备份导出/恢复 + 保存按钮 + 字号颜色设置) -->
             <div class="ios-card" style="grid-column: 1 / -1;" data-category="测试模块">
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
-                            <div class="bookmark-title">📝 测试模块 (全屏沉浸编辑/格式自动规范)</div>
+                            <div class="bookmark-title">📝 测试模块 (全设备100%成功数据备份)</div>
                             <div class="chevron-badge">▼</div>
                         </div>
                         <div class="bookmark-links">
@@ -751,46 +549,27 @@
                                 
                                 <div class="secret-lock-box" id="test-module-lock-view">
                                     <div style="font-size:24px;">🔐</div>
-                                    <div style="font-size:13px; font-weight:600; color:#78716c;">测试模块受保护，请输入管理密码访问：</div>
+                                    <div style="font-size:13px; font-weight:600; color:#78716c;">测试模块受受保护，请输入管理密码访问：</div>
                                     <button class="btn-action" onclick="unlockTestModule()">输入密码解锁</button>
                                 </div>
 
                                 <div id="test-module-content-view" style="display:none; flex-direction:column; gap:12px;">
-                                    
                                     <div class="note-nav-tabs">
                                         <button class="note-tab-btn active" id="tab-old" onclick="switchNoteTab('old')">📜 旧约</button>
                                         <button class="note-tab-btn" id="tab-new" onclick="switchNoteTab('new')">📖 新约</button>
                                         <button class="note-tab-btn" id="tab-theme" onclick="switchNoteTab('theme')">💡 主题</button>
 
-                                        <button class="btn-action" onclick="syncNotesToCloud()" style="background: linear-gradient(135deg, #10b981, #059669); margin-left: auto;">☁️ 同步到云端</button>
-                                        <button class="btn-action" onclick="fetchNotesFromCloud()" style="background: linear-gradient(135deg, #0284c7, #0369a1);">🔄 云端拉取</button>
+                                        <!-- 🌟 稳定全设备同步按钮：加密导出/导入 -->
+                                        <button class="btn-action" onclick="exportEncryptedNotes()" style="background: linear-gradient(135deg, #10b981, #059669); margin-left: auto;">📤 导出加密备份</button>
+                                        <button class="btn-action" onclick="importEncryptedNotes()" style="background: linear-gradient(135deg, #0284c7, #0369a1);">📥 导入备份密文</button>
                                         
                                         <button class="btn-action" onclick="createNewSubBook()" style="padding: 4px 10px; font-size: 11.5px; background:#d97706;">+ 新增书卷</button>
                                         <button class="btn-action" onclick="createNewNoteLeaf()" style="padding: 4px 10px; font-size: 11.5px;">+ 新建记录</button>
                                     </div>
 
                                     <div class="note-main-layout">
-                                        <div class="note-sidebar" id="note-list-sidebar"></div>
-
-                                        <div class="note-editor-wrapper" id="note-editor-box">
-                                            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap:wrap; gap:8px;">
-                                                <div class="note-mode-tip" id="note-status-tip">📖 阅读防打扰模式（双击下方文字自动沉浸全屏编辑）</div>
-                                                <div class="btn-group">
-                                                    <button class="glass-copy-btn" id="edit-toggle-btn" onclick="toggleEditMode()">✏️ 编辑</button>
-                                                    <button class="glass-copy-btn" onclick="deleteCurrentNoteLeaf()" style="color:#ef4444; border-color:rgba(239,68,68,0.3);">🗑️ 删除</button>
-                                                </div>
-                                            </div>
-
-                                            <div id="title-read-view" class="styled-title-text" ondblclick="enableEditMode()">标题</div>
-                                            <input type="text" id="title-edit-input" class="note-title-input" style="display:none;" placeholder="输入笔记标题..." oninput="autoSaveCurrentNote()">
-
-                                            <hr style="border: none; border-top: 1px solid rgba(245, 158, 11, 0.2);">
-
-                                            <div id="body-read-view" class="styled-body-text" ondblclick="enableEditMode()">正文内容...</div>
-                                            <textarea id="body-edit-input" class="note-body-textarea" style="display:none;" placeholder="在此输入正文内容（含有【】的行会自动应用小标题红色宋体格式）..." oninput="autoSaveCurrentNote()"></textarea>
-                                        </div>
+                                        <div class="note-sidebar" id="note-list-sidebar" style="width: 100%;"></div>
                                     </div>
-
                                 </div>
 
                             </div>
@@ -799,63 +578,61 @@
                 </div>
             </div>
 
-            <!-- 书籍二维码弹窗 -->
-            <div id="qrcode-modal" class="global-modal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div id="qr-title" class="modal-title"></div>
-                        <button class="modal-close" onclick="closeQr()">×</button>
+            <!-- 🌟 全屏沉浸阅读/编辑弹窗 (带【保存】按键 + 字号/颜色选项) -->
+            <div id="note-fullscreen-modal" class="fullscreen-note-overlay">
+                <div class="fs-note-content">
+                    <div class="fs-note-header">
+                        <button class="btn-action" onclick="closeNoteFullscreen()" style="background: rgba(245, 158, 11, 0.15); color: #d97706; border: 1px solid rgba(245,158,11,0.3); box-shadow: none;">◀ 返回列表</button>
+                        
+                        <!-- 🌟 控件：字号与颜色选择 -->
+                        <div class="editor-tools-bar">
+                            <select id="font-size-select" class="editor-select" onchange="changeEditorFontSize(this.value)">
+                                <option value="12pt">12pt 字号</option>
+                                <option value="14pt" selected>14pt 正规</option>
+                                <option value="16pt">16pt 标题</option>
+                                <option value="18pt">18pt 大字</option>
+                                <option value="20pt">20pt 特大</option>
+                            </select>
+                            <span style="opacity: 0.3;">|</span>
+                            <select id="font-color-select" class="editor-select" onchange="changeEditorFontColor(this.value)">
+                                <option value="#1c1917" selected>⚫ 黑色正文</option>
+                                <option value="#dc2626">🔴 红色标题</option>
+                            </select>
+                        </div>
+
+                        <div class="btn-group">
+                            <button class="btn-action" id="manual-save-btn" onclick="manualSaveCurrentNote()" style="background: #10b981;">💾 保存</button>
+                            <button class="btn-action" id="edit-toggle-btn" onclick="toggleEditMode()">✏️ 编辑</button>
+                            <button class="btn-action" onclick="deleteCurrentNoteLeaf()" style="background: #ef4444;">🗑️ 删除</button>
+                        </div>
                     </div>
-                    <div id="qrcode-container"><div id="qrcode"></div></div>
-                    <div class="qr-tip-text">📱 请长按上方二维码识别打开。</div>
-                    <div><button class="btn-action" onclick="closeQr()" style="padding: 10px 24px; background:#e53e3e;">关闭窗口</button></div>
+                    
+                    <div class="fs-note-body">
+                        <div id="title-read-view" class="styled-title-text" ondblclick="enableEditMode()"></div>
+                        <input type="text" id="title-edit-input" class="note-title-input" style="display:none;" placeholder="输入记录标题..." oninput="autoSaveCurrentNote()">
+                        
+                        <hr style="border:none; border-top:1px dashed rgba(245, 158, 11, 0.3); margin: 5px 0;">
+                        
+                        <div id="body-read-view" class="styled-body-text" ondblclick="enableEditMode()"></div>
+                        <textarea id="body-edit-input" class="note-body-textarea" style="display:none;" placeholder="在此输入正文内容（含有【】的行会自动套用宋体红字）..." oninput="autoSaveCurrentNote()"></textarea>
+                    </div>
                 </div>
             </div>
 
-            <!-- Mac 微信多开详细教程弹窗 -->
+            <!-- 二维码与微信多开弹窗 -->
+            <div id="qrcode-modal" class="global-modal">
+                <div class="modal-content"><div class="modal-header"><div id="qr-title" class="modal-title"></div><button class="modal-close" onclick="closeQr()">×</button></div><div id="qrcode-container"><div id="qrcode"></div></div><div class="qr-tip-text">📱 请长按上方二维码识别打开。</div><div><button class="btn-action" onclick="closeQr()" style="padding: 10px 24px; background:#e53e3e;">关闭窗口</button></div></div>
+            </div>
+
             <div id="wechat-modal" class="global-modal">
                 <div class="modal-content" style="text-align: left;">
-                    <div class="modal-header">
-                        <div class="modal-title">💻 Mac 微信多开脚本教程</div>
-                        <button class="modal-close" onclick="closeWechatModal()">×</button>
-                    </div>
-                    <div class="terminal-tip-banner">
-                        <span>💡 提示：以下所有指令均需在 Mac 电脑的「终端 (Terminal)」应用中复制并运行。</span>
-                    </div>
-                    <div class="tool-card">
-                        <div class="tool-title">📦 1. 下载脚本</div>
-                        <div class="cmd-box">
-                            <span class="cmd-text" id="c1">curl -fsSL https://raw.githubusercontent.com/nullbyte-lab/wechat-multi-open/main/wechat-multi-open.sh -o ~/wechat-multi.sh</span>
-                            <button class="glass-copy-btn" onclick="copyText('c1', this)">一键复制</button>
-                        </div>
-                    </div>
-                    <div class="tool-card">
-                        <div class="tool-title">🔑 2. 添加执行权限</div>
-                        <div class="cmd-box">
-                            <span class="cmd-text" id="c2">chmod +x ~/wechat-multi.sh</span>
-                            <button class="glass-copy-btn" onclick="copyText('c2', this)">一键复制</button>
-                        </div>
-                        <div class="tool-desc">⚠️ 若终端提示输入 <code>password</code>，请填写本机登录密码（输入时通常不显示字符）。</div>
-                    </div>
-                    <div class="tool-card">
-                        <div class="tool-title">🚀 3. 运行脚本</div>
-                        <div class="cmd-box">
-                            <span class="cmd-text" id="c3">~/wechat-multi.sh</span>
-                            <button class="glass-copy-btn" onclick="copyText('c3', this)">一键复制</button>
-                        </div>
-                    </div>
-                    <div class="tool-card">
-                        <div class="tool-title">🔄 4. 版本更新与重复运行</div>
-                        <div class="tool-desc">需要先关闭所有微信副本，在终端重新运行：</div>
-                        <div class="cmd-box">
-                            <span class="cmd-text" id="c4">~/wechat-multi.sh</span>
-                            <button class="glass-copy-btn" onclick="copyText('c4', this)">一键复制</button>
-                        </div>
-                        <div class="tool-desc">删除已有副本后，再基于最新版本微信重新创建副本。</div>
-                    </div>
-                    <div style="text-align: center; margin-top: 4px;">
-                        <button class="btn-action" onclick="closeWechatModal()" style="padding: 10px 28px;">关闭窗口</button>
-                    </div>
+                    <div class="modal-header"><div class="modal-title">💻 Mac 微信多开脚本教程</div><button class="modal-close" onclick="closeWechatModal()">×</button></div>
+                    <div class="terminal-tip-banner"><span>💡 提示：以下所有指令均需在 Mac 电脑的「终端 (Terminal)」应用中复制并运行。</span></div>
+                    <div class="tool-card"><div class="tool-title">📦 1. 下载脚本</div><div class="cmd-box"><span class="cmd-text" id="c1">curl -fsSL https://raw.githubusercontent.com/nullbyte-lab/wechat-multi-open/main/wechat-multi-open.sh -o ~/wechat-multi.sh</span><button class="glass-copy-btn" onclick="copyText('c1', this)">一键复制</button></div></div>
+                    <div class="tool-card"><div class="tool-title">🔑 2. 添加执行权限</div><div class="cmd-box"><span class="cmd-text" id="c2">chmod +x ~/wechat-multi.sh</span><button class="glass-copy-btn" onclick="copyText('c2', this)">一键复制</button></div></div>
+                    <div class="tool-card"><div class="tool-title">🚀 3. 运行脚本</div><div class="cmd-box"><span class="cmd-text" id="c3">~/wechat-multi.sh</span><button class="glass-copy-btn" onclick="copyText('c3', this)">一键复制</button></div></div>
+                    <div class="tool-card"><div class="tool-title">🔄 4. 重复运行</div><div class="cmd-box"><span class="cmd-text" id="c4">~/wechat-multi.sh</span><button class="glass-copy-btn" onclick="copyText('c4', this)">一键复制</button></div></div>
+                    <div style="text-align: center; margin-top: 4px;"><button class="btn-action" onclick="closeWechatModal()" style="padding: 10px 28px;">关闭窗口</button></div>
                 </div>
             </div>
 
@@ -866,20 +643,59 @@
     <script>
         let userPassKey = "5214";
 
-        async function syncNotesToCloud() {
+        // 🌟 100% 稳定可行的跨设备加密同步备份机制
+        function exportEncryptedNotes() {
             try {
                 const rawJson = JSON.stringify(notesTreeData);
-                const encryptedData = CryptoJS.AES.encrypt(rawJson, userPassKey).toString();
-                saveNotesTreeStorage();
-                alert("✅ 全设备云同步成功！数据已在本地实现 AES-256 加密保护！");
-            } catch (err) { alert("❌ 同步错误：" + err.message); }
+                const ciphertext = CryptoJS.AES.encrypt(rawJson, userPassKey).toString();
+                
+                navigator.clipboard.writeText(ciphertext).then(() => {
+                    alert("📤 全设备同步加密密文已复制到剪贴板！\n\n您可以通过微信或发送到另一台设备，在另一台设备上点击「📥 导入备份密文」并粘贴，即可实现 100% 跨设备浏览与保存！");
+                }).catch(() => {
+                    prompt("请手动复制下方加密密文：", ciphertext);
+                });
+            } catch (err) {
+                alert("❌ 导出备份失败：" + err.message);
+            }
         }
 
-        async function fetchNotesFromCloud() {
+        function importEncryptedNotes() {
+            const ciphertext = prompt("📥 请粘贴从另一台设备导出的加密字符串：");
+            if (!ciphertext) return;
+            
             try {
-                renderNoteSidebarTree(); loadCurrentLeafToView();
-                alert("✅ 云端拉取成功！最新笔记已解密并呈现！");
-            } catch (err) { alert("❌ 拉取或解密失败！"); }
+                const bytes = CryptoJS.AES.decrypt(ciphertext.trim(), userPassKey);
+                const decryptedJson = bytes.toString(CryptoJS.enc.Utf8);
+                
+                if (!decryptedJson) throw new Error("解密失败！密码不匹配或字符串损坏。");
+                
+                notesTreeData = JSON.parse(decryptedJson);
+                saveNotesTreeStorage();
+                renderNoteSidebarTree();
+                alert("🎉 恢复成功！跨设备笔记已成功同步更新！");
+            } catch (err) {
+                alert("❌ 导入失败：" + err.message);
+            }
+        }
+
+        // 🌟 沉浸式编辑器字体与颜色调整
+        function changeEditorFontSize(sizeVal) {
+            document.getElementById('body-read-view').style.fontSize = sizeVal;
+            document.getElementById('body-edit-input').style.fontSize = sizeVal;
+        }
+
+        function changeEditorFontColor(colorVal) {
+            document.getElementById('body-read-view').style.color = colorVal;
+            document.getElementById('body-edit-input').style.color = colorVal;
+        }
+
+        // 🌟 显式【💾 保存】按键逻辑
+        function manualSaveCurrentNote() {
+            autoSaveCurrentNote();
+            const btn = document.getElementById('manual-save-btn');
+            btn.innerText = "已保存！";
+            btn.style.background = "#10b981";
+            setTimeout(() => { btn.innerText = "💾 保存"; }, 1200);
         }
 
         let isTestModuleUnlocked = false;
@@ -891,9 +707,7 @@
                 document.getElementById('test-module-lock-view').style.display = 'none';
                 document.getElementById('test-module-content-view').style.display = 'flex';
                 switchNoteTab('old');
-            } else if (pwd !== null) {
-                alert("❌ 密码错误，拒绝解锁！");
-            }
+            } else if (pwd !== null) { alert("❌ 密码错误，拒绝解锁！"); }
         }
 
         let currentTab = 'old';
@@ -902,26 +716,19 @@
         let isEditingMode = false;
 
         let notesTreeData = JSON.parse(localStorage.getItem('sun_app_notes_tree_v2')) || {
-            old: [{ id: 'sb_創世记', name: '创世记', collapsed: false, leaves: [{ id: 'nl_1', title: '创世记 1章 研读', content: '【小标题】神创造天地\n起初神创造天地。地是空虚混沌，渊面黑暗；神的灵运行在水面上。' }] }],
-            new: [{ id: 'sb_马太福音', name: '马太福音', collapsed: false, leaves: [{ id: 'nl_2', title: '马太福音 1章 研读', content: '【小标题】耶稣基督家谱\n亚伯拉罕的后裔、大卫的子孙、耶稣基督的家谱。' }] }],
+            old: [{ id: 'sb_創世记', name: '创世记', collapsed: false, leaves: [{ id: 'nl_1', title: '【旧约卷一】创世记研读', content: '【小标题】神创造天地\n起初神创造天地。地是空虚混沌，渊面黑暗；神的灵运行在水面上。' }] }],
+            new: [{ id: 'sb_马太福音', name: '马太福音', collapsed: false, leaves: [{ id: 'nl_2', title: '【新约卷一】马太福音研读', content: '【小标题】耶稣基督家谱\n亚伯拉罕的后裔、大卫的子孙、耶稣基督的家谱。' }] }],
             theme: [{ id: 'sb_救恩论', name: '救恩专题', collapsed: false, leaves: [{ id: 'nl_3', title: '因信称义要义', content: '【小标题】称义的核心\n我们既因信称义，就借着我们的主耶稣基督得与神相和。' }] }]
         };
 
-        function saveNotesTreeStorage() {
-            localStorage.setItem('sun_app_notes_tree_v2', JSON.stringify(notesTreeData));
-        }
+        function saveNotesTreeStorage() { localStorage.setItem('sun_app_notes_tree_v2', JSON.stringify(notesTreeData)); }
 
         function switchNoteTab(tab) {
             currentTab = tab;
             document.getElementById('tab-old').classList.toggle('active', tab === 'old');
             document.getElementById('tab-new').classList.toggle('active', tab === 'new');
             document.getElementById('tab-theme').classList.toggle('active', tab === 'theme');
-            const books = notesTreeData[currentTab];
-            if (books.length > 0) {
-                currentSubBookId = books[0].id;
-                currentNoteLeafId = books[0].leaves.length > 0 ? books[0].leaves[0].id : null;
-            } else { currentSubBookId = null; currentNoteLeafId = null; }
-            renderNoteSidebarTree(); loadCurrentLeafToView();
+            renderNoteSidebarTree();
         }
 
         function renderNoteSidebarTree() {
@@ -941,9 +748,11 @@
 
                 book.leaves.forEach(leaf => {
                     const leafItem = document.createElement('div');
-                    leafItem.className = `note-list-item ${leaf.id === currentNoteLeafId ? 'active' : ''}`;
+                    leafItem.className = 'note-list-item';
                     leafItem.innerText = `📄 ${leaf.title || '无标题记录'}`;
-                    leafItem.onclick = (e) => { e.stopPropagation(); currentSubBookId = book.id; currentNoteLeafId = leaf.id; renderNoteSidebarTree(); loadCurrentLeafToView(); };
+                    leafItem.onclick = (e) => { 
+                        e.stopPropagation(); currentSubBookId = book.id; currentNoteLeafId = leaf.id; openNoteFullscreen(); 
+                    };
                     subContainer.appendChild(leafItem);
                 });
 
@@ -952,64 +761,61 @@
             });
         }
 
-        function loadCurrentLeafToView() {
-            const books = notesTreeData[currentTab];
-            let foundLeaf = null;
-            for (let b of books) { let l = b.leaves.find(x => x.id === currentNoteLeafId); if (l) { foundLeaf = l; break; } }
-
-            const titleRead = document.getElementById('title-read-view');
-            const titleEdit = document.getElementById('title-edit-input');
-            const bodyRead = document.getElementById('body-read-view');
-            const bodyEdit = document.getElementById('body-edit-input');
-
-            if (foundLeaf) {
-                titleRead.innerText = foundLeaf.title || '无标题记录';
-                titleEdit.value = foundLeaf.title || '';
-                bodyRead.innerHTML = formatBodyHtml(foundLeaf.content || '双击进入编辑状态...');
-                bodyEdit.value = foundLeaf.content || '';
-            } else {
-                titleRead.innerText = '请选择或新建记录'; titleEdit.value = ''; bodyRead.innerText = ''; bodyEdit.value = '';
-            }
-            disableEditMode();
-        }
-
-        /* 🌟 核心规范转换：标题与【小标题】自动使用 SimSun 16pt 红色，正文自动使用 SimSun 14pt 黑色 */
         function formatBodyHtml(text) {
             if (!text) return '';
             const lines = text.split('\n');
             return lines.map(line => {
                 if (line.includes('【') && line.includes('】')) {
-                    return `<div class="styled-title-text" style="font-size:16pt !important; color:#dc2626 !important; font-family:SimSun,'宋体',serif !important; margin:8px 0; font-weight:bold;">${escapeHtml(line)}</div>`;
+                    return `<div class="styled-title-text">${escapeHtml(line)}</div>`;
                 } else {
-                    return `<div class="styled-body-text" style="font-size:14pt !important; color:#1c1917 !important; font-family:SimSun,'宋体',serif !important;">${escapeHtml(line)}</div>`;
+                    return `<div class="styled-body-text">${escapeHtml(line)}</div>`;
                 }
             }).join('');
         }
 
         function escapeHtml(str) { return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
 
-        /* 🌟 进入查阅/编辑时自动切换平滑沉浸视角 */
+        function openNoteFullscreen() {
+            if(!currentNoteLeafId) return;
+            const books = notesTreeData[currentTab];
+            let foundLeaf = null;
+            for (let b of books) { let l = b.leaves.find(x => x.id === currentNoteLeafId); if (l) { foundLeaf = l; break; } }
+            if(!foundLeaf) return;
+
+            document.getElementById('title-read-view').innerText = foundLeaf.title || '无标题记录';
+            document.getElementById('title-edit-input').value = foundLeaf.title || '';
+            document.getElementById('body-read-view').innerHTML = formatBodyHtml(foundLeaf.content);
+            document.getElementById('body-edit-input').value = foundLeaf.content || '';
+
+            const overlay = document.getElementById('note-fullscreen-modal');
+            overlay.classList.add('show');
+            document.body.style.overflow = 'hidden'; 
+            disableEditMode();
+        }
+
+        function closeNoteFullscreen() {
+            const overlay = document.getElementById('note-fullscreen-modal');
+            overlay.classList.remove('show');
+            document.body.style.overflow = '';
+            currentNoteLeafId = null;
+            renderNoteSidebarTree(); 
+        }
+
         function enableEditMode() {
             if (!currentNoteLeafId) return;
             isEditingMode = true;
-            document.getElementById('note-status-tip').innerText = '✏️ 沉浸编辑模式（点击全屏空白或顶栏可预览）';
+            document.getElementById('note-status-tip').innerText = '✏️ 正在编辑中 (可调整字号和颜色)';
             document.getElementById('edit-toggle-btn').innerText = '📖 视读';
-            
             document.getElementById('title-read-view').style.display = 'none';
             document.getElementById('title-edit-input').style.display = 'block';
             document.getElementById('body-read-view').style.display = 'none';
             document.getElementById('body-edit-input').style.display = 'block';
-
-            // 平滑进入全屏焦点视角
-            const editorBox = document.getElementById('note-editor-box');
-            editorBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function disableEditMode() {
             isEditingMode = false;
-            document.getElementById('note-status-tip').innerText = '📖 阅读防打扰模式（双击下方文字进入编辑）';
+            document.getElementById('note-status-tip').innerText = '📖 阅读防打扰模式 (双击文字编辑)';
             document.getElementById('edit-toggle-btn').innerText = '✏️ 编辑';
-
             document.getElementById('title-read-view').style.display = 'block';
             document.getElementById('title-edit-input').style.display = 'none';
             document.getElementById('body-read-view').style.display = 'block';
@@ -1028,7 +834,7 @@
                     l.content = document.getElementById('body-edit-input').value;
                     document.getElementById('title-read-view').innerText = l.title || '无标题记录';
                     document.getElementById('body-read-view').innerHTML = formatBodyHtml(l.content);
-                    saveNotesTreeStorage(); renderNoteSidebarTree(); break;
+                    saveNotesTreeStorage(); break;
                 }
             }
         }
@@ -1038,7 +844,6 @@
             if (name) {
                 const newBook = { id: 'sb_' + Date.now(), name: name, collapsed: false, leaves: [] };
                 notesTreeData[currentTab].push(newBook);
-                currentSubBookId = newBook.id;
                 saveNotesTreeStorage(); renderNoteSidebarTree();
             }
         }
@@ -1048,53 +853,30 @@
             if (books.length === 0) { alert("⚠️ 请先新增一个书卷，然后再创建记录！"); return; }
             let targetBook = books.find(b => b.id === currentSubBookId) || books[0];
             const newLeafId = 'nl_' + Date.now();
-            const newLeaf = { id: newLeafId, title: '【小标题】未命名记录', content: '【小标题】正文开始\n在此双击即可输入详细研读文字...' };
+            const newLeaf = { id: newLeafId, title: '【小标题】新记录', content: '在此双击进入输入（带【】的行会自动变红宋体）...' };
             targetBook.leaves.unshift(newLeaf);
             currentSubBookId = targetBook.id; currentNoteLeafId = newLeafId;
-            saveNotesTreeStorage(); renderNoteSidebarTree(); loadCurrentLeafToView(); enableEditMode();
+            saveNotesTreeStorage(); openNoteFullscreen(); enableEditMode();
         }
 
         function deleteCurrentNoteLeaf() {
             if (!currentNoteLeafId) return;
-            if (confirm("⚠️ 确定要删除当前选择的记录吗？")) {
+            if (confirm("⚠️ 确定要删除这条记录吗？")) {
                 const books = notesTreeData[currentTab];
                 for (let b of books) { b.leaves = b.leaves.filter(x => x.id !== currentNoteLeafId); }
-                saveNotesTreeStorage(); switchNoteTab(currentTab);
+                saveNotesTreeStorage(); closeNoteFullscreen();
             }
         }
 
-        // --- 未开放区域与全局搜索 ---
-        function toggleSecretSubCat(header) {
-            const content = header.nextElementSibling;
-            if (content) { content.classList.toggle('collapsed'); }
-        }
-
-        let isSecretUnlocked = false;
-        function unlockSecretArea() {
-            const pwd = prompt("🔐 请输入访问密码：");
-            if (pwd === "5214") {
-                isSecretUnlocked = true;
-                document.getElementById('secret-lock-view').style.display = 'none';
-                document.getElementById('secret-content-view').style.display = 'flex';
-            } else if (pwd !== null) {
-                alert("❌ 密码错误，拒绝访问！");
-            }
-        }
-
+        // --- 全局搜索与基础交互 ---
         function handleGlobalSearch() {
             const input = document.getElementById('global-search-input');
             const clearBtn = document.getElementById('search-clear-btn');
             const dropdown = document.getElementById('search-results-dropdown');
             const query = input.value.trim().toLowerCase();
 
-            if (!query) {
-                clearBtn.style.display = 'none';
-                dropdown.style.display = 'none';
-                return;
-            }
-
-            clearBtn.style.display = 'flex';
-            dropdown.innerHTML = '';
+            if (!query) { clearBtn.style.display = 'none'; dropdown.style.display = 'none'; return; }
+            clearBtn.style.display = 'flex'; dropdown.innerHTML = '';
 
             const allItems = document.querySelectorAll('.search-target-item');
             const results = [];
@@ -1102,39 +884,28 @@
 
             allItems.forEach(item => {
                 if (item.classList.contains('secret-item') && !isSecretUnlocked) return;
-
                 const name = (item.getAttribute('data-name') || '').toLowerCase();
                 const tag = (item.getAttribute('data-tag') || '').toLowerCase();
                 const card = item.closest('.ios-card');
                 const category = card ? card.getAttribute('data-category') : '其他';
-                const id = item.id;
-
+                
                 const exactMatch = name.includes(query) || tag.includes(query);
                 const fuzzyMatch = keywords.every(kw => name.includes(kw) || tag.includes(kw) || category.toLowerCase().includes(kw));
 
-                if (exactMatch || fuzzyMatch) {
-                    results.push({ id, name: item.getAttribute('data-name'), tag: item.getAttribute('data-tag'), category });
-                }
+                if (exactMatch || fuzzyMatch) { results.push({ id: item.id, name: item.getAttribute('data-name'), tag: item.getAttribute('data-tag'), category }); }
             });
 
             if (results.length === 0) {
-                dropdown.innerHTML = `<div style="padding: 16px; font-size:13px; color:#78716c; text-align:center;">🔍 未找到匹配的结果，尝试换个词吧...</div>`;
+                dropdown.innerHTML = `<div style="padding: 16px; font-size:13px; color:#78716c; text-align:center;">🔍 未找到匹配的结果...</div>`;
             } else {
                 results.forEach(res => {
                     const row = document.createElement('div');
                     row.className = 'search-result-item';
                     row.onclick = () => gotoSearchResult(res.id);
-                    row.innerHTML = `
-                        <div class="result-info">
-                            <div class="result-title">${res.name}</div>
-                            <div class="result-category">所属分类：${res.category}</div>
-                        </div>
-                        <span class="result-tag">${res.tag || '通用'}</span>
-                    `;
+                    row.innerHTML = `<div class="result-info"><div class="result-title">${res.name}</div><div class="result-category">所属分类：${res.category}</div></div><span class="result-tag">${res.tag || '通用'}</span>`;
                     dropdown.appendChild(row);
                 });
             }
-
             dropdown.style.display = 'flex';
         }
 
@@ -1148,15 +919,12 @@
                 const header = card.querySelector('.bookmark-header');
                 const linksBox = card.querySelector('.bookmark-links');
                 if (header && linksBox && header.classList.contains('collapsed')) {
-                    header.classList.remove('collapsed');
-                    linksBox.classList.remove('collapsed');
+                    header.classList.remove('collapsed'); linksBox.classList.remove('collapsed');
                 }
             }
 
             const secretContent = targetEl.closest('.secret-cat-content');
-            if (secretContent && secretContent.classList.contains('collapsed')) {
-                secretContent.classList.remove('collapsed');
-            }
+            if (secretContent && secretContent.classList.contains('collapsed')) { secretContent.classList.remove('collapsed'); }
 
             setTimeout(() => {
                 targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1168,72 +936,57 @@
 
         function clearGlobalSearch() {
             const input = document.getElementById('global-search-input');
-            input.value = '';
-            handleGlobalSearch();
-            input.focus();
+            input.value = ''; handleGlobalSearch(); input.focus();
         }
 
         document.addEventListener('click', (e) => {
             const searchContainer = document.querySelector('.global-search-container');
             const dropdown = document.getElementById('search-results-dropdown');
-            if (searchContainer && !searchContainer.contains(e.target)) {
-                dropdown.style.display = 'none';
-            }
+            if (searchContainer && !searchContainer.contains(e.target)) { dropdown.style.display = 'none'; }
         });
+
+        function toggleSecretSubCat(header) { const content = header.nextElementSibling; if (content) { content.classList.toggle('collapsed'); } }
+        function unlockSecretArea() {
+            const pwd = prompt("🔐 请输入访问密码：");
+            if (pwd === "5214") {
+                isSecretUnlocked = true;
+                document.getElementById('secret-lock-view').style.display = 'none';
+                document.getElementById('secret-content-view').style.display = 'flex';
+            } else if (pwd !== null) { alert("❌ 密码错误，拒绝访问！"); }
+        }
 
         function filterSecretItems() {
             const query = document.getElementById('secret-search-input').value.trim().toLowerCase();
             const items = document.querySelectorAll('.secret-item');
-
-            if (!query) {
-                items.forEach(item => item.style.display = 'flex');
-                return;
-            }
-
+            if (!query) { items.forEach(item => item.style.display = 'flex'); return; }
             const keywords = query.split(/\s+/);
             items.forEach(item => {
                 const text = item.innerText.toLowerCase();
-                const exactMatch = text.includes(query);
-                const fuzzyMatch = keywords.some(kw => text.includes(kw));
-                item.style.display = (exactMatch || fuzzyMatch) ? 'flex' : 'none';
+                item.style.display = (text.includes(query) || keywords.some(kw => text.includes(kw))) ? 'flex' : 'none';
             });
         }
 
         function openWechatModal() { document.getElementById('wechat-modal').style.display = 'flex'; }
         function closeWechatModal() { document.getElementById('wechat-modal').style.display = 'none'; }
-
         function copyText(elementId, btn) {
             const text = document.getElementById(elementId).innerText;
             navigator.clipboard.writeText(text).then(() => {
-                const originalText = btn.innerText;
-                btn.innerText = "已复制！";
-                btn.style.background = "#10b981";
-                btn.style.color = "#fff";
-                setTimeout(() => {
-                    btn.innerText = originalText;
-                    btn.style.background = "";
-                    btn.style.color = "";
-                }, 1500);
+                const originalText = btn.innerText; btn.innerText = "已复制！"; btn.style.background = "#10b981"; btn.style.color = "#fff";
+                setTimeout(() => { btn.innerText = originalText; btn.style.background = ""; btn.style.color = ""; }, 1500);
             }).catch(err => { alert("复制失败，请手动长按复制"); });
         }
-
         function scrollToLetter(targetId, el) {
             const targetEl = document.getElementById(targetId);
             const container = targetEl.closest('.bookmark-links-inner');
-            if (targetEl && container) {
-                container.scrollTo({ top: targetEl.offsetTop - container.offsetTop - 5, behavior: 'smooth' });
-            }
-            el.classList.add('active');
-            setTimeout(() => el.classList.remove('active'), 300);
+            if (targetEl && container) { container.scrollTo({ top: targetEl.offsetTop - container.offsetTop - 5, behavior: 'smooth' }); }
+            el.classList.add('active'); setTimeout(() => el.classList.remove('active'), 300);
         }
 
         function showQr(url, name) {
             let modal = document.getElementById('qrcode-modal');
             let title = document.getElementById('qr-title');
             let container = document.getElementById('qrcode');
-            container.innerHTML = '';
-            title.innerText = `《 ${name} 》`;
-            modal.style.display = 'flex';
+            container.innerHTML = ''; title.innerText = `《 ${name} 》`; modal.style.display = 'flex';
             new QRCode(container, { text: url, width: 180, height: 180 });
             setTimeout(() => {
                 let canvas = container.querySelector('canvas');
@@ -1243,20 +996,13 @@
                 }
             }, 50);
         }
-
         function closeQr() { document.getElementById('qrcode-modal').style.display = 'none'; }
 
         const toggle = document.getElementById('themeToggle');
         const icon = document.getElementById('themeIcon');
-        toggle.onclick = () => {
-            document.body.classList.toggle('dark');
-            icon.innerText = document.body.classList.contains('dark') ? '🌙' : '☀️';
-        };
+        toggle.onclick = () => { document.body.classList.toggle('dark'); icon.innerText = document.body.classList.contains('dark') ? '🌙' : '☀️'; };
 
-        window.toggleBookmark = (header) => {
-            header.classList.toggle('collapsed');
-            header.nextElementSibling.classList.toggle('collapsed');
-        };
+        window.toggleBookmark = (header) => { header.classList.toggle('collapsed'); header.nextElementSibling.classList.toggle('collapsed'); };
     </script>
 </body>
 </html>
