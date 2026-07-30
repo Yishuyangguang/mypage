@@ -59,36 +59,22 @@
         h1 { font-size: 28px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; color: #1c1917; }
         body.dark h1 { color: #fef3c7; text-shadow: 0 2px 15px rgba(245, 158, 11, 0.3); }
         
-        /* 纯 CSS 打造的“一束阳光”动态发散光芒特效（绝不失效、完美显示） */
+        /* 采用精美阳光动态图的头像框 */
         .avatar-wrapper {
             position: relative; width: 94px; height: 94px; margin: 0 auto 16px auto;
-            background: radial-gradient(circle, #fef08a 0%, #f59e0b 60%, #d97706 100%);
-            border-radius: 30px;
-            display: flex; align-items: center; justify-content: center;
+            border-radius: 30px; overflow: hidden;
             box-shadow: 0 0 35px rgba(245, 158, 11, 0.8), 0 10px 25px rgba(0, 0, 0, 0.15);
             border: 2px solid rgba(255, 255, 255, 0.9);
             animation: sunPulse 3s infinite alternate ease-in-out;
-            overflow: hidden;
+            background: #fffbeb;
         }
         body.dark .avatar-wrapper { border-color: rgba(245, 158, 11, 0.4); }
-        
-        /* 阳光光束旋转动画 */
-        .sun-ray {
-            position: absolute; width: 140px; height: 140px;
-            background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.6), transparent 60deg);
-            animation: rayRotate 6s infinite linear;
-        }
-        .sun-icon {
-            font-size: 38px; color: #ffffff; z-index: 2;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+        .avatar-img {
+            width: 100%; height: 100%; object-fit: cover;
         }
         @keyframes sunPulse {
             0% { transform: scale(1); box-shadow: 0 0 25px rgba(245, 158, 11, 0.6); }
             100% { transform: scale(1.06); box-shadow: 0 0 55px rgba(251, 191, 36, 0.95); }
-        }
-        @keyframes rayRotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
         }
 
         .subtitle { 
@@ -99,7 +85,7 @@
         }
         body.dark .subtitle { background: rgba(41, 37, 36, 0.6); color: #d7d3d0; border-color: rgba(245, 158, 11, 0.2); }
         
-        /* 金色高级感毛玻璃卡片（模块分层） */
+        /* 金色高级感毛玻璃独立卡片模块 */
         .ios-card {
             background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(35px) saturate(200%); -webkit-backdrop-filter: blur(35px) saturate(200%);
             border-radius: 22px; margin-top: 14px; overflow: hidden;
@@ -149,15 +135,14 @@
     <div class="container">
         <div class="header-area">
             <h1>一束阳光</h1>
-            <!-- 纯 CSS 打造的一束阳光动态光芒，完美显示绝不失效 -->
+            <!-- 一束阳光动态图 -->
             <div class="avatar-wrapper">
-                <div class="sun-ray"></div>
-                <i class="fas fa-sun sun-icon"></i>
+                <img class="avatar-img" src="https://assets.mixkit.co/videos/preview/mixkit-sun-shining-through-the-trees-4318-large.mp4" onerror="this.src='https://media.giphy.com/media/3o7TKDkDbIDJieKbVm/giphy.gif'" alt="一束阳光动态图">
             </div>
             <div class="subtitle">⚠️ 注意事项：请在浏览器中打开本网站。</div>
         </div>
         
-        <!-- 模块一：软件导航分区 -->
+        <!-- 模块一：软件导航 -->
         <div class="ios-card">
             <div class="bookmark-wrapper">
                 <div class="bookmark">
@@ -167,15 +152,15 @@
                     </div>
                     <div class="bookmark-links">
                         <div class="bookmark-links-inner">
-                            <div class="link-item"><a href="https://google.com" target="_blank">菜单一：谷歌搜索</a></div>
-                            <div class="link-item"><a href="https://github.com" target="_blank">菜单二：GitHub 官网</a></div>
+                            <div class="link-item"><a href="https://google.com" target="_blank">谷歌搜索</a></div>
+                            <div class="link-item"><a href="https://github.com" target="_blank">GitHub 官网</a></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 模块二：书籍共享分区 -->
+        <!-- 模块二：书籍共享 -->
         <div class="ios-card">
             <div class="bookmark-wrapper">
                 <div class="bookmark">
@@ -185,8 +170,80 @@
                     </div>
                     <div class="bookmark-links">
                         <div class="bookmark-links-inner">
-                            <div class="link-item"><a href="#" target="_blank">菜单三：自定义按钮</a></div>
-                            <div class="link-item"><a href="#" target="_blank">菜单四：自定义按钮</a></div>
+                            <div class="link-item"><a href="#" target="_blank">电子书库一</a></div>
+                            <div class="link-item"><a href="#" target="_blank">电子书库二</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 模块三：影视专区 -->
+        <div class="ios-card">
+            <div class="bookmark-wrapper">
+                <div class="bookmark">
+                    <div class="bookmark-header" onclick="toggleBookmark(this)">
+                        <div class="bookmark-title">🎬 影视专区</div>
+                        <i class="fas fa-chevron-down chevron"></i>
+                    </div>
+                    <div class="bookmark-links">
+                        <div class="bookmark-links-inner">
+                            <div class="link-item"><a href="#" target="_blank">在线影视网</a></div>
+                            <div class="link-item"><a href="#" target="_blank">TV 电视直播</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 模块四：实用工具 -->
+        <div class="ios-card">
+            <div class="bookmark-wrapper">
+                <div class="bookmark">
+                    <div class="bookmark-header" onclick="toggleBookmark(this)">
+                        <div class="bookmark-title">🛠️ 实用工具</div>
+                        <i class="fas fa-chevron-down chevron"></i>
+                    </div>
+                    <div class="bookmark-links">
+                        <div class="bookmark-links-inner">
+                            <div class="link-item"><a href="#" target="_blank">IP 优选工具</a></div>
+                            <div class="link-item"><a href="#" target="_blank">临时邮箱服务</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 模块五：常用资源 -->
+        <div class="ios-card">
+            <div class="bookmark-wrapper">
+                <div class="bookmark">
+                    <div class="bookmark-header" onclick="toggleBookmark(this)">
+                        <div class="bookmark-title">📂 常用资源</div>
+                        <i class="fas fa-chevron-down chevron"></i>
+                    </div>
+                    <div class="bookmark-links">
+                        <div class="bookmark-links-inner">
+                            <div class="link-item"><a href="#" target="_blank">网盘资源搜索</a></div>
+                            <div class="link-item"><a href="#" target="_blank">节点订阅转换</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 模块六：关于本站 -->
+        <div class="ios-card">
+            <div class="bookmark-wrapper">
+                <div class="bookmark">
+                    <div class="bookmark-header" onclick="toggleBookmark(this)">
+                        <div class="bookmark-title">✨ 关于本站</div>
+                        <i class="fas fa-chevron-down chevron"></i>
+                    </div>
+                    <div class="bookmark-links">
+                        <div class="bookmark-links-inner">
+                            <div class="link-item"><a href="#" target="_blank">永久发布页说明</a></div>
+                            <div class="link-item"><a href="#" target="_blank">联系站长</a></div>
                         </div>
                     </div>
                 </div>
