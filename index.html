@@ -105,7 +105,7 @@
             .grid-container { grid-template-columns: 1fr; gap: 16px; }
         }
 
-        /* 🌟 显著增强的玻璃质感大卡片 */
+        /* 显著增强的玻璃质感大卡片 */
         .ios-card {
             background: rgba(255, 255, 255, 0.55); 
             backdrop-filter: blur(24px) saturate(180%); 
@@ -153,7 +153,7 @@
         
         .bookmark-links-inner { display: flex; flex-direction: column; gap: 10px; width: 100%; padding-right: 48px; }
 
-        /* 🌟 子模块卡片（晶莹剔透玻璃感） */
+        /* 子模块卡片 */
         .software-card, .file-card, .link-item a, .tool-simple-card { 
             background: rgba(255, 255, 255, 0.65); 
             backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
@@ -195,7 +195,7 @@
 
         .btn-group { display: flex; gap: 6px; flex-shrink: 0; }
         
-        /* 🌟 高级 3D 晶莹玻璃按钮 */
+        /* 玻璃按钮 */
         button, .btn-action { 
             padding: 6px 12px; border: none; border-radius: 10px; 
             background: linear-gradient(135deg, rgba(245, 158, 11, 0.95), rgba(217, 119, 6, 0.95)); 
@@ -243,25 +243,45 @@
         }
         body.dark .dev-tip-card { background: rgba(41, 33, 24, 0.5); color: #a8a29e; }
 
-        /* 弹窗样式 */
-        #wechat-modal {
+        /* 全局悬浮居中遮罩弹窗 */
+        .global-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
             z-index: 2000; align-items: center; justify-content: center; padding: 16px;
         }
         .modal-content {
-            background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(30px);
-            border-radius: 22px; width: 100%; max-width: 520px; max-height: 85vh;
-            overflow-y: auto; padding: 22px; border: 1px solid rgba(245, 158, 11, 0.45);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255, 255, 255, 1); position: relative;
-            display: flex; flex-direction: column; gap: 14px;
+            background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(30px);
+            border-radius: 22px; width: 100%; max-width: 460px; max-height: 85vh;
+            overflow-y: auto; padding: 24px; border: 1px solid rgba(245, 158, 11, 0.45);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255, 255, 255, 1); position: relative;
+            display: flex; flex-direction: column; gap: 16px; text-align: center;
         }
-        body.dark .modal-content { background: rgba(30, 24, 18, 0.92); border-color: rgba(245, 158, 11, 0.35); box-shadow: 0 25px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(245, 158, 11, 0.25); }
+        body.dark .modal-content { background: rgba(30, 24, 18, 0.94); border-color: rgba(245, 158, 11, 0.35); box-shadow: 0 25px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(245, 158, 11, 0.25); }
         
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(245, 158, 11, 0.2); padding-bottom: 10px; }
-        .modal-title { font-size: 16px; font-weight: 700; color: #1c1917; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(245, 158, 11, 0.2); padding-bottom: 12px; }
+        .modal-title { font-size: 18px; font-weight: 700; color: #1c1917; }
         body.dark .modal-title { color: #fef3c7; }
-        .modal-close { background: #ef4444; color: #fff; border: none; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-weight: bold; }
+        
+        .modal-close { 
+            background: #ef4444; color: #fff; border: none; width: 34px; height: 34px; border-radius: 50%; 
+            cursor: pointer; font-weight: bold; font-size: 16px; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
+        }
+        .modal-close:active { transform: scale(0.9); }
+
+        #qrcode-container { 
+            display: inline-block; margin: 10px auto; background: #fff; padding: 14px; border-radius: 16px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12); border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+        #qrcode-container img { display: block; border-radius: 8px; width: 180px; height: 180px; }
+
+        /* 🌟 已按要求精简为仅提示：请长按上方二维码识别打开。 */
+        .qr-tip-text {
+            font-size: 13px; font-weight: 600; color: #d97706; 
+            background: rgba(254, 243, 199, 0.7); padding: 10px 14px; border-radius: 12px; 
+            line-height: 1.5; border: 1px solid rgba(245, 158, 11, 0.25);
+        }
+        body.dark .qr-tip-text { background: rgba(60, 45, 25, 0.6); color: #fcd34d; }
 
         .terminal-tip-banner {
             background: rgba(245, 158, 11, 0.15);
@@ -275,6 +295,7 @@
             align-items: center;
             gap: 6px;
             line-height: 1.4;
+            text-align: left;
         }
         body.dark .terminal-tip-banner {
             background: rgba(245, 158, 11, 0.2);
@@ -285,6 +306,7 @@
         .tool-card {
             background: rgba(255, 255, 255, 0.5); border-radius: 12px; padding: 12px;
             display: flex; flex-direction: column; gap: 8px; border: 1px solid rgba(245, 158, 11, 0.25);
+            text-align: left;
         }
         body.dark .tool-card { background: rgba(41, 33, 24, 0.5); border-color: rgba(245, 158, 11, 0.2); }
         .tool-title { font-weight: 700; font-size: 13px; color: #1c1917; }
@@ -309,15 +331,6 @@
             font-weight: 600; cursor: pointer; white-space: nowrap;
         }
         body.dark .glass-copy-btn { color: #fcd34d; background: rgba(245, 158, 11, 0.3); }
-
-        /* 二维码弹窗 */
-        #qrcode-modal { 
-            display: none; text-align: center; margin-top: 20px; padding: 20px 15px; 
-            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); border-radius: 20px; 
-            border: 1px solid rgba(245, 158, 11, 0.45); box-shadow: 0 15px 40px rgba(0,0,0,0.2); grid-column: 1 / -1;
-        }
-        body.dark #qrcode-modal { background: rgba(30, 24, 18, 0.95); }
-        #qrcode-container { display: inline-block; margin: 10px 0; background: #fff; padding: 10px; border-radius: 12px; }
         
         .footer-text { font-size: 11.5px; color: #78716c; text-align: center; padding: 30px 0 10px 0; font-weight: 500; grid-column: 1 / -1; }
         body.dark .footer-text { color: #a8a29e; }
@@ -338,13 +351,25 @@
                 <div class="sun-ray"></div>
                 <div class="sun-icon">☀️</div>
             </div>
-            <!-- 🌟 按原样严格缩短的提示文字 -->
             <div class="subtitle">⚠️ 请在浏览器中打开，内部使用，请勿随意传播。</div>
         </div>
         
+        <!-- 
+          ========================================================================
+          💡【全局排版说明】：
+          整个页面的菜单板块都是通过底下的 `.grid-container` 网格来管理的。
+          每个大卡片用 `<div class="ios-card">...</div>` 包裹。
+          ========================================================================
+        -->
         <div class="grid-container">
             
-            <!-- 模块一：软件导航 -->
+            <!-- 
+              ====================================================================
+              【板块模板一：软件导航 / 外部链接类板块】
+              如果要在【软件导航】里面增加一个新的软件或链接，请直接在下方 
+              <div class="bookmark-links-inner"> 里面复制并粘贴一个相同的代码块：
+              ====================================================================
+            -->
             <div class="ios-card">
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
@@ -354,6 +379,8 @@
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner">
+                                
+                                <!-- 示例菜单项：如需新增，复制这行并修改文字、网址、图标背景色即可 -->
                                 <div class="software-card" id="soft-F" style="border-left: 4px solid #10b981;">
                                     <div class="software-info">
                                         <div class="software-icon-box" style="background:#10b981;">📺</div>
@@ -361,6 +388,7 @@
                                     </div>
                                     <a href="https://www.fuyin.tv/" target="_blank" class="btn-action btn-success">观看</a>
                                 </div>
+
                                 <div class="software-card" id="soft-J" style="border-left: 4px solid #2563eb;">
                                     <div class="software-info">
                                         <div class="software-icon-box" style="background:#2563eb;">📖</div>
@@ -396,7 +424,9 @@
                                     </div>
                                     <a href="https://zoom.us/download" target="_blank" class="btn-action">下载</a>
                                 </div>
+
                             </div>
+                            <!-- 右侧 A-Z 索引条：如果新加了字母开头的菜单，记得在这里同步增加对应的字母跳转项 -->
                             <div class="az-index-bar">
                                 <div class="az-item" onclick="scrollToLetter('soft-F', this)">F</div>
                                 <div class="az-item" onclick="scrollToLetter('soft-J', this)">J</div>
@@ -410,7 +440,23 @@
                 </div>
             </div>
 
-            <!-- 模块二：书籍共享 -->
+            <!-- 
+              ====================================================================
+              【板块模板二：书籍共享 / 带二维码弹窗类的板块】
+              如果要在【书籍共享】里面增加一本新书，请在下方的 
+              <div class="bookmark-links-inner"> 里面复制并粘贴以下结构：
+              --------------------------------------------------------------------
+              <div class="file-card" id="file-你的首字母" style="border-left: 4px solid #颜色代码;">
+                  <div class="file-info"><div class="file-name">📖 新书名字</div></div>
+                  <div class="btn-group">
+                      <button class="btn-download" onclick="window.open('你的下载链接', '_blank')">下载</button>
+                      <button class="btn-success" onclick="showQr('你的二维码跳转链接', '新书名字')">二维码</button>
+                  </div>
+              </div>
+              --------------------------------------------------------------------
+              同时别忘了在右侧 `.az-index-bar` 里面加上对应的字母按钮！
+              ====================================================================
+            -->
             <div class="ios-card">
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
@@ -559,19 +605,26 @@
                 </div>
             </div>
 
-            <!-- 二维码弹窗 -->
-            <div id="qrcode-modal">
-                <h4 id="qr-title" style="margin:0 0 6px 0; font-size:14px; color:inherit;"></h4>
-                <div id="qrcode-container">
-                    <div id="qrcode"></div>
+            <!-- 二维码弹窗（已按要求精简提示文字：请长按上方二维码识别打开。） -->
+            <div id="qrcode-modal" class="global-modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div id="qr-title" class="modal-title"></div>
+                        <button class="modal-close" onclick="closeQr()">×</button>
+                    </div>
+                    <div id="qrcode-container">
+                        <div id="qrcode"></div>
+                    </div>
+                    <div class="qr-tip-text">
+                        📱 请长按上方二维码识别打开。
+                    </div>
+                    <div><button class="btn-action" onclick="closeQr()" style="padding: 10px 24px; background:#e53e3e;">关闭窗口</button></div>
                 </div>
-                <div class="qr-tip-box">长按上方二维码识别打开</div>
-                <div><button class="btn-action" onclick="closeQr()" style="background:#e53e3e; padding:4px 10px; font-size:11px;">关闭</button></div>
             </div>
 
             <!-- Mac 微信多开详细教程弹窗 -->
-            <div id="wechat-modal">
-                <div class="modal-content">
+            <div id="wechat-modal" class="global-modal">
+                <div class="modal-content" style="text-align: left;">
                     <div class="modal-header">
                         <div class="modal-title">💻 Mac 微信多开脚本教程</div>
                         <button class="modal-close" onclick="closeWechatModal()">×</button>
@@ -621,7 +674,7 @@
                     </div>
 
                     <div style="text-align: center; margin-top: 4px;">
-                        <button class="btn-action" onclick="closeWechatModal()" style="padding: 8px 24px;">关闭窗口</button>
+                        <button class="btn-action" onclick="closeWechatModal()" style="padding: 10px 28px;">关闭窗口</button>
                     </div>
                 </div>
             </div>
@@ -667,15 +720,29 @@
             setTimeout(() => el.classList.remove('active'), 300);
         }
 
+        // 书籍二维码弹窗展示
         function showQr(url, name) {
             let modal = document.getElementById('qrcode-modal');
             let title = document.getElementById('qr-title');
             let container = document.getElementById('qrcode');
+            
             container.innerHTML = '';
-            title.innerText = `【 ${name} 】`;
-            modal.style.display = 'block';
-            new QRCode(container, { text: url, width: 140, height: 140 });
-            modal.scrollIntoView({ behavior: 'smooth' });
+            title.innerText = `《 ${name} 》`;
+            modal.style.display = 'flex';
+            
+            new QRCode(container, {
+                text: url,
+                width: 180,
+                height: 180
+            });
+
+            setTimeout(() => {
+                let canvas = container.querySelector('canvas');
+                if (canvas) {
+                    let imgDataUrl = canvas.toDataURL("image/png");
+                    container.innerHTML = `<img src="${imgDataUrl}" alt="二维码" style="width: 180px; height: 180px; display: block;" />`;
+                }
+            }, 50);
         }
 
         function closeQr() {
