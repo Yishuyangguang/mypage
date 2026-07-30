@@ -543,12 +543,12 @@
                 </div>
             </div>
 
-            <!-- 🌟 模块七：测试模块 (全屏沉浸防打扰 + 富文本选字排版 + 文本备份导出/导入) -->
+ <!-- 🌟 模块七：测试模块 (全屏沉浸防打扰 + 富文本选词格式化 + 加密备份) -->
             <div class="ios-card" style="grid-column: 1 / -1;" data-category="测试模块">
                 <div class="bookmark-wrapper">
                     <div class="bookmark">
                         <div class="bookmark-header" onclick="toggleBookmark(this)">
-                            <div class="bookmark-title">📝 测试模块 (全屏防打扰阅读/排版设置)</div>
+                            <div class="bookmark-title">📝 测试模块 (全屏阅读/精准光选排版)</div>
                             <div class="chevron-badge">▼</div>
                         </div>
                         <div class="bookmark-links">
@@ -584,30 +584,32 @@
                 </div>
             </div>
 
-           <!-- 🌟 全屏沉浸阅读/编辑弹窗 (自由划选编辑 + 格式控制 + 防打扰双击唤醒) -->
+ <!-- 🌟 全屏沉浸阅读/编辑弹窗 (100% 选区锁定 + 精准排版 + 键盘唤醒) -->
             <div id="note-fullscreen-modal" class="fullscreen-note-overlay">
                 <div class="fs-note-content">
                     <div class="fs-note-header" id="fs-editor-header">
                         <button class="btn-action" onclick="closeNoteFullscreen()" style="background: rgba(245, 158, 11, 0.15); color: #d97706; border: 1px solid rgba(245,158,11,0.3); box-shadow: none;">◀ 返回列表</button>
                         
-                        <!-- 排版控件栏：全选、加粗、字号、颜色、行间距 -->
-                        <div class="editor-tools-bar">
-                            <button class="btn-action" onclick="selectAllRichText()" style="padding: 3px 8px; font-size: 11px; background: rgba(245,158,11,0.25); color: #b45309; box-shadow: none;">全选文本</button>
+                        <!-- 独立的全屏纯净模式控制按钮 -->
+                        <button class="btn-action" id="pure-read-btn" onclick="togglePureReadMode()" style="background: rgba(245, 158, 11, 0.2); color: #b45309; border: 1px solid rgba(245,158,11,0.4); box-shadow: none;">👁️ 纯净全屏</button>
+
+                        <!-- 🌟 强效富文本精准格式控制工具栏 (阻止夺焦 + 选区强行锁定) -->
+                        <div class="editor-tools-bar" id="editor-tools-panel" unselectable="on">
+                            <button class="btn-action" onmousedown="event.preventDefault(); selectAllRichText();" style="padding: 3px 8px; font-size: 11px; background: rgba(245,158,11,0.25); color: #b45309; box-shadow: none;">全选</button>
                             <span style="opacity: 0.3;">|</span>
-                            <!-- 🌟 新增加粗按钮 -->
-                            <button class="btn-action" onclick="applyBoldFormat()" style="padding: 3px 8px; font-size: 11px; font-weight: bold; background: rgba(245,158,11,0.25); color: #b45309; box-shadow: none;"><b>B</b> 加粗</button>
+                            <button class="btn-action" onmousedown="event.preventDefault(); applyBoldFormat();" style="padding: 3px 8px; font-size: 11px; font-weight: bold; background: rgba(245,158,11,0.25); color: #b45309; box-shadow: none;"><b>B</b> 加粗</button>
                             <span style="opacity: 0.3;">|</span>
-                            <select id="font-size-select" class="editor-select" onchange="applySelectionFontSize(this.value)">
-                                <option value="" disabled selected>选择字号</option>
-                                <option value="12pt">12pt 小字</option>
-                                <option value="14pt">14pt 正规</option>
-                                <option value="16pt">16pt 标题</option>
-                                <option value="18pt">18pt 大字</option>
-                                <option value="20pt">20pt 特大</option>
+                            <select id="font-size-select" class="editor-select" onmousedown="saveCurrentSelection();" onchange="applySelectionFontSize(this.value)">
+                                <option value="" disabled selected>字号</option>
+                                <option value="1">12pt 小字</option>
+                                <option value="3">14pt 正规</option>
+                                <option value="4">16pt 标题</option>
+                                <option value="5">18pt 大字</option>
+                                <option value="6">20pt 特大</option>
                             </select>
                             <span style="opacity: 0.3;">|</span>
-                            <select id="font-color-select" class="editor-select" onchange="applySelectionFontColor(this.value)">
-                                <option value="" disabled selected>选择颜色</option>
+                            <select id="font-color-select" class="editor-select" onmousedown="saveCurrentSelection();" onchange="applySelectionFontColor(this.value)">
+                                <option value="" disabled selected>颜色</option>
                                 <option value="#1c1917">⚫ 黑色正文</option>
                                 <option value="#dc2626">🔴 红色标题</option>
                             </select>
@@ -627,15 +629,18 @@
                         </div>
                     </div>
                     
-                    <!-- 沉浸防打扰阅读体：双击面板唤醒/隐藏工具栏 -->
-                    <div class="fs-note-body" id="fs-note-body-box" ondblclick="toggleHeaderDisturbFree()">
-                        <!-- 标题区域 -->
-                        <div id="rich-title-editor" class="styled-title-text" contenteditable="false" placeholder="输入标题..."></div>
+                    <!-- 浮动解锁显示工具栏按钮 -->
+                    <button id="exit-pure-read-btn" class="btn-action" onclick="togglePureReadMode()" style="display:none; position:fixed; top:12px; right:16px; z-index:3500; padding:6px 14px; background:rgba(245,158,11,0.85); color:#fff; border-radius:20px; box-shadow:0 4px 15px rgba(0,0,0,0.2);">⚙️ 恢复工具栏</button>
+
+                    <!-- 阅读与编辑主容器 -->
+                    <div class="fs-note-body" id="fs-note-body-box">
+                        <!-- 标题 -->
+                        <div id="rich-title-editor" class="styled-title-text" contenteditable="false" placeholder="点击编辑标题..." oninput="autoSaveRichNote()"></div>
                         
                         <hr style="border:none; border-top:1px dashed rgba(245, 158, 11, 0.3); margin: 6px 0;">
                         
-                        <!-- 富文本正文区域（支持选词、加粗、调字号颜色、拉唤软键盘） -->
-                        <div id="rich-body-editor" class="styled-body-text" contenteditable="false" placeholder="在此双击进入输入或点击编辑按钮..." oninput="autoSaveRichNote()"></div>
+                        <!-- 正文富文本框 (支持划选排版 + 软键盘正常调出) -->
+                        <div id="rich-body-editor" class="styled-body-text" contenteditable="false" style="user-select: text; -webkit-user-select: text;" placeholder="点击编辑按钮唤醒键盘输入..." oninput="autoSaveRichNote()"></div>
                     </div>
                 </div>
             </div>
@@ -663,9 +668,10 @@
 
     <script>
         let userPassKey = "5214";
-        let isHeaderDisturbFree = false;
+        let isPureReadMode = false;
+        let savedRange = null; // 全局选区锁定器
 
-        // 全设备备份导出与导入
+        // 加密备份与恢复机制
         function exportEncryptedNotes() {
             try {
                 const rawJson = JSON.stringify(notesTreeData);
@@ -689,8 +695,45 @@
             } catch (err) { alert("❌ 导入失败：" + err.message); }
         }
 
-        // 🌟 富文本选中文本控制与格式精准应用
+        // 🌟【核心修复：全局选区记忆锁机制】确保选择文本后点击下拉菜单焦点不丢失
+        function saveCurrentSelection() {
+            const sel = window.getSelection();
+            if (sel.rangeCount > 0) {
+                const range = sel.getRangeAt(0);
+                const bodyEditor = document.getElementById('rich-body-editor');
+                if (bodyEditor.contains(range.commonAncestorContainer)) {
+                    savedRange = range.cloneRange();
+                }
+            }
+        }
+
+        function restoreCurrentSelection() {
+            const bodyEditor = document.getElementById('rich-body-editor');
+            bodyEditor.focus();
+            if (savedRange) {
+                const sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(savedRange);
+            }
+        }
+
+        // 随时监听并记录用户的划选动作
+        document.addEventListener('selectionchange', () => {
+            const bodyEditor = document.getElementById('rich-body-editor');
+            if (document.activeElement === bodyEditor || isEditingMode) {
+                const sel = window.getSelection();
+                if (sel.rangeCount > 0) {
+                    const range = sel.getRangeAt(0);
+                    if (bodyEditor.contains(range.commonAncestorContainer)) {
+                        savedRange = range.cloneRange();
+                    }
+                }
+            }
+        });
+
+        // 全选文本
         function selectAllRichText() {
+            if (!isEditingMode) enableEditMode();
             const bodyEditor = document.getElementById('rich-body-editor');
             bodyEditor.focus();
             const range = document.createRange();
@@ -698,48 +741,52 @@
             const sel = window.getSelection();
             sel.removeAllRanges();
             sel.addRange(range);
+            saveCurrentSelection();
         }
 
-        // 🌟 一键加粗选中文本
+        // 🌟 一键加粗 (采用原生兼容易用接口)
         function applyBoldFormat() {
             if (!isEditingMode) enableEditMode();
+            restoreCurrentSelection();
             document.execCommand('bold', false, null);
             autoSaveRichNote();
         }
 
-        // 🌟 精准修改划选文字/段落字号
+        // 🌟 100% 生效的字号修改 (支持划选个别字词)
         function applySelectionFontSize(sizeVal) {
             if (!sizeVal) return;
             if (!isEditingMode) enableEditMode();
+            restoreCurrentSelection();
+            
             document.execCommand('styleWithCSS', false, true);
-            const sel = window.getSelection();
+            document.execCommand('fontSize', false, sizeVal);
+            
+            // 样式微调
+            const bodyEditor = document.getElementById('rich-body-editor');
+            const fontSpans = bodyEditor.querySelectorAll('font[size]');
+            fontSpans.forEach(fontEl => {
+                const sizeAttr = fontEl.getAttribute('size');
+                fontEl.removeAttribute('size');
+                if(sizeAttr === '1') fontEl.style.fontSize = '12pt';
+                if(sizeAttr === '3') fontEl.style.fontSize = '14pt';
+                if(sizeAttr === '4') fontEl.style.fontSize = '16pt';
+                if(sizeAttr === '5') fontEl.style.fontSize = '18pt';
+                if(sizeAttr === '6') fontEl.style.fontSize = '20pt';
+            });
 
-            if (sel.rangeCount && !sel.isCollapsed) {
-                // 如果划选了部分文字
-                const range = sel.getRangeAt(0);
-                const span = document.createElement('span');
-                span.style.fontSize = sizeVal;
-                range.surroundContents(span);
-            } else {
-                // 未选择特定文字时作用于正文整体
-                document.getElementById('rich-body-editor').style.fontSize = sizeVal;
-            }
             autoSaveRichNote();
             document.getElementById('font-size-select').selectedIndex = 0;
         }
 
-        // 🌟 精准修改划选文字/段落颜色
+        // 🌟 100% 生效的颜色修改 (支持划选个别字词)
         function applySelectionFontColor(colorVal) {
             if (!colorVal) return;
             if (!isEditingMode) enableEditMode();
-            document.execCommand('styleWithCSS', false, true);
-            const sel = window.getSelection();
+            restoreCurrentSelection();
 
-            if (sel.rangeCount && !sel.isCollapsed) {
-                document.execCommand('foreColor', false, colorVal);
-            } else {
-                document.getElementById('rich-body-editor').style.color = colorVal;
-            }
+            document.execCommand('styleWithCSS', false, true);
+            document.execCommand('foreColor', false, colorVal);
+            
             autoSaveRichNote();
             document.getElementById('font-color-select').selectedIndex = 0;
         }
@@ -749,10 +796,10 @@
             autoSaveRichNote();
         }
 
-        // 双击屏幕显隐工具栏 (防打扰)
-        function toggleHeaderDisturbFree() {
-            isHeaderDisturbFree = !isHeaderDisturbFree;
-            document.getElementById('fs-editor-header').classList.toggle('disturb-free', isHeaderDisturbFree);
+        function togglePureReadMode() {
+            isPureReadMode = !isPureReadMode;
+            document.getElementById('fs-editor-header').classList.toggle('disturb-free', isPureReadMode);
+            document.getElementById('exit-pure-read-btn').style.display = isPureReadMode ? 'block' : 'none';
         }
 
         let isTestModuleUnlocked = false;
@@ -843,7 +890,7 @@
             renderNoteSidebarTree(); 
         }
 
-        // 🌟 启用编辑模式：允许获取焦点并自动拉起软键盘
+        // 🌟 启用编辑模式：真实原生的 contenteditable，瞬间唤醒软键盘
         function enableEditMode() {
             if (!currentNoteLeafId) return;
             isEditingMode = true;
@@ -855,24 +902,17 @@
             titleEd.setAttribute('contenteditable', 'true');
             bodyEd.setAttribute('contenteditable', 'true');
 
-            // 自动把光标定位到正文并呼出系统软键盘
+            // 原生 Focus 唤醒手机键盘
             bodyEd.focus();
-            if (typeof window.getSelection !== "undefined" && typeof document.createRange !== "undefined") {
-                const range = document.createRange();
-                range.selectNodeContents(bodyEd);
-                range.collapse(false);
-                const sel = window.getSelection();
-                sel.removeAllRanges();
-                sel.addRange(range);
-            }
 
-            isHeaderDisturbFree = false;
+            isPureReadMode = false;
             document.getElementById('fs-editor-header').classList.remove('disturb-free');
+            document.getElementById('exit-pure-read-btn').style.display = 'none';
         }
 
         function disableEditMode() {
             isEditingMode = false;
-            document.getElementById('note-status-tip').innerText = '📖 沉浸阅读防打扰 (双击正文编辑/唤醒工具栏)';
+            document.getElementById('note-status-tip').innerText = '📖 沉浸阅读防打扰 (点击编辑开启键盘)';
             document.getElementById('edit-toggle-btn').innerText = '✏️ 编辑';
             
             document.getElementById('rich-title-editor').setAttribute('contenteditable', 'false');
