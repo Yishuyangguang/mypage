@@ -242,18 +242,21 @@
         body.dark .note-list-item { color: #fef3c7; background: rgba(30, 24, 18, 0.6); }
         .note-list-item:hover, .note-list-item.active { background: rgba(245, 158, 11, 0.22); border-color: rgba(245, 158, 11, 0.45); color: #d97706; }
 
-        /* 全屏沉浸编辑与查阅弹窗 */
+        /* 🌟 解决左右晃动 & 移动端真·全屏样式重构 */
         .fullscreen-note-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            display: none; position: fixed; top: 0; left: 0; 
+            width: 100vw; height: 100vh; height: 100dvh; /* 动态视口高度，解决移动端网址栏遮挡 */
             background: #fffbeb; z-index: 3000; align-items: stretch; justify-content: center;
             opacity: 0; transform: translateY(20px); transition: opacity 0.3s ease, transform 0.3s ease;
+            overflow-x: hidden !important; /* 彻底禁止左右晃动 */
         }
         body.dark .fullscreen-note-overlay { background: #0c0a09; }
         .fullscreen-note-overlay.show { display: flex; opacity: 1; transform: translateY(0); }
         
         .fs-note-content {
             width: 100%; max-width: 850px; display: flex; flex-direction: column; height: 100%;
-            padding: calc(env(safe-area-inset-top) + 12px) 16px env(safe-area-inset-bottom) 16px;
+            padding: calc(env(safe-area-inset-top) + 12px) 16px calc(env(safe-area-inset-bottom) + 12px) 16px;
+            overflow-x: hidden !important; /* 彻底禁止左右晃动 */
         }
 
         .fs-note-header {
@@ -263,31 +266,23 @@
         }
         .fs-note-header.disturb-free { opacity: 0; pointer-events: none; transform: translateY(-15px); height: 0; padding: 0; border: none; overflow: hidden; }
 
-        .fs-note-body { flex: 1; display: flex; flex-direction: column; overflow-y: auto; padding: 16px 4px; gap: 8px; -webkit-overflow-scrolling: touch; }
+        /* 🌟 沉浸正文容器：垂直滚动，禁止左右滑动晃动 */
+        .fs-note-body { 
+            flex: 1; display: flex; flex-direction: column; overflow-y: auto; overflow-x: hidden !important; 
+            padding: 16px 0; gap: 12px; -webkit-overflow-scrolling: touch; width: 100%;
+        }
 
         /* 编辑控件栏 */
         .editor-tools-bar { display: flex; align-items: center; gap: 6px; background: rgba(245, 158, 11, 0.12); padding: 4px 8px; border-radius: 8px; border: 1px solid rgba(245,158,11,0.25); flex-wrap: wrap; }
         .editor-select { border: none; background: transparent; outline: none; font-size: 11.5px; font-weight: 600; color: #b45309; cursor: pointer; }
         body.dark .editor-select { color: #fcd34d; }
 
-        /* 放大并加粗标题输入框 */
-        .note-title-input {
-            font-family: SimSun, "宋体", serif !important; 
-            font-size: 20pt !important; 
-            font-weight: bold !important; 
-            color: #dc2626 !important;
-            border: 1px solid rgba(245, 158, 11, 0.3); 
-            background: rgba(255, 255, 255, 0.5); 
-            border-radius: 8px;
-            outline: none; width: 100%; margin-bottom: 6px; padding: 8px 12px;
-        }
-        body.dark .note-title-input { background: rgba(30, 24, 18, 0.5); color: #fef3c7; }
-
-        /* 纯净富文本编辑区域样式 */
+        /* 纯净富文本编辑区域样式 (取消独立标题栏后的整篇自适应视界) */
         .rich-edit-area {
             font-family: SimSun, "宋体", serif !important; font-size: 14pt; color: #1c1917;
             line-height: 1.6; border: none; background: transparent; outline: none; width: 100%;
-            flex: 1; white-space: pre-wrap; word-break: break-word; overflow-y: auto; min-height: 300px;
+            flex: 1; white-space: pre-wrap; word-break: break-word !important; word-wrap: break-word !important;
+            overflow-y: auto; overflow-x: hidden !important; min-height: 300px;
         }
         body.dark .rich-edit-area { color: #fef3c7 !important; }
 
@@ -589,7 +584,7 @@
                 </div>
             </div>
 
-            <!-- 🌟 升级：富文本可视化排版编辑器 (支持随意划选、字号、深蓝色、红色、加粗、软键盘即点即出) -->
+            <!-- 🌟 升级：富文本可视化排版编辑器 (完全取消独立标题框，整篇纯净视界，不随页面固定卡死) -->
             <div id="note-fullscreen-modal" class="fullscreen-note-overlay">
                 <div class="fs-note-content">
                     <div class="fs-note-header" id="fs-editor-header">
@@ -597,7 +592,7 @@
                         
                         <button class="btn-action" id="pure-read-btn" onclick="togglePureReadMode()" style="background: rgba(245, 158, 11, 0.2); color: #b45309; border: 1px solid rgba(245,158,11,0.4); box-shadow: none;">👁️ 纯净全屏</button>
 
-                        <!-- 工具栏：直接对网页中框选的文本进行 DOM 动态排版 -->
+                        <!-- 富文本原生划选排版控件栏 -->
                         <div class="editor-tools-bar" id="editor-tools-panel">
                             <button class="btn-action" onclick="formatDoc('bold')" style="padding: 3px 8px; font-size: 11px; font-weight: bold; background: rgba(245,158,11,0.25); color: #b45309; box-shadow: none;"><b>B</b> 加粗</button>
                             <span style="opacity: 0.3;">|</span>
@@ -610,7 +605,7 @@
                                 <option value="7">20pt 特大</option>
                             </select>
                             <span style="opacity: 0.3;">|</span>
-                            <select class="editor-select" onchange="formatDoc('foreColor', this.value); this.selectedIndex=0;">
+                            <select id="font-color-select" class="editor-select" onchange="formatDoc('foreColor', this.value); this.selectedIndex=0;">
                                 <option value="" disabled selected>字体颜色</option>
                                 <option value="#1c1917">⚫ 黑色正文</option>
                                 <option value="#dc2626">🔴 红色标题</option>
@@ -634,11 +629,9 @@
                     
                     <button id="exit-pure-read-btn" class="btn-action" onclick="togglePureReadMode()" style="display:none; position:fixed; top:12px; right:16px; z-index:3500; padding:6px 14px; background:rgba(245,158,11,0.85); color:#fff; border-radius:20px; box-shadow:0 4px 15px rgba(0,0,0,0.2);">⚙️ 恢复工具栏</button>
 
-                    <!-- 🌟 真正的富文本可编辑输入区 (点击编辑瞬间弹出软键盘，支持随时随地划选文字修改) -->
+                    <!-- 🌟 纯净垂直滚动面板：取消独立标题栏，内容一体流畅垂直滚动，绝不左右晃动 -->
                     <div class="fs-note-body" id="fs-note-body-box">
-                        <input type="text" id="rich-title-input" class="note-title-input" placeholder="输入记录标题..." oninput="autoSaveRichNote()">
-                        <hr style="border:none; border-top:1px dashed rgba(245, 158, 11, 0.3); margin: 6px 0;">
-                        <div id="rich-edit-content" class="rich-edit-area" contenteditable="true" placeholder="在此点击即可输入文字，自由划选个别字词后点击上方加粗/字号/颜色进行个性化修改..." oninput="autoSaveRichNote()"></div>
+                        <div id="rich-edit-content" class="rich-edit-area" contenteditable="true" placeholder="在此点击即可输入文字，支持自由划选字词调整字号、颜色（黑/红/深蓝）与加粗..." oninput="autoSaveRichNote()"></div>
                     </div>
                 </div>
             </div>
@@ -704,10 +697,21 @@
             autoSaveRichNote();
         }
 
+        // 🌟 纯净全屏控制（完美触发系统顶级全屏）
         function togglePureReadMode() {
             isPureReadMode = !isPureReadMode;
+            const container = document.getElementById('note-fullscreen-modal');
+            
             document.getElementById('fs-editor-header').classList.toggle('disturb-free', isPureReadMode);
             document.getElementById('exit-pure-read-btn').style.display = isPureReadMode ? 'block' : 'none';
+
+            if (isPureReadMode) {
+                if (container.requestFullscreen) { container.requestFullscreen().catch(()=>{}); }
+                else if (container.webkitRequestFullscreen) { container.webkitRequestFullscreen(); }
+            } else {
+                if (document.exitFullscreen) { document.exitFullscreen().catch(()=>{}); }
+                else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
+            }
         }
 
         let isTestModuleUnlocked = false;
@@ -728,9 +732,9 @@
         let isEditingMode = true;
 
         let notesTreeData = JSON.parse(localStorage.getItem('sun_app_notes_tree_v2')) || {
-            old: [{ id: 'sb_創世记', name: '创世记', collapsed: false, leaves: [{ id: 'nl_1', title: '【旧约卷一】创世记研读', content: '<span style="color:#dc2626;font-size:16pt;font-weight:bold;">【小标题】神创造天地</span><br>起初神创造天地。地是空虚混沌，渊面黑暗；神的灵运行在水面上。' }] }],
-            new: [{ id: 'sb_马太福音', name: '马太福音', collapsed: false, leaves: [{ id: 'nl_2', title: '【新约卷一】马太福音研读', content: '<span style="color:#dc2626;font-size:16pt;font-weight:bold;">【小标题】耶稣基督家谱</span><br>亚伯拉罕的后裔、大卫的子孙、耶稣基督的家谱。' }] }],
-            theme: [{ id: 'sb_救恩论', name: '救恩专题', collapsed: false, leaves: [{ id: 'nl_3', title: '因信称义要义', content: '<span style="color:#dc2626;font-size:16pt;font-weight:bold;">【小标题】称义的核心</span><br>我们既因信称义，就借着我们的主耶稣基督得与神相和。' }] }]
+            old: [{ id: 'sb_創世记', name: '创世记', collapsed: false, leaves: [{ id: 'nl_1', title: '创世记研读', content: '<span style="color:#dc2626;font-size:18pt;font-weight:bold;">太3:13-17 三一神见证圣子为我们受洗尽诸般的义</span><br><br>在上一段内容，我们看到施洗约翰在约旦河畔，严厉地呼吁以色列人和宗教领袖要悔改，约翰就用水给有些要悔改的罪人施洗。而今天，那位圣洁无罪的君王耶稣，竟然主动排进了那群悔改的罪人队伍中，祂竟然要受洗？原来，祂走下那象征审判与死亡的水里，定意要替罪人去“尽诸般的义”。' }] }],
+            new: [{ id: 'sb_马太福音', name: '马太福音', collapsed: false, leaves: [{ id: 'nl_2', title: '马太福音研读', content: '<span style="color:#dc2626;font-size:18pt;font-weight:bold;">马太福音 1章 研读</span><br><br>亚伯拉罕的后裔、大卫的子孙、耶稣基督的家谱。' }] }],
+            theme: [{ id: 'sb_救恩论', name: '救恩专题', collapsed: false, leaves: [{ id: 'nl_3', title: '因信称义要义', content: '<span style="color:#dc2626;font-size:18pt;font-weight:bold;">称义的核心</span><br><br>我们既因信称义，就借着我们的主耶稣基督得与神相和。' }] }]
         };
 
         function saveNotesTreeStorage() { localStorage.setItem('sun_app_notes_tree_v2', JSON.stringify(notesTreeData)); }
@@ -780,7 +784,6 @@
             for (let b of books) { let l = b.leaves.find(x => x.id === currentNoteLeafId); if (l) { foundLeaf = l; break; } }
             if(!foundLeaf) return;
 
-            document.getElementById('rich-title-input').value = foundLeaf.title || '无标题记录';
             document.getElementById('rich-edit-content').innerHTML = foundLeaf.content || '在此点击输入文字...';
 
             const overlay = document.getElementById('note-fullscreen-modal');
@@ -794,6 +797,10 @@
             const overlay = document.getElementById('note-fullscreen-modal');
             overlay.classList.remove('show');
             document.body.style.overflow = '';
+            
+            if (document.exitFullscreen) { document.exitFullscreen().catch(()=>{}); }
+            else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
+
             currentNoteLeafId = null;
             renderNoteSidebarTree(); 
         }
@@ -826,8 +833,13 @@
             for (let b of books) {
                 let l = b.leaves.find(x => x.id === currentNoteLeafId);
                 if (l) {
-                    l.title = document.getElementById('rich-title-input').value;
-                    l.content = document.getElementById('rich-edit-content').innerHTML;
+                    const content = document.getElementById('rich-edit-content').innerHTML;
+                    l.content = content;
+                    // 从内容中自动提取第一行作为目录列表中显示的标题
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = content;
+                    const firstLineText = (tempDiv.innerText || tempDiv.textContent || '新记录').split('\n')[0];
+                    l.title = firstLineText.substring(0, 20) || '未命名记录';
                     saveNotesTreeStorage(); break;
                 }
             }
@@ -854,7 +866,7 @@
             if (books.length === 0) { alert("⚠️ 请先新增一个书卷，然后再创建记录！"); return; }
             let targetBook = books.find(b => b.id === currentSubBookId) || books[0];
             const newLeafId = 'nl_' + Date.now();
-            const newLeaf = { id: newLeafId, title: '【小标题】新记录', content: '<span style="color:#dc2626;font-size:16pt;font-weight:bold;">【小标题】新建段落</span><br>在此输入内容...' };
+            const newLeaf = { id: newLeafId, title: '【小标题】新记录', content: '<span style="color:#dc2626;font-size:18pt;font-weight:bold;">【小标题】新建段落</span><br><br>在此输入内容...' };
             targetBook.leaves.unshift(newLeaf);
             currentSubBookId = targetBook.id; currentNoteLeafId = newLeafId;
             saveNotesTreeStorage(); openNoteFullscreen(); enableEditMode();
@@ -953,7 +965,7 @@
                 isSecretUnlocked = true;
                 document.getElementById('secret-lock-view').style.display = 'none';
                 document.getElementById('secret-content-view').style.display = 'flex';
-            } else if (pwd !== null) { alert("❌ 密码错误，拒绝访问！"); }
+            } else if (pwd !== null) { alert("❌ 密码错误，拒绝解锁！"); }
         }
 
         function filterSecretItems() {
