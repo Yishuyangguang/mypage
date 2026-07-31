@@ -5,24 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>一束阳光 - 资源导航</title>
     
+    <!-- 三网极速预连接 DNS 加速 -->
+    <link rel="dns-prefetch" href="//cdn.bootcdn.net">
+    <link rel="preconnect" href="https://cdn.bootcdn.net" crossorigin>
+
     <!-- 完美秒开的内联 Base64 金色太阳网页图标 -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='18' fill='%23f59e0b'/%3E%3Cpath d='M32 4v8m0 40v8M4 32h8m40 0h8m-38-18l6 6m20 20l6 6m-26 0l6-6m20-20l6-6' stroke='%23f59e0b' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
 
     <!-- 引入极速轻量的 QRCode 二维码库 -->
-    <script src="https://cdn.bootcdn.net/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
 
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
+        * { 
+            box-sizing: border-box; margin: 0; padding: 0; 
+            -webkit-tap-highlight-color: transparent; 
+            scroll-behavior: smooth;
+            touch-action: manipulation; /* 消除移动端 300ms 点击延迟 */
+        }
         
         /* 尊贵金色流光背景 */
         .bg-ambient {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; overflow: hidden;
-            background-color: #fffbeb; transition: background-color 0.5s ease;
+            background-color: #fffbeb; transition: background-color 0.4s ease;
+            will-change: background-color;
         }
         body.dark .bg-ambient { background-color: #0c0a09; }
         
         .bg-orb {
-            position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.6; will-change: transform;
+            position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.6; 
+            transform: translateZ(0); /* 开启 GPU 渲染加速 */
+            will-change: transform;
         }
         .orb-1 { width: 60vw; height: 60vw; background: #fef08a; top: -10%; left: -10%; }
         .orb-2 { width: 65vw; height: 65vw; background: #f59e0b; bottom: -15%; right: -10%; }
@@ -33,21 +45,24 @@
             padding: 24px 16px env(safe-area-inset-bottom); overflow-x: hidden; position: relative;
             transition: color 0.3s ease;
             -webkit-overflow-scrolling: touch;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
         }
         body.dark { color: #f5f5f4; }
 
         /* 顶部主题切换按钮 */
         .theme-toggle-corner {
             position: fixed; top: 14px; right: 16px; z-index: 1000;
-            background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            background: rgba(255, 255, 255, 0.82); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
             border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
             border: 1px solid rgba(245, 158, 11, 0.5); cursor: pointer; 
             box-shadow: 0 6px 20px rgba(245, 158, 11, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.95);
-            transition: transform 0.2s ease;
+            transition: transform 0.15s ease, background-color 0.2s ease;
+            transform: translateZ(0);
         }
-        .theme-toggle-corner:active { transform: scale(0.92); }
+        .theme-toggle-corner:active { transform: scale(0.88); }
         body.dark .theme-toggle-corner { 
-            background: rgba(30, 24, 18, 0.75); border-color: rgba(245, 158, 11, 0.4); 
+            background: rgba(30, 24, 18, 0.82); border-color: rgba(245, 158, 11, 0.4); 
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(245, 158, 11, 0.3);
         }
 
@@ -75,8 +90,8 @@
         .sun-icon { font-size: 38px; z-index: 2; text-shadow: 0 0 12px rgba(255, 255, 255, 0.9); }
 
         @keyframes sunPulse {
-            0% { transform: scale(1); box-shadow: 0 0 25px rgba(245, 158, 11, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.9); }
-            100% { transform: scale(1.05); box-shadow: 0 0 50px rgba(251, 191, 36, 0.95), inset 0 2px 4px rgba(255, 255, 255, 1); }
+            0% { transform: scale(1) translateZ(0); box-shadow: 0 0 25px rgba(245, 158, 11, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.9); }
+            100% { transform: scale(1.05) translateZ(0); box-shadow: 0 0 50px rgba(251, 191, 36, 0.95), inset 0 2px 4px rgba(255, 255, 255, 1); }
         }
         @keyframes rayRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
@@ -91,13 +106,14 @@
         /* 全局全面搜索引擎 */
         .global-search-container { width: 100%; max-width: 680px; margin: 0 auto 25px auto; position: relative; z-index: 100; }
         .global-search-box {
-            display: flex; align-items: center; background: rgba(255, 255, 255, 0.75);
+            display: flex; align-items: center; background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-radius: 18px; padding: 6px 8px 6px 16px; border: 1.5px solid rgba(245, 158, 11, 0.45);
-            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.15), inset 0 1px 0 rgba(255, 255, 255, 1); transition: all 0.25s ease;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.15), inset 0 1px 0 rgba(255, 255, 255, 1); transition: all 0.2s ease;
+            transform: translateZ(0);
         }
-        body.dark .global-search-box { background: rgba(30, 24, 18, 0.75); border-color: rgba(245, 158, 11, 0.4); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(245, 158, 11, 0.2); }
-        .global-search-box:focus-within { border-color: #f59e0b; box-shadow: 0 12px 35px rgba(245, 158, 11, 0.3); transform: translateY(-1px); }
+        body.dark .global-search-box { background: rgba(30, 24, 18, 0.8); border-color: rgba(245, 158, 11, 0.4); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(245, 158, 11, 0.2); }
+        .global-search-box:focus-within { border-color: #f59e0b; box-shadow: 0 12px 35px rgba(245, 158, 11, 0.3); transform: translateY(-1px) translateZ(0); }
         .global-search-input { flex: 1; border: none; background: transparent; outline: none; font-size: 14.5px; font-weight: 600; color: #1c1917; padding: 6px 0; }
         body.dark .global-search-input { color: #fef3c7; }
         .global-search-input::placeholder { color: #a8a29e; font-weight: 500; }
@@ -108,14 +124,14 @@
         
         .search-results-dropdown {
             position: absolute; top: calc(100% + 8px); left: 0; width: 100%;
-            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
             border-radius: 18px; border: 1px solid rgba(245, 158, 11, 0.4);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2); overflow: hidden; display: none; flex-direction: column; max-height: 380px; overflow-y: auto; animation: fadeIn 0.2s ease;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2); overflow: hidden; display: none; flex-direction: column; max-height: 380px; overflow-y: auto; animation: fadeIn 0.18s ease;
         }
-        body.dark .search-results-dropdown { background: rgba(30, 24, 18, 0.95); border-color: rgba(245, 158, 11, 0.35); box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
-        .search-result-item { padding: 12px 16px; border-bottom: 0.5px solid rgba(245, 158, 11, 0.15); display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: background 0.15s ease; }
+        body.dark .search-results-dropdown { background: rgba(30, 24, 18, 0.96); border-color: rgba(245, 158, 11, 0.35); box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+        .search-result-item { padding: 12px 16px; border-bottom: 0.5px solid rgba(245, 158, 11, 0.15); display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: background 0.12s ease; }
         .search-result-item:last-child { border-bottom: none; }
-        .search-result-item:hover { background: rgba(245, 158, 11, 0.12); }
+        .search-result-item:hover, .search-result-item:active { background: rgba(245, 158, 11, 0.18); }
         .result-info { display: flex; flex-direction: column; gap: 2px; text-align: left; }
         .result-title { font-size: 13.5px; font-weight: 700; color: #1c1917; }
         body.dark .result-title { color: #fef3c7; }
@@ -123,7 +139,7 @@
         body.dark .result-category { color: #fcd34d; }
         .result-tag { font-size: 11px; background: rgba(245, 158, 11, 0.2); color: #d97706; padding: 2px 8px; border-radius: 6px; font-weight: 600; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
         .target-highlight-pulse { animation: targetPulse 2.2s ease-in-out; }
         @keyframes targetPulse {
@@ -138,44 +154,48 @@
         @media (max-width: 768px) { .grid-container { grid-template-columns: 1fr; gap: 16px; } }
 
         .ios-card {
-            background: rgba(255, 255, 255, 0.55); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
+            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
             border-radius: 24px; overflow: hidden; width: 100%; position: relative;
             box-shadow: 0 16px 40px rgba(245, 158, 11, 0.15), inset 0 1.5px 0 rgba(255, 255, 255, 1); border: 1px solid rgba(245, 158, 11, 0.45);
-            transform: translateZ(0); will-change: transform, height; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateZ(0); will-change: transform, height; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        body.dark .ios-card { background: rgba(26, 21, 16, 0.55); border-color: rgba(245, 158, 11, 0.35); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), inset 0 1.5px 0 rgba(245, 158, 11, 0.25); }
+        body.dark .ios-card { background: rgba(26, 21, 16, 0.6); border-color: rgba(245, 158, 11, 0.35); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), inset 0 1.5px 0 rgba(245, 158, 11, 0.25); }
         
-        .bookmark-wrapper { padding: 18px; width: 100%; position: relative; transition: padding 0.35s ease; }
+        .bookmark-wrapper { padding: 18px; width: 100%; position: relative; transition: padding 0.3s ease; }
         .bookmark-header { 
-            display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 9px 14px; user-select: none; background: rgba(255, 255, 255, 0.6); 
+            display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 9px 14px; user-select: none; background: rgba(255, 255, 255, 0.65); 
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 14px; border: 1px solid rgba(245, 158, 11, 0.35);
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9); transition: background 0.2s ease;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9); transition: background 0.15s ease, transform 0.1s ease;
+            transform: translateZ(0);
         }
-        .bookmark-header:hover { background: rgba(255, 255, 255, 0.8); }
-        body.dark .bookmark-header { background: rgba(41, 33, 24, 0.6); border-color: rgba(245, 158, 11, 0.3); }
+        .bookmark-header:active { transform: scale(0.985) translateZ(0); }
+        .bookmark-header:hover { background: rgba(255, 255, 255, 0.85); }
+        body.dark .bookmark-header { background: rgba(41, 33, 24, 0.65); border-color: rgba(245, 158, 11, 0.3); }
 
         .bookmark-title { color: #1c1917; font-size: 15px; font-weight: 700; }
         body.dark .bookmark-title { color: #fef3c7; }
         
         .chevron-badge {
             width: 26px; height: 26px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 11px; box-shadow: 0 3px 8px rgba(245, 158, 11, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.6); transition: transform 0.3s ease;
+            display: flex; align-items: center; justify-content: center; font-size: 11px; box-shadow: 0 3px 8px rgba(245, 158, 11, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.6); transition: transform 0.28s cubic-bezier(0.25, 1, 0.5, 1);
         }
         .bookmark-header.collapsed .chevron-badge { transform: rotate(-90deg); }
         
-        .bookmark-links { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, margin-top 0.35s ease; overflow: hidden; margin-top: 14px; width: 100%; position: relative; }
+        .bookmark-links { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.3s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.22s ease, margin-top 0.3s ease; overflow: hidden; margin-top: 14px; width: 100%; position: relative; }
         .bookmark-links.collapsed { grid-template-rows: 0fr; opacity: 0; margin-top: 0; pointer-events: none; }
         .bookmark-links.collapsed .az-index-bar { opacity: 0; pointer-events: none; transform: translateY(-50%) scale(0.8); }
         .bookmark-links-inner { display: flex; flex-direction: column; gap: 10px; width: 100%; padding-right: 48px; min-height: 0; }
 
         .software-card, .file-card, .link-item a, .tool-simple-card { 
-            background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
             border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px;
             border: 1px solid rgba(245, 158, 11, 0.4); text-decoration: none; color: #1c1917; font-weight: 600; font-size: 13.5px;
-            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1); transition: transform 0.15s ease, box-shadow 0.15s ease;
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1); 
+            transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.15s ease;
+            transform: translateZ(0);
         }
-        .software-card:active, .file-card:active { transform: scale(0.99); }
-        body.dark .software-card, body.dark .file-card, body.dark .link-item a, body.dark .tool-simple-card { background: rgba(41, 33, 24, 0.6); border-color: rgba(245, 158, 11, 0.35); color: #fef3c7; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(245, 158, 11, 0.25); }
+        .software-card:active, .file-card:active, .link-item a:active, .tool-simple-card:active { transform: scale(0.98) translateZ(0); box-shadow: 0 2px 10px rgba(245, 158, 11, 0.15); }
+        body.dark .software-card, body.dark .file-card, body.dark .link-item a, body.dark .tool-simple-card { background: rgba(41, 33, 24, 0.65); border-color: rgba(245, 158, 11, 0.35); color: #fef3c7; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(245, 158, 11, 0.25); }
         
         .software-info, .file-info { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; }
         .software-icon-box { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #fff; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
@@ -189,10 +209,12 @@
         button, .btn-action { 
             padding: 6px 12px; border: none; border-radius: 10px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.95), rgba(217, 119, 6, 0.95)); color: #fff; cursor: pointer; 
             font-size: 12px; font-weight: 600; text-align: center; white-space: nowrap; text-decoration: none; display: inline-block;
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4), inset 0 1px 1.5px rgba(255, 255, 255, 0.7); backdrop-filter: blur(6px); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4), inset 0 1px 1.5px rgba(255, 255, 255, 0.7); backdrop-filter: blur(6px); 
+            transition: all 0.12s cubic-bezier(0.25, 1, 0.5, 1);
+            transform: translateZ(0);
         }
-        button:hover, .btn-action:hover { filter: brightness(1.05); transform: translateY(-1px); }
-        button:active, .btn-action:active { transform: scale(0.94); box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25); }
+        button:hover, .btn-action:hover { filter: brightness(1.06); transform: translateY(-1px) translateZ(0); }
+        button:active, .btn-action:active { transform: scale(0.92) translateZ(0); box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25); }
         .btn-download { background: linear-gradient(135deg, rgba(214, 158, 46, 0.95), rgba(183, 121, 31, 0.95)) !important; }
         .btn-success { background: linear-gradient(135deg, rgba(14, 165, 233, 0.95), rgba(2, 132, 199, 0.95)) !important; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4), inset 0 1px 1.5px rgba(255, 255, 255, 0.7) !important; }
 
@@ -201,32 +223,32 @@
         body.dark .tool-simple-title { color: #fef3c7; }
 
         .az-index-bar {
-            position: absolute; right: -2px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; z-index: 20;
-            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            padding: 6px 3px; border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.45); box-shadow: 0 6px 18px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.95); user-select: none; transition: opacity 0.25s ease, transform 0.25s ease;
+            position: absolute; right: -2px; top: 50%; transform: translateY(-50%) translateZ(0); display: flex; flex-direction: column; align-items: center; z-index: 20;
+            background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            padding: 6px 3px; border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.45); box-shadow: 0 6px 18px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.95); user-select: none; transition: opacity 0.2s ease, transform 0.2s ease;
         }
-        body.dark .az-index-bar { background: rgba(30, 24, 18, 0.85); border-color: rgba(245, 158, 11, 0.4); }
-        .az-item { font-size: 10px; font-weight: 700; color: #b45309; padding: 2px 5px; cursor: pointer; transition: transform 0.15s ease; }
+        body.dark .az-index-bar { background: rgba(30, 24, 18, 0.88); border-color: rgba(245, 158, 11, 0.4); }
+        .az-item { font-size: 10px; font-weight: 700; color: #b45309; padding: 2px 5px; cursor: pointer; transition: transform 0.12s ease; }
         body.dark .az-item { color: #fcd34d; }
-        .az-item.active { transform: scale(1.4); color: #ef4444; }
+        .az-item.active { transform: scale(1.35); color: #ef4444; }
 
         /* 未开放区域 */
         .secret-lock-box { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px; text-align: center; background: rgba(255, 255, 255, 0.4); border-radius: 16px; border: 1px dashed rgba(245, 158, 11, 0.4); }
         body.dark .secret-lock-box { background: rgba(41, 33, 24, 0.4); }
         .search-input-box { width: 100%; margin-bottom: 12px; display: flex; gap: 8px; }
-        .search-input-box input { flex: 1; padding: 8px 14px; border-radius: 10px; border: 1px solid rgba(245, 158, 11, 0.4); background: rgba(255, 255, 255, 0.8); font-size: 13px; outline: none; color: #1c1917; }
-        body.dark .search-input-box input { background: rgba(30, 24, 18, 0.8); color: #fef3c7; }
+        .search-input-box input { flex: 1; padding: 8px 14px; border-radius: 10px; border: 1px solid rgba(245, 158, 11, 0.4); background: rgba(255, 255, 255, 0.85); font-size: 13px; outline: none; color: #1c1917; }
+        body.dark .search-input-box input { background: rgba(30, 24, 18, 0.85); color: #fef3c7; }
         .secret-category-group { display: flex; flex-direction: column; width: 100%; gap: 6px; }
-        .secret-cat-header { font-size: 13.5px; font-weight: 700; color: #d97706; padding: 8px 12px; border-radius: 10px; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.25); display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; transition: background 0.2s; }
+        .secret-cat-header { font-size: 13.5px; font-weight: 700; color: #d97706; padding: 8px 12px; border-radius: 10px; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.25); display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; transition: background 0.15s; }
         body.dark .secret-cat-header { color: #fcd34d; background: rgba(245, 158, 11, 0.2); }
-        .secret-cat-content { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.3s ease, opacity 0.3s ease; overflow: hidden; }
+        .secret-cat-content { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.25s ease, opacity 0.25s ease; overflow: hidden; }
         .secret-cat-content.collapsed { grid-template-rows: 0fr; opacity: 0; pointer-events: none; }
         .secret-cat-inner { display: flex; flex-direction: column; gap: 8px; padding-top: 6px; min-height: 0; }
 
         /* 全局弹窗 */
         .global-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); z-index: 2000; align-items: center; justify-content: center; padding: 16px; }
-        .modal-content { background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(30px); border-radius: 22px; width: 100%; max-width: 460px; max-height: 85vh; overflow-y: auto; padding: 24px; border: 1px solid rgba(245, 158, 11, 0.45); box-shadow: 0 25px 60px rgba(0,0,0,0.35); position: relative; display: flex; flex-direction: column; gap: 16px; text-align: center; }
-        body.dark .modal-content { background: rgba(30, 24, 18, 0.94); border-color: rgba(245, 158, 11, 0.35); }
+        .modal-content { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(30px); border-radius: 22px; width: 100%; max-width: 460px; max-height: 85vh; overflow-y: auto; padding: 24px; border: 1px solid rgba(245, 158, 11, 0.45); box-shadow: 0 25px 60px rgba(0,0,0,0.35); position: relative; display: flex; flex-direction: column; gap: 16px; text-align: center; }
+        body.dark .modal-content { background: rgba(30, 24, 18, 0.95); border-color: rgba(245, 158, 11, 0.35); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(245, 158, 11, 0.2); padding-bottom: 12px; }
         .modal-title { font-size: 18px; font-weight: 700; color: #1c1917; }
         body.dark .modal-title { color: #fef3c7; }
@@ -282,27 +304,27 @@
                             <div class="bookmark-links-inner">
                                 <div class="software-card search-target-item" id="soft-F" style="border-left: 4px solid #10b981;" data-name="福音TV" data-tag="视频">
                                     <div class="software-info"><div class="software-icon-box" style="background:#10b981;">📺</div><div class="text-group"><span class="software-name">福音TV</span><span class="tag">视频</span></div></div>
-                                    <a href="https://www.fuyin.tv/" target="_blank" class="btn-action btn-success">观看</a>
+                                    <a href="https://www.fuyin.tv/" target="_blank" rel="noopener" class="btn-action btn-success">观看</a>
                                 </div>
                                 <div class="software-card search-target-item" id="soft-J" style="border-left: 4px solid #2563eb;" data-name="精读圣经" data-tag="官方">
                                     <div class="software-info"><div class="software-icon-box" style="background:#2563eb;">📖</div><div class="text-group"><span class="software-name">精读圣经</span><span class="tag">官方</span></div></div>
-                                    <a href="https://appsky.icu/#/bible" target="_blank" class="btn-action">下载</a>
+                                    <a href="https://appsky.icu/#/bible" target="_blank" rel="noopener" class="btn-action">下载</a>
                                 </div>
                                 <div class="software-card search-target-item" id="soft-S" style="border-left: 4px solid #3b82f6;" data-name="诗歌本" data-tag="官方">
                                     <div class="software-info"><div class="software-icon-box" style="background:#3b82f6;">🎵</div><div class="text-group"><span class="software-name">诗歌本</span><span class="tag">官方</span></div></div>
-                                    <a href="https://appsky.icu/#/hymn" target="_blank" class="btn-action">下载</a>
+                                    <a href="https://appsky.icu/#/hymn" target="_blank" rel="noopener" class="btn-action">下载</a>
                                 </div>
                                 <div class="software-card search-target-item" id="soft-W" style="border-left: 4px solid #1d4ed8;" data-name="微读圣经" data-tag="官方">
                                     <div class="software-info"><div class="software-icon-box" style="background:#1d4ed8;">📖</div><div class="text-group"><span class="software-name">微读圣经</span><span class="tag">官方</span></div></div>
-                                    <a href="https://wd.bible/app" target="_blank" class="btn-action">下载</a>
+                                    <a href="https://wd.bible/app" target="_blank" rel="noopener" class="btn-action">下载</a>
                                 </div>
                                 <div class="software-card search-target-item" id="soft-X" style="border-left: 4px solid #6366f1;" data-name="小鸽子" data-tag="客户端">
                                     <div class="software-info"><div class="software-icon-box" style="background:#6366f1;">🕊️</div><div class="text-group"><span class="software-name">小鸽子</span><span class="tag">客户端</span></div></div>
-                                    <a href="https://www.idigest.app/#/appDownload" target="_blank" class="btn-action">下载</a>
+                                    <a href="https://www.idigest.app/#/appDownload" target="_blank" rel="noopener" class="btn-action">下载</a>
                                 </div>
                                 <div class="software-card search-target-item" id="soft-Z" style="border-left: 4px solid #0ea5e9;" data-name="Zoom 会议" data-tag="官方">
                                     <div class="software-info"><div class="software-icon-box" style="background:#0ea5e9;">👥</div><div class="text-group"><span class="software-name">Zoom 会议</span><span class="tag">官方</span></div></div>
-                                    <a href="https://zoom.us/download" target="_blank" class="btn-action">下载</a>
+                                    <a href="https://zoom.us/download" target="_blank" rel="noopener" class="btn-action">下载</a>
                                 </div>
                             </div>
                             <div class="az-index-bar">
@@ -364,8 +386,8 @@
                         </div>
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner" style="padding-right:0;">
-                                <div class="link-item search-target-item" id="acc-1" data-name="GitHub 链接加速下载代理" data-tag="代理"><a href="https://gh-proxy.com/" target="_blank">🔗 GitHub 链接加速下载代理</a></div>
-                                <div class="link-item search-target-item" id="acc-2" data-name="电报代理与节点实时测速" data-tag="测速"><a href="https://sps.yy-gp.com/hk5dm/i.html" target="_blank">⚡ 电报代理与节点实时测速</a></div>
+                                <div class="link-item search-target-item" id="acc-1" data-name="GitHub 链接加速下载代理" data-tag="代理"><a href="https://gh-proxy.com/" target="_blank" rel="noopener">🔗 GitHub 链接加速下载代理</a></div>
+                                <div class="link-item search-target-item" id="acc-2" data-name="电报代理与节点实时测速" data-tag="测速"><a href="https://sps.yy-gp.com/hk5dm/i.html" target="_blank" rel="noopener">⚡ 电报代理与节点实时测速</a></div>
                             </div>
                         </div>
                     </div>
@@ -382,10 +404,10 @@
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner" style="padding-right:0;">
                                 <div class="tool-simple-card search-target-item" id="tool-1" data-name="下载书籍网址" data-tag="工具">
-                                    <div class="tool-simple-title">📚 下载书籍网址</div><a href="http://www.https.ng:1234/" target="_blank" class="btn-action">点击访问</a>
+                                    <div class="tool-simple-title">📚 下载书籍网址</div><a href="http://www.https.ng:1234/" target="_blank" rel="noopener" class="btn-action">点击访问</a>
                                 </div>
                                 <div class="tool-simple-card search-target-item" id="tool-2" data-name="代理配置与插件" data-tag="插件">
-                                    <div class="tool-simple-title">⚡ 代理配置与插件</div><a href="https://yfamilys.com/" target="_blank" class="btn-action">点击访问</a>
+                                    <div class="tool-simple-title">⚡ 代理配置与插件</div><a href="https://yfamilys.com/" target="_blank" rel="noopener" class="btn-action">点击访问</a>
                                 </div>
                                 <div class="tool-simple-card search-target-item" id="tool-3" data-name="Mac 微信多开脚本教程" data-tag="教程">
                                     <div class="tool-simple-title">💻 Mac 微信多开脚本教程</div><button class="btn-action" onclick="openWechatModal()">点击查看</button>
@@ -406,10 +428,10 @@
                         <div class="bookmark-links">
                             <div class="bookmark-links-inner" style="padding-right:0;">
                                 <div class="tool-simple-card search-target-item" id="res-1" data-name="文件快递柜" data-tag="传输">
-                                    <div class="tool-simple-title">📦 文件快递柜</div><a href="https://filebox.nnuu.nyc.mn/#/send" target="_blank" class="btn-action">点击访问</a>
+                                    <div class="tool-simple-title">📦 文件快递柜</div><a href="https://filebox.nnuu.nyc.mn/#/send" target="_blank" rel="noopener" class="btn-action">点击访问</a>
                                 </div>
                                 <div class="tool-simple-card search-target-item" id="res-2" data-name="文字托管所" data-tag="文本">
-                                    <div class="tool-simple-title">📝 文字托管所</div><a href="https://paste.to/" target="_blank" class="btn-action">点击访问</a>
+                                    <div class="tool-simple-title">📝 文字托管所</div><a href="https://paste.to/" target="_blank" rel="noopener" class="btn-action">点击访问</a>
                                 </div>
                             </div>
                         </div>
@@ -438,7 +460,7 @@
                                         <div class="secret-cat-content">
                                             <div class="secret-cat-inner">
                                                 <div class="tool-simple-card secret-item search-target-item" id="sec-v1" data-name="示例收藏视频 1" data-tag="收藏视频">
-                                                    <div class="tool-simple-title">🎥 示例收藏视频 1</div><a href="https://www.youtube.com" target="_blank" class="btn-action">点击观看</a>
+                                                    <div class="tool-simple-title">🎥 示例收藏视频 1</div><a href="https://www.youtube.com" target="_blank" rel="noopener" class="btn-action">点击观看</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -449,13 +471,13 @@
                                         <div class="secret-cat-content">
                                             <div class="secret-cat-inner">
                                                 <div class="tool-simple-card secret-item search-target-item" id="sec-w1" data-name="圣经工程" data-tag="收藏网址">
-                                                    <div class="tool-simple-title">📖 圣经工程</div><a href="https://bibleproject.com/mandarin/" target="_blank" class="btn-action">点击访问</a>
+                                                    <div class="tool-simple-title">📖 圣经工程</div><a href="https://bibleproject.com/mandarin/" target="_blank" rel="noopener" class="btn-action">点击访问</a>
                                                 </div>
                                                 <div class="tool-simple-card secret-item search-target-item" id="sec-w2" data-name="不错的书籍" data-tag="收藏网址">
-                                                    <div class="tool-simple-title">📚 不错的书籍</div><a href="https://chreformedresources.net/" target="_blank" class="btn-action">点击访问</a>
+                                                    <div class="tool-simple-title">📚 不错的书籍</div><a href="https://chreformedresources.net/" target="_blank" rel="noopener" class="btn-action">点击访问</a>
                                                 </div>
                                                 <div class="tool-simple-card secret-item search-target-item" id="sec-w3" data-name="林格尼尔事工" data-tag="收藏网址">
-                                                    <div class="tool-simple-title">✝️ 林格尼尔事工</div><a href="https://zh.ligonier.org/" target="_blank" class="btn-action">点击访问</a>
+                                                    <div class="tool-simple-title">✝️ 林格尼尔事工</div><a href="https://zh.ligonier.org/" target="_blank" rel="noopener" class="btn-action">点击访问</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -466,7 +488,7 @@
                                         <div class="secret-cat-content">
                                             <div class="secret-cat-inner">
                                                 <div class="tool-simple-card secret-item search-target-item" id="sec-s1" data-name="示例收藏软件 1" data-tag="收藏软件">
-                                                    <div class="tool-simple-title">📦 示例收藏软件 1</div><a href="#" target="_blank" class="btn-action">点击下载</a>
+                                                    <div class="tool-simple-title">📦 示例收藏软件 1</div><a href="#" target="_blank" rel="noopener" class="btn-action">点击下载</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -564,7 +586,7 @@
                 targetEl.classList.remove('target-highlight-pulse');
                 void targetEl.offsetWidth;
                 targetEl.classList.add('target-highlight-pulse');
-            }, 100);
+            }, 80);
         }
 
         function clearGlobalSearch() {
@@ -620,14 +642,19 @@
             let title = document.getElementById('qr-title');
             let container = document.getElementById('qrcode');
             container.innerHTML = ''; title.innerText = `《 ${name} 》`; modal.style.display = 'flex';
-            new QRCode(container, { text: url, width: 180, height: 180 });
-            setTimeout(() => {
-                let canvas = container.querySelector('canvas');
-                if (canvas) {
-                    let imgDataUrl = canvas.toDataURL("image/png");
-                    container.innerHTML = `<img src="${imgDataUrl}" alt="二维码" style="width: 180px; height: 180px; display: block;" />`;
-                }
-            }, 50);
+            
+            if (typeof QRCode !== 'undefined') {
+                new QRCode(container, { text: url, width: 180, height: 180 });
+                setTimeout(() => {
+                    let canvas = container.querySelector('canvas');
+                    if (canvas) {
+                        let imgDataUrl = canvas.toDataURL("image/png");
+                        container.innerHTML = `<img src="${imgDataUrl}" alt="二维码" style="width: 180px; height: 180px; display: block;" />`;
+                    }
+                }, 50);
+            } else {
+                container.innerHTML = `<div style="padding:10px; font-size:12px; color:#ef4444;">网络连线中，请直接点击“下载”按键</div>`;
+            }
         }
         function closeQr() { document.getElementById('qrcode-modal').style.display = 'none'; }
 
