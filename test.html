@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>一束阳光 - 研读笔记</title>
+    
+    <!-- 完美秒开的内联 Base64 金色十字架网页图标 (Favicon) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M26 6h12v16h16v12H38v24H26V34H10V22h16z' fill='%23f59e0b'/%3E%3C/svg%3E">
+
+    <!-- 🌟 引入轻量级 AES-256 加密库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
+        
+        /* 尊贵金色流光背景 */
+        .bg-ambient {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; overflow: hidden;
+            background-color: #fffbeb; transition: background-color 0.5s ease;
+        }
+        body.dark .bg-ambient { background-color: #0c0a09; }
+        
+        .bg-orb {
+            position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.6; will-change: transform;
+        }
+        .orb-1 { width: 60vw; height: 60vw; background: #fef08a; top: -10%; left: -10%; }
+        .orb-2 { width: 65vw; height: 65vw; background: #f59e0b; bottom: -15%; right: -10%; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+            color: #292524; display: flex; flex-direction: column; min-height: 100vh; align-items: center;
+            padding: 24px 16px env(safe-area-inset-bottom); overflow-x: hidden; position: relative;
+            transition: color 0.3s ease;
+            -webkit-overflow-scrolling: touch;
+        }
+        body.dark { color: #f5f5f4; }
+
+        /* 顶部主题切换按钮 */
+        .theme-toggle-corner {
+            position: fixed; top: 14px; right: 16px; z-index: 1000;
+            background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(245, 158, 11, 0.5); cursor: pointer; 
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+            transition: transform 0.2s ease;
+        }
+        .theme-toggle-corner:active { transform: scale(0.92); }
+        body.dark .theme-toggle-corner { 
+            background: rgba(30, 24, 18, 0.75); border-color: rgba(245, 158, 11, 0.4); 
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(245, 158, 11, 0.3);
+        }
+
+        .container { width: 100%; max-width: 900px; }
+        
+        .header-area { margin-bottom: 20px; text-align: center; }
+        h1 { font-size: 28px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px; color: #1c1917; text-shadow: 0 2px 10px rgba(245, 158, 11, 0.15); }
+        body.dark h1 { color: #fef3c7; text-shadow: 0 2px 15px rgba(245, 158, 11, 0.3); }
+        
+        /* 🌟 动态十字架圣光发光图标 */
+        .avatar-wrapper {
+            position: relative; width: 90px; height: 90px; margin: 0 auto 14px auto;
+            background: radial-gradient(circle, #fef08a 0%, #f59e0b 65%, #d97706 100%);
+            border-radius: 28px; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 35px rgba(245, 158, 11, 0.8), 0 8px 20px rgba(0, 0, 0, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.95);
+            animation: sunPulse 3.5s infinite alternate ease-in-out;
+            overflow: hidden; transform: translateZ(0);
+        }
+        body.dark .avatar-wrapper { border-color: rgba(245, 158, 11, 0.5); box-shadow: 0 0 40px rgba(245, 158, 11, 0.4), 0 8px 20px rgba(0, 0, 0, 0.5); }
+        
+        .sun-ray {
+            position: absolute; width: 140px; height: 140px; background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.75), transparent 60deg);
+            animation: rayRotate 6s infinite linear; will-change: transform;
+        }
+        .cross-icon { font-size: 40px; z-index: 2; text-shadow: 0 0 14px rgba(255, 255, 255, 0.95); color: #fff; font-weight: bold; }
+
+        @keyframes sunPulse {
+            0% { transform: scale(1); box-shadow: 0 0 25px rgba(245, 158, 11, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.9); }
+            100% { transform: scale(1.05); box-shadow: 0 0 50px rgba(251, 191, 36, 0.95), inset 0 2px 4px rgba(255, 255, 255, 1); }
+        }
+        @keyframes rayRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .subtitle { 
+            font-size: 13px; color: #78716c; margin-bottom: 20px; font-weight: 500; 
+            background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            padding: 6px 16px; border-radius: 16px; display: inline-block; border: 1px solid rgba(245, 158, 11, 0.35);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+        body.dark .subtitle { background: rgba(30, 24, 18, 0.65); color: #d7d3d0; border-color: rgba(245, 158, 11, 0.3); }
+
+        /* 🌟 测试模块全局搜索引擎 */
+        .global-search-container { width: 100%; max-width: 680px; margin: 0 auto 25px auto; position: relative; z-index: 100; }
+        .global-search-box {
+            display: flex; align-items: center; background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-radius: 18px; padding: 6px 8px 6px 16px; border: 1.5px solid rgba(245, 158, 11, 0.45);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.15), inset 0 1px 0 rgba(255, 255, 255, 1); transition: all 0.25s ease;
+        }
+        body.dark .global-search-box { background: rgba(30, 24, 18, 0.75); border-color: rgba(245, 158, 11, 0.4); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(245, 158, 11, 0.2); }
+        .global-search-box:focus-within { border-color: #f59e0b; box-shadow: 0 12px 35px rgba(245, 158, 11, 0.3); transform: translateY(-1px); }
+        .global-search-input { flex: 1; border: none; background: transparent; outline: none; font-size: 14.5px; font-weight: 600; color: #1c1917; padding: 6px 0; }
+        body.dark .global-search-input { color: #fef3c7; }
+        .global-search-input::placeholder { color: #a8a29e; font-weight: 500; }
+        .search-clear-btn {
+            background: rgba(245, 158, 11, 0.2); border: none; color: #d97706; width: 24px; height: 24px;
+            border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; margin-right: 8px; font-weight: bold;
+        }
+        
+        .search-results-dropdown {
+            position: absolute; top: calc(100% + 8px); left: 0; width: 100%;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border-radius: 18px; border: 1px solid rgba(245, 158, 11, 0.4);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2); overflow: hidden; display: none; flex-direction: column; max-height: 380px; overflow-y: auto; animation: fadeIn 0.2s ease;
+        }
+        body.dark .search-results-dropdown { background: rgba(30, 24, 18, 0.95); border-color: rgba(245, 158, 11, 0.35); box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+        .search-result-item { padding: 12px 16px; border-bottom: 0.5px solid rgba(245, 158, 11, 0.15); display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: background 0.15s ease; }
+        .search-result-item:last-child { border-bottom: none; }
+        .search-result-item:hover { background: rgba(245, 158, 11, 0.12); }
+        .result-info { display: flex; flex-direction: column; gap: 2px; text-align: left; }
+        .result-title { font-size: 13.5px; font-weight: 700; color: #1c1917; }
+        body.dark .result-title { color: #fef3c7; }
+        .result-category { font-size: 11px; color: #b45309; font-weight: 600; opacity: 0.8; }
+        body.dark .result-category { color: #fcd34d; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* 玻璃质感大卡片 */
+        .ios-card {
+            background: rgba(255, 255, 255, 0.55); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-radius: 24px; overflow: hidden; width: 100%; position: relative;
+            box-shadow: 0 16px 40px rgba(245, 158, 11, 0.15), inset 0 1.5px 0 rgba(255, 255, 255, 1); border: 1px solid rgba(245, 158, 11, 0.45);
+        }
+        body.dark .ios-card { background: rgba(26, 21, 16, 0.55); border-color: rgba(245, 158, 11, 0.35); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), inset 0 1.5px 0 rgba(245, 158, 11, 0.25); }
+        
+        .bookmark-wrapper { padding: 18px; width: 100%; position: relative; }
+
+        /* 通用按键样式 */
+        .btn-group { display: flex; gap: 6px; flex-shrink: 0; }
+        button, .btn-action { 
+            padding: 6px 12px; border: none; border-radius: 10px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.95), rgba(217, 119, 6, 0.95)); color: #fff; cursor: pointer; 
+            font-size: 12px; font-weight: 600; text-align: center; white-space: nowrap; text-decoration: none; display: inline-block;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4), inset 0 1px 1.5px rgba(255, 255, 255, 0.7); backdrop-filter: blur(6px); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        button:hover, .btn-action:hover { filter: brightness(1.05); transform: translateY(-1px); }
+        button:active, .btn-action:active { transform: scale(0.94); box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25); }
+
+        /* 锁屏保护框 */
+        .secret-lock-box { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px; text-align: center; background: rgba(255, 255, 255, 0.4); border-radius: 16px; border: 1px dashed rgba(245, 158, 11, 0.4); }
+        body.dark .secret-lock-box { background: rgba(41, 33, 24, 0.4); }
+
+        /* 测试模块核心样式 */
+        .note-container-box { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+        .note-nav-tabs { display: flex; gap: 8px; border-bottom: 1px solid rgba(245, 158, 11, 0.25); padding-bottom: 8px; flex-wrap: wrap; }
+        .note-tab-btn { padding: 6px 14px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.25); color: #b45309; transition: all 0.2s ease; }
+        body.dark .note-tab-btn { color: #fcd34d; background: rgba(245, 158, 11, 0.18); }
+        .note-tab-btn.active { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border-color: transparent; box-shadow: 0 3px 10px rgba(245, 158, 11, 0.35); }
+
+        .note-sidebar { background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.25); padding: 10px; display: flex; flex-direction: column; gap: 6px; max-height: 500px; overflow-y: auto; width: 100%; }
+        body.dark .note-sidebar { background: rgba(41, 33, 24, 0.5); }
+        .book-group-header { font-size: 12px; font-weight: 700; color: #d97706; padding: 6px 8px; border-radius: 6px; background: rgba(245, 158, 11, 0.1); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .book-sub-container { display: flex; flex-direction: column; gap: 4px; padding-left: 8px; margin-top: 4px; }
+        .book-sub-container.collapsed { display: none; }
+        .note-list-item { padding: 10px 12px; border-radius: 8px; cursor: pointer; font-size: 13.5px; font-weight: 600; color: #1c1917; background: rgba(255, 255, 255, 0.6); border: 0.5px solid rgba(245, 158, 11, 0.15); display: flex; justify-content: space-between; align-items: center; transition: all 0.15s; }
+        body.dark .note-list-item { color: #fef3c7; background: rgba(30, 24, 18, 0.6); }
+        .note-list-item:hover, .note-list-item.active { background: rgba(245, 158, 11, 0.22); border-color: rgba(245, 158, 11, 0.45); color: #d97706; }
+
+        /* 🌟 全屏沉浸阅读/编辑弹窗 (彻底解决左右晃动，兼容移动端动态高度) */
+        .fullscreen-note-overlay {
+            display: none; position: fixed; top: 0; left: 0; 
+            width: 100vw; height: 100vh; height: 100dvh;
+            background: #fffbeb; z-index: 3000; align-items: stretch; justify-content: center;
+            opacity: 0; transform: translateY(20px); transition: opacity 0.3s ease, transform 0.3s ease;
+            overflow-x: hidden !important;
+        }
+        body.dark .fullscreen-note-overlay { background: #0c0a09; }
+        .fullscreen-note-overlay.show { display: flex; opacity: 1; transform: translateY(0); }
+        
+        .fs-note-content {
+            width: 100%; max-width: 850px; display: flex; flex-direction: column; height: 100%;
+            padding: calc(env(safe-area-inset-top) + 12px) 16px calc(env(safe-area-inset-bottom) + 12px) 16px;
+            overflow-x: hidden !important;
+        }
+
+        .fs-note-header {
+            display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px;
+            border-bottom: 1px dashed rgba(245, 158, 11, 0.3); flex-shrink: 0; gap: 8px; flex-wrap: wrap;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .fs-note-header.disturb-free { opacity: 0; pointer-events: none; transform: translateY(-15px); height: 0; padding: 0; border: none; overflow: hidden; }
+
+        /* 正文面板 */
+        .fs-note-body { 
+            flex: 1; display: flex; flex-direction: column; overflow-y: auto; overflow-x: hidden !important; 
+            padding: 16px 0; gap: 12px; -webkit-overflow-scrolling: touch; width: 100%;
+        }
+
+        /* 排版工具栏 */
+        .editor-tools-bar { display: flex; align-items: center; gap: 6px; background: rgba(245, 158, 11, 0.12); padding: 4px 8px; border-radius: 8px; border: 1px solid rgba(245,158,11,0.25); flex-wrap: wrap; }
+        .editor-select { border: none; background: transparent; outline: none; font-size: 11.5px; font-weight: 600; color: #b45309; cursor: pointer; }
+        body.dark .editor-select { color: #fcd34d; }
+
+        /* 纯净富文本编辑区域样式 */
+        .rich-edit-area {
+            font-family: SimSun, "宋体", serif !important; font-size: 14pt; color: #1c1917;
+            line-height: 1.6; border: none; background: transparent; outline: none; width: 100%;
+            flex: 1; white-space: pre-wrap; word-break: break-word !important; word-wrap: break-word !important;
+            overflow-y: auto; overflow-x: hidden !important; min-height: 300px;
+        }
+        body.dark .rich-edit-area { color: #fef3c7 !important; }
+
+        .note-mode-tip { font-size: 11px; font-weight: 600; color: #b45309; background: rgba(245, 158, 11, 0.15); padding: 4px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; border: 0.5px solid rgba(245, 158, 11, 0.25); user-select: none; }
+        .footer-text { font-size: 11.5px; color: #78716c; text-align: center; padding: 30px 0 10px 0; font-weight: 500; }
+    </style>
+</head>
+<body>
+    <div class="bg-ambient">
+        <div class="bg-orb orb-1"></div>
+        <div class="bg-orb orb-2"></div>
+    </div>
+    <div class="theme-toggle-corner" id="themeToggle"><span id="themeIcon">☀️</span></div>
+    
+    <div class="container">
+        <!-- 🌟 独家动态十字架头图 -->
+        <div class="header-area">
+            <h1>一束阳光 - 研读笔记</h1>
+            <div class="avatar-wrapper">
+                <div class="sun-ray"></div>
+                <div class="cross-icon">✝</div>
+            </div>
+            <div class="subtitle">📖 研读查阅/防打扰全屏排版笔记</div>
+        </div>
+
+        <!-- 🌟 专属于测试模块的极速搜索引擎 -->
+        <div class="global-search-container">
+            <div class="global-search-box">
+                <span style="margin-right: 10px; font-size: 15px;">🔍</span>
+                <input type="text" id="global-search-input" class="global-search-input" placeholder="极速搜索笔记标题或研读正文关键字..." oninput="handleNoteSearch()">
+                <button id="search-clear-btn" class="search-clear-btn" onclick="clearNoteSearch()">×</button>
+            </div>
+            <div id="search-results-dropdown" class="search-results-dropdown"></div>
+        </div>
+        
+        <div class="grid-container" style="grid-template-columns: 1fr;">
+            
+            <!-- 🌟 测试模块核心主面板 -->
+            <div class="ios-card" data-category="测试模块">
+                <div class="bookmark-wrapper">
+                    <div class="note-container-box">
+                        
+                        <div class="secret-lock-box" id="test-module-lock-view">
+                            <div style="font-size:24px;">🔐</div>
+                            <div style="font-size:13px; font-weight:600; color:#78716c;">研读笔记受保护，请输入管理密码访问：</div>
+                            <button class="btn-action" onclick="unlockTestModule()">输入密码解锁</button>
+                        </div>
+
+                        <div id="test-module-content-view" style="display:none; flex-direction:column; gap:12px;">
+                            <div class="note-nav-tabs">
+                                <button class="note-tab-btn active" id="tab-old" onclick="switchNoteTab('old')">📜 旧约</button>
+                                <button class="note-tab-btn" id="tab-new" onclick="switchNoteTab('new')">📖 新约</button>
+                                <button class="note-tab-btn" id="tab-theme" onclick="switchNoteTab('theme')">💡 主题</button>
+
+                                <button class="btn-action" onclick="exportEncryptedNotes()" style="background: linear-gradient(135deg, #10b981, #059669); margin-left: auto;">📤 导出加密备份</button>
+                                <button class="btn-action" onclick="importEncryptedNotes()" style="background: linear-gradient(135deg, #0284c7, #0369a1);">📥 导入备份密文</button>
+                                
+                                <button class="btn-action" onclick="createNewSubBook()" style="padding: 4px 10px; font-size: 11.5px; background:#d97706;">+ 新增书卷</button>
+                                <button class="btn-action" onclick="createNewNoteLeaf()" style="padding: 4px 10px; font-size: 11.5px;">+ 新建记录</button>
+                            </div>
+
+                            <div class="note-main-layout">
+                                <div class="note-sidebar" id="note-list-sidebar"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🌟 富文本可视化排版编辑器 (取消独立标题输入框，纯净视角) -->
+            <div id="note-fullscreen-modal" class="fullscreen-note-overlay">
+                <div class="fs-note-content">
+                    <div class="fs-note-header" id="fs-editor-header">
+                        <button class="btn-action" onclick="closeNoteFullscreen()" style="background: rgba(245, 158, 11, 0.15); color: #d97706; border: 1px solid rgba(245,158,11,0.3); box-shadow: none;">◀ 返回列表</button>
+                        
+                        <button class="btn-action" id="pure-read-btn" onclick="togglePureReadMode()" style="background: rgba(245, 158, 11, 0.2); color: #b45309; border: 1px solid rgba(245,158,11,0.4); box-shadow: none;">👁️ 纯净全屏</button>
+
+                        <!-- 排版工具栏 -->
+                        <div class="editor-tools-bar" id="editor-tools-panel">
+                            <button class="btn-action" onclick="formatDoc('bold')" style="padding: 3px 8px; font-size: 11px; font-weight: bold; background: rgba(245,158,11,0.25); color: #b45309; box-shadow: none;"><b>B</b> 加粗</button>
+                            <span style="opacity: 0.3;">|</span>
+                            <select class="editor-select" onchange="formatDoc('fontSize', this.value); this.selectedIndex=0;">
+                                <option value="" disabled selected>字号大小</option>
+                                <option value="3">12pt 小字</option>
+                                <option value="4">14pt 正规</option>
+                                <option value="5">16pt 标题</option>
+                                <option value="6">18pt 大字</option>
+                                <option value="7">20pt 特大</option>
+                            </select>
+                            <span style="opacity: 0.3;">|</span>
+                            <select id="font-color-select" class="editor-select" onchange="formatDoc('foreColor', this.value); this.selectedIndex=0;">
+                                <option value="" disabled selected>字体颜色</option>
+                                <option value="#1c1917">⚫ 黑色正文</option>
+                                <option value="#dc2626">🔴 红色标题</option>
+                                <option value="#1e40af">🔵 深蓝色正文</option>
+                            </select>
+                            <span style="opacity: 0.3;">|</span>
+                            <select id="line-height-select" class="editor-select" onchange="applyLineHeight(this.value)">
+                                <option value="1.2">紧凑 1.2倍</option>
+                                <option value="1.6" selected>标准 1.6倍</option>
+                                <option value="1.8">舒适 1.8倍</option>
+                                <option value="2.2">宽松 2.2倍</option>
+                            </select>
+                        </div>
+
+                        <div class="btn-group">
+                            <button class="btn-action" id="manual-save-btn" onclick="saveRichNoteContent()" style="background: #10b981;">💾 保存</button>
+                            <button class="btn-action" id="edit-toggle-btn" onclick="toggleEditMode()">✏️ 编辑</button>
+                            <button class="btn-action" onclick="deleteCurrentNoteLeaf()" style="background: #ef4444;">🗑️ 删除</button>
+                        </div>
+                    </div>
+                    
+                    <button id="exit-pure-read-btn" class="btn-action" onclick="togglePureReadMode()" style="display:none; position:fixed; top:12px; right:16px; z-index:3500; padding:6px 14px; background:rgba(245,158,11,0.85); color:#fff; border-radius:20px; box-shadow:0 4px 15px rgba(0,0,0,0.2);">⚙️ 恢复工具栏</button>
+
+                    <!-- 🌟 纯净垂直滚动面板：取消独立标题栏，所有文字一体流动 -->
+                    <div class="fs-note-body" id="fs-note-body-box">
+                        <div id="rich-edit-content" class="rich-edit-area" contenteditable="true" placeholder="在此点击即可输入文字，支持自由划选字词调整字号、颜色（黑/红/深蓝）与加粗..." oninput="autoSaveRichNote()"></div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="footer-text">© 2026 一束阳光. All Rights Reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        let userPassKey = "5214";
+        let isPureReadMode = false;
+
+        // 加密备份导出与导入
+        function exportEncryptedNotes() {
+            try {
+                const rawJson = JSON.stringify(notesTreeData);
+                const ciphertext = CryptoJS.AES.encrypt(rawJson, userPassKey).toString();
+                navigator.clipboard.writeText(ciphertext).then(() => {
+                    alert("📤 备份密文已复制到剪贴板！发送到新设备导入即可！");
+                }).catch(() => { prompt("请手动复制下方密文：", ciphertext); });
+            } catch (err) { alert("❌ 导出失败：" + err.message); }
+        }
+
+        function importEncryptedNotes() {
+            const ciphertext = prompt("📥 请粘贴密文字符串：");
+            if (!ciphertext) return;
+            try {
+                const bytes = CryptoJS.AES.decrypt(ciphertext.trim(), userPassKey);
+                const decryptedJson = bytes.toString(CryptoJS.enc.Utf8);
+                if (!decryptedJson) throw new Error("密码错误或文本已损坏！");
+                notesTreeData = JSON.parse(decryptedJson);
+                saveNotesTreeStorage(); renderNoteSidebarTree();
+                alert("🎉 数据同步成功！");
+            } catch (err) { alert("❌ 导入失败：" + err.message); }
+        }
+
+        // 富文本原生划选格式化引擎 (加粗、字号、颜色)
+        function formatDoc(cmd, value) {
+            document.execCommand('styleWithCSS', false, true);
+            document.execCommand(cmd, false, value || null);
+            autoSaveRichNote();
+        }
+
+        function applyLineHeight(lineVal) {
+            document.getElementById('rich-edit-content').style.lineHeight = lineVal;
+            autoSaveRichNote();
+        }
+
+        // 纯净全屏控制
+        function togglePureReadMode() {
+            isPureReadMode = !isPureReadMode;
+            const container = document.getElementById('note-fullscreen-modal');
+            
+            document.getElementById('fs-editor-header').classList.toggle('disturb-free', isPureReadMode);
+            document.getElementById('exit-pure-read-btn').style.display = isPureReadMode ? 'block' : 'none';
+
+            if (isPureReadMode) {
+                if (container.requestFullscreen) { container.requestFullscreen().catch(()=>{}); }
+                else if (container.webkitRequestFullscreen) { container.webkitRequestFullscreen(); }
+            } else {
+                if (document.exitFullscreen) { document.exitFullscreen().catch(()=>{}); }
+                else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
+            }
+        }
+
+        let isTestModuleUnlocked = false;
+        function unlockTestModule() {
+            const pwd = prompt("🔐 请输入测试模块管理密码：");
+            if (pwd === "5214") {
+                isTestModuleUnlocked = true;
+                userPassKey = pwd;
+                document.getElementById('test-module-lock-view').style.display = 'none';
+                document.getElementById('test-module-content-view').style.display = 'flex';
+                switchNoteTab('old');
+            } else if (pwd !== null) { alert("❌ 密码错误，拒绝解锁！"); }
+        }
+
+        let currentTab = 'old';
+        let currentSubBookId = null;
+        let currentNoteLeafId = null;
+        let isEditingMode = true;
+
+        let notesTreeData = JSON.parse(localStorage.getItem('sun_app_notes_tree_v2')) || {
+            old: [{ id: 'sb_創世记', name: '创世记', collapsed: false, leaves: [{ id: 'nl_1', title: '创世记研读', content: '<span style="color:#dc2626;font-size:18pt;font-weight:bold;">太3:13-17 三一神见证圣子为我们受洗尽诸般的义</span><br><br>在上一段内容，我们看到施洗约翰在约旦河畔，严厉地呼吁以色列人和宗教领袖要悔改，约翰就用水给有些要悔改的罪人施洗。而今天，那位圣洁无罪的君王耶稣，竟然主动排进了那群悔改的罪人队伍中，祂竟然要受洗？原来，祂走下那象征审判与死亡的水里，定意要替罪人去“尽诸般的义”。' }] }],
+            new: [{ id: 'sb_马太福音', name: '马太福音', collapsed: false, leaves: [{ id: 'nl_2', title: '马太福音研读', content: '<span style="color:#dc2626;font-size:18pt;font-weight:bold;">马太福音 1章 研读</span><br><br>亚伯拉罕的后裔、大卫的子孙、耶稣基督的家谱。' }] }],
+            theme: [{ id: 'sb_救恩论', name: '救恩专题', collapsed: false, leaves: [{ id: 'nl_3', title: '因信称义要义', content: '<span style="color:#dc2626;font-size:18pt;font-weight:bold;">称义的核心</span><br><br>我们既因信称义，就借着我们的主耶稣基督得与神相和。' }] }]
+        };
+
+        function saveNotesTreeStorage() { localStorage.setItem('sun_app_notes_tree_v2', JSON.stringify(notesTreeData)); }
+
+        function switchNoteTab(tab) {
+            currentTab = tab;
+            document.getElementById('tab-old').classList.toggle('active', tab === 'old');
+            document.getElementById('tab-new').classList.toggle('active', tab === 'new');
+            document.getElementById('tab-theme').classList.toggle('active', tab === 'theme');
+            renderNoteSidebarTree();
+        }
+
+        function renderNoteSidebarTree() {
+            const sidebar = document.getElementById('note-list-sidebar');
+            sidebar.innerHTML = '';
+            const books = notesTreeData[currentTab];
+            if (books.length === 0) { sidebar.innerHTML = `<div style="font-size:12px; color:#78716c; text-align:center; padding:10px;">暂无书卷，点击“+ 新增书卷”</div>`; return; }
+
+            books.forEach(book => {
+                const bookHeader = document.createElement('div');
+                bookHeader.className = 'book-group-header';
+                bookHeader.innerHTML = `<span>📖 ${book.name}</span><span style="font-size:10px;">${book.collapsed ? '►' : '▼'}</span>`;
+                bookHeader.onclick = () => { book.collapsed = !book.collapsed; saveNotesTreeStorage(); renderNoteSidebarTree(); };
+
+                const subContainer = document.createElement('div');
+                subContainer.className = `book-sub-container ${book.collapsed ? 'collapsed' : ''}`;
+
+                book.leaves.forEach(leaf => {
+                    const leafItem = document.createElement('div');
+                    leafItem.className = 'note-list-item';
+                    leafItem.innerText = `📄 ${leaf.title || '无标题记录'}`;
+                    leafItem.onclick = (e) => { 
+                        e.stopPropagation(); currentSubBookId = book.id; currentNoteLeafId = leaf.id; openNoteFullscreen(); 
+                    };
+                    subContainer.appendChild(leafItem);
+                });
+
+                sidebar.appendChild(bookHeader);
+                sidebar.appendChild(subContainer);
+            });
+        }
+
+        function openNoteFullscreen() {
+            if(!currentNoteLeafId) return;
+            const books = notesTreeData[currentTab];
+            let foundLeaf = null;
+            for (let b of books) { let l = b.leaves.find(x => x.id === currentNoteLeafId); if (l) { foundLeaf = l; break; } }
+            if(!foundLeaf) return;
+
+            document.getElementById('rich-edit-content').innerHTML = foundLeaf.content || '在此点击输入文字...';
+
+            const overlay = document.getElementById('note-fullscreen-modal');
+            overlay.classList.add('show');
+            document.body.style.overflow = 'hidden'; 
+            
+            enableEditMode();
+        }
+
+        function closeNoteFullscreen() {
+            const overlay = document.getElementById('note-fullscreen-modal');
+            overlay.classList.remove('show');
+            document.body.style.overflow = '';
+            
+            if (document.exitFullscreen) { document.exitFullscreen().catch(()=>{}); }
+            else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
+
+            currentNoteLeafId = null;
+            renderNoteSidebarTree(); 
+        }
+
+        function enableEditMode() {
+            if (!currentNoteLeafId) return;
+            isEditingMode = true;
+            document.getElementById('note-status-tip').innerText = '✏️ 实时编辑模式 (划选文字修改字号颜色)';
+            document.getElementById('edit-toggle-btn').innerText = '📖 锁定';
+            
+            const editArea = document.getElementById('rich-edit-content');
+            editArea.focus();
+
+            isPureReadMode = false;
+            document.getElementById('fs-editor-header').classList.remove('disturb-free');
+            document.getElementById('exit-pure-read-btn').style.display = 'none';
+        }
+
+        function disableEditMode() {
+            isEditingMode = false;
+            document.getElementById('note-status-tip').innerText = '📖 阅读锁定模式 (点击编辑开启键盘)';
+            document.getElementById('edit-toggle-btn').innerText = '✏️ 编辑';
+        }
+
+        function toggleEditMode() { if (isEditingMode) { disableEditMode(); } else { enableEditMode(); } }
+
+        function autoSaveRichNote() {
+            if (!currentNoteLeafId) return;
+            const books = notesTreeData[currentTab];
+            for (let b of books) {
+                let l = b.leaves.find(x => x.id === currentNoteLeafId);
+                if (l) {
+                    const content = document.getElementById('rich-edit-content').innerHTML;
+                    l.content = content;
+                    // 从内容中自动提取第一行纯文本作为左侧列表显示的标题
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = content;
+                    const firstLineText = (tempDiv.innerText || tempDiv.textContent || '新记录').split('\n')[0];
+                    l.title = firstLineText.substring(0, 22) || '未命名记录';
+                    saveNotesTreeStorage(); break;
+                }
+            }
+        }
+
+        function saveRichNoteContent() {
+            autoSaveRichNote();
+            const btn = document.getElementById('manual-save-btn');
+            btn.innerText = "已保存！"; btn.style.background = "#10b981";
+            setTimeout(() => { btn.innerText = "💾 保存"; }, 1200);
+        }
+
+        function createNewSubBook() {
+            const name = prompt("📖 请输入新书卷名称：");
+            if (name) {
+                const newBook = { id: 'sb_' + Date.now(), name: name, collapsed: false, leaves: [] };
+                notesTreeData[currentTab].push(newBook);
+                saveNotesTreeStorage(); renderNoteSidebarTree();
+            }
+        }
+
+        function createNewNoteLeaf() {
+            const books = notesTreeData[currentTab];
+            if (books.length === 0) { alert("⚠️ 请先新增一个书卷，然后再创建记录！"); return; }
+            let targetBook = books.find(b => b.id === currentSubBookId) || books[0];
+            const newLeafId = 'nl_' + Date.now();
+            const newLeaf = { id: newLeafId, title: '【小标题】新记录', content: '<span style="color:#dc2626;font-size:18pt;font-weight:bold;">【小标题】新建段落</span><br><br>在此输入内容...' };
+            targetBook.leaves.unshift(newLeaf);
+            currentSubBookId = targetBook.id; currentNoteLeafId = newLeafId;
+            saveNotesTreeStorage(); openNoteFullscreen(); enableEditMode();
+        }
+
+        function deleteCurrentNoteLeaf() {
+            if (!currentNoteLeafId) return;
+            if (confirm("⚠️ 确定要删除这条记录吗？")) {
+                const books = notesTreeData[currentTab];
+                for (let b of books) { b.leaves = b.leaves.filter(x => x.id !== currentNoteLeafId); }
+                saveNotesTreeStorage(); closeNoteFullscreen();
+            }
+        }
+
+        // 🌟 独立笔记搜索引擎逻辑
+        function handleNoteSearch() {
+            const input = document.getElementById('global-search-input');
+            const clearBtn = document.getElementById('search-clear-btn');
+            const dropdown = document.getElementById('search-results-dropdown');
+            const query = input.value.trim().toLowerCase();
+
+            if (!query) { clearBtn.style.display = 'none'; dropdown.style.display = 'none'; return; }
+            clearBtn.style.display = 'flex'; dropdown.innerHTML = '';
+
+            const results = [];
+            const keywords = query.split(/\s+/);
+            const tabs = ['old', 'new', 'theme'];
+            const tabNames = { old: '旧约', new: '新约', theme: '主题' };
+
+            tabs.forEach(tabKey => {
+                notesTreeData[tabKey].forEach(book => {
+                    book.leaves.forEach(leaf => {
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = leaf.content || '';
+                        const plainText = (tempDiv.innerText || tempDiv.textContent || '').toLowerCase();
+                        const titleText = (leaf.title || '').toLowerCase();
+
+                        const isMatch = keywords.every(kw => titleText.includes(kw) || plainText.includes(kw));
+                        if (isMatch) {
+                            results.push({ tabKey, bookId: book.id, leafId: leaf.id, title: leaf.title || '无标题记录', bookName: book.name, category: tabNames[tabKey] });
+                        }
+                    });
+                });
+            });
+
+            if (results.length === 0) {
+                dropdown.innerHTML = `<div style="padding: 16px; font-size:13px; color:#78716c; text-align:center;">🔍 未找到匹配的笔记内容...</div>`;
+            } else {
+                results.forEach(res => {
+                    const row = document.createElement('div');
+                    row.className = 'search-result-item';
+                    row.onclick = () => gotoSearchResult(res);
+                    row.innerHTML = `<div class="result-info"><div class="result-title">${res.title}</div><div class="result-category">分类：${res.category} > ${res.bookName}</div></div>`;
+                    dropdown.appendChild(row);
+                });
+            }
+            dropdown.style.display = 'flex';
+        }
+
+        function gotoSearchResult(res) {
+            document.getElementById('search-results-dropdown').style.display = 'none';
+            switchNoteTab(res.tabKey);
+            currentSubBookId = res.bookId;
+            currentNoteLeafId = res.leafId;
+            openNoteFullscreen();
+        }
+
+        function clearNoteSearch() {
+            const input = document.getElementById('global-search-input');
+            input.value = ''; handleNoteSearch(); input.focus();
+        }
+
+        document.addEventListener('click', (e) => {
+            const searchContainer = document.querySelector('.global-search-container');
+            const dropdown = document.getElementById('search-results-dropdown');
+            if (searchContainer && !searchContainer.contains(e.target)) { dropdown.style.display = 'none'; }
+        });
+
+        const toggle = document.getElementById('themeToggle');
+        const icon = document.getElementById('themeIcon');
+        toggle.onclick = () => { document.body.classList.toggle('dark'); icon.innerText = document.body.classList.contains('dark') ? '🌙' : '☀️'; };
+    </script>
+</body>
+</html>
